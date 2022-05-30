@@ -1,0 +1,2 @@
+src/gui/main_window.cpp
+src/gui/main_window.ui
