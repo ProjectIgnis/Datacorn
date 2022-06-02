@@ -14,6 +14,8 @@
 namespace
 {
 
+constexpr qint32 QMARK_ATK_DEF = -2;
+
 QString const SQL_DB_DRIVER("QSQLITE");
 
 QString const SQL_QUERY_DATA(R"(
@@ -24,6 +26,26 @@ FROM datas WHERE datas.id = ?;
 QString const SQL_QUERY_TEXT(R"(
 SELECT name,desc,str1,str2,str3,str4,str5,str6,str7,str8,str9,str10,str11,str12,str13,str14,str15,str16
 FROM texts WHERE texts.id = ?;
+)");
+
+QString const SQL_DELETE_DATA(R"(
+DELETE FROM datas
+WHERE id = ?;
+)");
+
+QString const SQL_DELETE_TEXT(R"(
+DELETE FROM texts
+WHERE id = ?;
+)");
+
+QString const SQL_INSERT_DATA(R"(
+INSERT INTO datas (id,alias,setcode,type,atk,def,level,race,attribute,ot,category)
+VALUES (?,?,?,?,?,?,?,?,?,?,?);
+)");
+
+QString const SQL_INSERT_TEXT(R"(
+INSERT INTO texts (id,name,desc,str1,str2,str3,str4,str5,str6,str7,str8,str9,str10,str11,str12,str13,str14,str15,str16)
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
 )");
 
 }
@@ -163,7 +185,6 @@ void MainWindow::updateUiWithCode(quint32 code)
 	constexpr quint32 TYPE_LINK = 0x4000000;
 	quint32 const type = q1.value(3).toUInt();
 	// TODO: 3 - type - checkboxes
-	constexpr qint32 QMARK_ATK_DEF = -2;
 	qint32 const atk = q1.value(4).toInt();
 	ui->atkQmCheckBox->setChecked(atk == QMARK_ATK_DEF);
 	ui->atkSpinBox->setEnabled(atk != QMARK_ATK_DEF);
@@ -204,3 +225,74 @@ void MainWindow::updateUiWithCode(quint32 code)
 	}
 }
 
+void MainWindow::updateCardWithUi()
+{
+	auto db = QSqlDatabase::database();
+	Q_ASSERT(db.isValid());
+	QSqlQuery q1(db);
+	q1.prepare(SQL_DELETE_DATA);
+	QSqlQuery q2(db);
+	q2.prepare(SQL_DELETE_TEXT);
+	QSqlQuery q3(db);
+	q3.prepare(SQL_INSERT_DATA);
+	QSqlQuery q4(db);
+	q4.prepare(SQL_INSERT_TEXT);
+	qint32 const code = ui->passLineEdit->text().toUInt();
+	// Remove previous data
+	q1.exec();
+	// Remove previous strings
+	q2.exec();
+	// Insert data
+	auto compute_type_value = [&]() -> quint32
+	{
+		return 0; // TODO
+	};
+	auto compute_def_value = [&]() -> qint32
+	{
+		if(0) // TODO: if type link
+		{
+			quint32 link = 0U;
+			link |= ui->markerBottomLeftButton->isChecked() ? 0x1 : 0;
+			link |= ui->markerBottomButton->isChecked() ? 0x2 : 0;
+			link |= ui->markerBottomRightButton->isChecked() ? 0x4 : 0;
+			link |= ui->markerLeftButton->isChecked() ? 0x8 : 0;
+			link |= ui->markerRightButton->isChecked() ? 0x20 : 0;
+			link |= ui->markerTopLeftButton->isChecked() ? 0x40 : 0;
+			link |= ui->markerTopButton->isChecked() ? 0x80 : 0;
+			link |= ui->markerTopRightButton->isChecked() ? 0x100 : 0;
+			return static_cast<qint32>(link);
+		}
+		if(ui->defQmCheckBox->isChecked())
+			return QMARK_ATK_DEF;
+		return ui->defSpinBox->value();
+	};
+	auto compute_level_value = [&]() -> quint32
+	{
+		return ui->levelSpinBox->value() &
+		       ((ui->lScaleSpinBox->value() & 0xFF) << 24U) &
+		       ((ui->rScaleSpinBox->value() & 0xFF) << 16U);
+	};
+	q3.bindValue(0, code);
+	q3.bindValue(1, ui->aliasLineEdit->text().toUInt());
+	q3.bindValue(2, 0); // TODO: setcodes
+	q3.bindValue(3, 0); // TODO: type
+	q3.bindValue(4, ui->atkQmCheckBox->isChecked() ? QMARK_ATK_DEF : ui->atkSpinBox->value());
+	q3.bindValue(5, compute_def_value());
+	q3.bindValue(6, compute_level_value());
+	q3.bindValue(7, 0); // TODO: race
+	q3.bindValue(8, 0); // TODO: attribute
+	q3.bindValue(9, 0); // TODO: scope/ot
+	q3.bindValue(10, 0); // TODO: category
+	q3.exec();
+	// Insert strings
+	q4.bindValue(0, code);
+	q4.bindValue(1, ui->nameLineEdit->text());
+	q4.bindValue(2, ui->descPlainTextEdit->toPlainText());
+	int const count = ui->stringsTableWidget->rowCount();
+	for(int i = 0; i < count; ++i)
+	{
+		auto& item = *ui->stringsTableWidget->item(i, 0);
+		q4.bindValue(3 + i, item.text());
+	}
+	q4.exec();
+}

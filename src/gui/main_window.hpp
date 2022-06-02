@@ -31,6 +31,7 @@ private:
 	bool checkAndAskToCloseDb();
 
 	void updateUiWithCode(quint32 code);
+	void updateCardWithUi();
 };
 
 #endif // GUI_MAIN_WINDOW_HPP
