@@ -16,6 +16,104 @@ namespace
 
 constexpr qint32 QMARK_ATK_DEF = -2;
 
+struct BitField
+{
+	quint64 value;
+	char const* name;
+};
+
+constexpr std::array const TYPE_FIELDS{
+	BitField{0x1, QT_TR_NOOP("Monster")},
+	BitField{0x2, QT_TR_NOOP("Spell")},
+	BitField{0x4, QT_TR_NOOP("Trap")},
+	BitField{0x10, QT_TR_NOOP("Normal")},
+	BitField{0x20, QT_TR_NOOP("Effect")},
+	BitField{0x40, QT_TR_NOOP("Fusion")},
+	BitField{0x80, QT_TR_NOOP("Ritual")},
+	BitField{0x100, QT_TR_NOOP("Trap Monster")},
+	BitField{0x200, QT_TR_NOOP("Spirit")},
+	BitField{0x400, QT_TR_NOOP("Union")},
+	BitField{0x800, QT_TR_NOOP("Gemini")},
+	BitField{0x1000, QT_TR_NOOP("Tuner")},
+	BitField{0x2000, QT_TR_NOOP("Synchro")},
+	BitField{0x4000, QT_TR_NOOP("Token")},
+	BitField{0x8000, QT_TR_NOOP("Maximum")},
+	BitField{0x10000, QT_TR_NOOP("Quick-Play")},
+	BitField{0x20000, QT_TR_NOOP("Continuous")},
+	BitField{0x40000, QT_TR_NOOP("Equip")},
+	BitField{0x80000, QT_TR_NOOP("Field")},
+	BitField{0x100000, QT_TR_NOOP("Counter")},
+	BitField{0x200000, QT_TR_NOOP("Flip")},
+	BitField{0x400000, QT_TR_NOOP("Toon")},
+	BitField{0x800000, QT_TR_NOOP("Xyz")},
+	BitField{0x1000000, QT_TR_NOOP("Pendulum")},
+	BitField{0x2000000, QT_TR_NOOP("Special Summon")},
+	BitField{0x4000000, QT_TR_NOOP("Link")},
+	BitField{0x8000000, QT_TR_NOOP("Skill")},
+	BitField{0x10000000, QT_TR_NOOP("Action")},
+	BitField{0x20000000, QT_TR_NOOP("Plus")},
+	BitField{0x40000000, QT_TR_NOOP("Minus")},
+	BitField{0x80000000, QT_TR_NOOP("Armor")},
+};
+constexpr std::array const RACE_FIELDS{
+	BitField{0x1, QT_TR_NOOP("Warrior")},
+	BitField{0x2, QT_TR_NOOP("Spellcaster")},
+	BitField{0x4, QT_TR_NOOP("Fairy")},
+	BitField{0x8, QT_TR_NOOP("Fiend")},
+	BitField{0x10, QT_TR_NOOP("Zombie")},
+	BitField{0x20, QT_TR_NOOP("Machine")},
+	BitField{0x40, QT_TR_NOOP("Aqua")},
+	BitField{0x80, QT_TR_NOOP("Pyro")},
+	BitField{0x100, QT_TR_NOOP("Rock")},
+	BitField{0x200, QT_TR_NOOP("Winget-Beast")},
+	BitField{0x400, QT_TR_NOOP("Plant")},
+	BitField{0x800, QT_TR_NOOP("Insect")},
+	BitField{0x1000, QT_TR_NOOP("Thunder")},
+	BitField{0x2000, QT_TR_NOOP("Dragon")},
+	BitField{0x4000, QT_TR_NOOP("Beast")},
+	BitField{0x8000, QT_TR_NOOP("Beast-Warrior")},
+	BitField{0x10000, QT_TR_NOOP("Dinosaur")},
+	BitField{0x20000, QT_TR_NOOP("Fish")},
+	BitField{0x40000, QT_TR_NOOP("Sea-Serpent")},
+	BitField{0x80000, QT_TR_NOOP("Reptile")},
+	BitField{0x100000, QT_TR_NOOP("Psychic")},
+	BitField{0x200000, QT_TR_NOOP("Divine")},
+	BitField{0x400000, QT_TR_NOOP("Creator God")},
+	BitField{0x800000, QT_TR_NOOP("Wyrm")},
+	BitField{0x1000000, QT_TR_NOOP("Cyberse")},
+	BitField{0x2000000, QT_TR_NOOP("Cyborg")},
+	BitField{0x4000000, QT_TR_NOOP("Magical Knight")},
+	BitField{0x8000000, QT_TR_NOOP("High Dragon")},
+	BitField{0x10000000, QT_TR_NOOP("Omega Psychic")},
+	BitField{0x20000000, QT_TR_NOOP("Celestial Warrior")},
+	BitField{0x40000000, QT_TR_NOOP("Galaxy")},
+};
+constexpr std::array const ATTRIBUTE_FIELDS{
+	BitField{0x1, QT_TR_NOOP("EARTH")},
+	BitField{0x2, QT_TR_NOOP("WATER")},
+	BitField{0x4, QT_TR_NOOP("FIRE")},
+	BitField{0x8, QT_TR_NOOP("WIND")},
+	BitField{0x10, QT_TR_NOOP("LIGHT")},
+	BitField{0x20, QT_TR_NOOP("DARK")},
+	BitField{0x40, QT_TR_NOOP("DIVINE")},
+};
+constexpr std::array const SCOPE_FIELDS{
+	BitField{0x1, QT_TR_NOOP("OCG")},
+	BitField{0x2, QT_TR_NOOP("TCG")},
+	BitField{0x4, QT_TR_NOOP("Anime")},
+	BitField{0x8, QT_TR_NOOP("Illegal")},
+	BitField{0x10, QT_TR_NOOP("Video Game")},
+	BitField{0x20, QT_TR_NOOP("Custom")},
+	BitField{0x40, QT_TR_NOOP("Speed")},
+	BitField{0x100, QT_TR_NOOP("Pre-Release")},
+	BitField{0x200, QT_TR_NOOP("Rush")},
+	BitField{0x400, QT_TR_NOOP("Legend")},
+	BitField{0x1000, QT_TR_NOOP("Hidden")},
+};
+constexpr std::array const CATEGORY_FIELDS{
+	BitField{0x1, QT_TR_NOOP("help welcomed to do these :^)")},
+};
+
 QString const SQL_DB_DRIVER("QSQLITE");
 
 QString const SQL_QUERY_DATA(R"(
@@ -68,6 +166,24 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(ui->actionCloseDatabase, &QAction::triggered, this, &MainWindow::closeDatabase);
 	connect(ui->actionSpanish, &QAction::triggered, this, &MainWindow::toSpanish);
 	connect(ui->actionEnglish, &QAction::triggered, this, &MainWindow::toEnglish);
+	auto populate_cbs = [&](QWidget* parent, auto const& fields)
+	{
+		auto* layout = parent->layout();
+		Q_ASSERT(layout != nullptr);
+		std::unique_ptr<QCheckBox*[]> boxes(new QCheckBox*[fields.size()]);
+		for(size_t i = 0; i < fields.size(); ++i)
+		{
+			auto* cb = new QCheckBox(tr(fields[i].name));
+			layout->addWidget(cb);
+			boxes[i] = cb;
+		}
+		return boxes;
+	};
+	typeCbs = populate_cbs(ui->dockWidgetContents_5, TYPE_FIELDS);
+	raceCbs = populate_cbs(ui->dockWidgetContents_4, RACE_FIELDS);
+	attributeCbs = populate_cbs(ui->dockWidgetContents_9, ATTRIBUTE_FIELDS);
+	scopeCbs = populate_cbs(ui->dockWidgetContents_12, SCOPE_FIELDS);
+	categoryCbs = populate_cbs(ui->dockWidgetContents_6, CATEGORY_FIELDS);
 }
 
 MainWindow::~MainWindow()
