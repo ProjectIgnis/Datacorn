@@ -10,6 +10,7 @@
 #include <QTranslator>
 
 #include "ui_main_window.h"
+#include "flowlayout.h"
 
 namespace
 {
@@ -168,7 +169,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(ui->actionEnglish, &QAction::triggered, this, &MainWindow::toEnglish);
 	auto populate_cbs = [&](QWidget* parent, auto const& fields)
 	{
-		auto* layout = parent->layout();
+		auto* layout = new FlowLayout;
 		Q_ASSERT(layout != nullptr);
 		std::unique_ptr<QCheckBox*[]> boxes(new QCheckBox*[fields.size()]);
 		for(size_t i = 0; i < fields.size(); ++i)
@@ -177,13 +178,14 @@ MainWindow::MainWindow(QWidget* parent) :
 			layout->addWidget(cb);
 			boxes[i] = cb;
 		}
+		parent->setLayout(layout);
 		return boxes;
 	};
-	typeCbs = populate_cbs(ui->dockWidgetContents_5, TYPE_FIELDS);
-	raceCbs = populate_cbs(ui->dockWidgetContents_4, RACE_FIELDS);
-	attributeCbs = populate_cbs(ui->dockWidgetContents_9, ATTRIBUTE_FIELDS);
-	scopeCbs = populate_cbs(ui->dockWidgetContents_12, SCOPE_FIELDS);
-	categoryCbs = populate_cbs(ui->dockWidgetContents_6, CATEGORY_FIELDS);
+	typeCbs = populate_cbs(ui->typesWidget, TYPE_FIELDS);
+	raceCbs = populate_cbs(ui->racesWidget, RACE_FIELDS);
+	attributeCbs = populate_cbs(ui->attributesWidget, ATTRIBUTE_FIELDS);
+	scopeCbs = populate_cbs(ui->scopesWidget, SCOPE_FIELDS);
+	categoryCbs = populate_cbs(ui->categoriesWidget, CATEGORY_FIELDS);
 }
 
 MainWindow::~MainWindow()
@@ -209,13 +211,14 @@ void MainWindow::openDatabase()
 	};
 	if(!checkAndAskToCloseDb())
 		return;
-	QString const file = QFileDialog::getOpenFileName
-	(
-		this,
-		tr("Select Database"),
-		".",
-		tr("YGOPro Database (*.cdb *.db *.sqlite)")
-	);
+	auto const file = QString("/mnt/LINUX_DATA/src/Multirole/build/sync/databases/cards.cdb");
+// 	QString const file = QFileDialog::getOpenFileName
+// 	(
+// 		this,
+// 		tr("Select Database"),
+// 		".",
+// 		tr("YGOPro Database (*.cdb *.db *.sqlite)")
+// 	);
 	if(file.isEmpty())
 		return;
 	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER);

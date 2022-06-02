@@ -116,9 +116,7 @@
    <attribute name="dockWidgetArea">
     <number>4</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents_5">
-    <layout class="QVBoxLayout" name="verticalLayout_5"/>
-   </widget>
+   <widget class="QWidget" name="typesWidget"/>
   </widget>
   <widget class="QDockWidget" name="stringDockWidget">
    <property name="enabled">
@@ -270,9 +268,7 @@
    <attribute name="dockWidgetArea">
     <number>4</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents_4">
-    <layout class="QVBoxLayout" name="verticalLayout_6"/>
-   </widget>
+   <widget class="QWidget" name="racesWidget"/>
   </widget>
   <widget class="QDockWidget" name="linkMarkersDockWidget">
    <property name="enabled">
@@ -511,9 +507,7 @@
    <attribute name="dockWidgetArea">
     <number>4</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents_6">
-    <layout class="QVBoxLayout" name="verticalLayout_7"/>
-   </widget>
+   <widget class="QWidget" name="categoriesWidget"/>
   </widget>
   <widget class="QDockWidget" name="monsterStatDockWidget">
    <property name="windowTitle">
@@ -583,9 +577,7 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents_9">
-    <layout class="QVBoxLayout" name="verticalLayout_9"/>
-   </widget>
+   <widget class="QWidget" name="attributesWidget"/>
   </widget>
   <widget class="QDockWidget" name="battleStatsDockWidget">
    <property name="windowTitle">
@@ -700,9 +692,7 @@
    <attribute name="dockWidgetArea">
     <number>4</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents_12">
-    <layout class="QVBoxLayout" name="verticalLayout_8"/>
-   </widget>
+   <widget class="QWidget" name="scopesWidget"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget_2">
    <property name="windowTitle">
