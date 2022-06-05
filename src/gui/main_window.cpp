@@ -298,12 +298,17 @@ void MainWindow::updateUiWithCode(quint32 code)
 	bool const q2result = q2.exec() && q2.first();
 	Q_ASSERT(q2result);
 	// Proceed to populate the fields with the new data
+	auto toggle_cbs = [&](quint64 bits, auto const& fields, QCheckBox** cbs)
+	{
+		for(size_t i = 0; i < fields.size(); ++i)
+			cbs[i]->setChecked((bits & fields[i].value) != 0U);
+	};
 	ui->passLineEdit->setText(q1.value(0).toString());
 	ui->aliasLineEdit->setText(q1.value(1).toString());
 	// TODO: 2 - setcodes / archetypes
 	constexpr quint32 TYPE_LINK = 0x4000000;
 	quint32 const type = q1.value(3).toUInt();
-	// TODO: 3 - type - checkboxes
+	toggle_cbs(type, TYPE_FIELDS, typeCbs.get());
 	qint32 const atk = q1.value(4).toInt();
 	ui->atkQmCheckBox->setChecked(atk == QMARK_ATK_DEF);
 	ui->atkSpinBox->setEnabled(atk != QMARK_ATK_DEF);
@@ -329,10 +334,10 @@ void MainWindow::updateUiWithCode(quint32 code)
 	ui->levelSpinBox->setValue(dbLevel & 0x800000FF);
 	ui->lScaleSpinBox->setValue((dbLevel >> 24U) & 0xFF);
 	ui->rScaleSpinBox->setValue((dbLevel >> 16U) & 0xFF);
-	// TODO: 7 - race - checkboxes
-	// TODO: 8 - attribute - checkboxes
-	// TODO: 9 - ot/scope - checkboxes
-	// TODO: 10 - category - checkboxes
+	toggle_cbs(q1.value(7).toUInt(), RACE_FIELDS, raceCbs.get());
+	toggle_cbs(q1.value(8).toUInt(), ATTRIBUTE_FIELDS, attributeCbs.get());
+	toggle_cbs(q1.value(9).toUInt(), SCOPE_FIELDS, scopeCbs.get());
+	toggle_cbs(q1.value(10).toUInt(), CATEGORY_FIELDS, categoryCbs.get());
 
 	ui->nameLineEdit->setText(q2.value(0).toString());
 	ui->descPlainTextEdit->setPlainText(q2.value(1).toString());
