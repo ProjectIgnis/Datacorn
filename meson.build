@@ -1,4 +1,4 @@
-project('cdb-editor', 'cpp', default_options : ['cpp_std=c++17'])
+project('datacorn', 'cpp', default_options : ['cpp_std=c++17'])
 
 qt_mod = import('qt5')
 qt_dep = dependency('qt5', modules : ['Core', 'Gui', 'Widgets', 'Sql'])
@@ -35,7 +35,7 @@ if is_windows
 endif
 
 executable(
-	'cdb-editor',
+	'datacorn',
 	[src_files, processed_src_files, rc_file],
 	dependencies : qt_dep,
 	gui_app : true,

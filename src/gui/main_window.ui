@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>cdb-editor</string>
+   <string>Datacorn</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../res/res.qrc">
