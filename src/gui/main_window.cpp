@@ -66,7 +66,7 @@ constexpr std::array const RACE_FIELDS{
 	BitField{0x40, QT_TR_NOOP("Aqua")},
 	BitField{0x80, QT_TR_NOOP("Pyro")},
 	BitField{0x100, QT_TR_NOOP("Rock")},
-	BitField{0x200, QT_TR_NOOP("Winget-Beast")},
+	BitField{0x200, QT_TR_NOOP("Winged-Beast")},
 	BitField{0x400, QT_TR_NOOP("Plant")},
 	BitField{0x800, QT_TR_NOOP("Insect")},
 	BitField{0x1000, QT_TR_NOOP("Thunder")},
