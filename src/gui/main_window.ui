@@ -64,7 +64,14 @@
     </widget>
     <addaction name="menuLanguage"/>
    </widget>
+   <widget class="QMenu" name="menuCard">
+    <property name="title">
+     <string>Card</string>
+    </property>
+    <addaction name="actionSaveData"/>
+   </widget>
    <addaction name="menuDatabase"/>
+   <addaction name="menuCard"/>
    <addaction name="menuOptions"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -805,6 +812,14 @@
    </property>
    <property name="text">
     <string>Inglés (English)</string>
+   </property>
+  </action>
+  <action name="actionSaveData">
+   <property name="text">
+    <string>Save Data</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>
