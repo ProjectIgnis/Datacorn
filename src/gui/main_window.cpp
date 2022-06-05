@@ -16,6 +16,7 @@ namespace
 {
 
 constexpr qint32 QMARK_ATK_DEF = -2;
+constexpr quint32 TYPE_LINK = 0x4000000;
 
 struct BitField
 {
@@ -306,7 +307,6 @@ void MainWindow::updateUiWithCode(quint32 code)
 	ui->passLineEdit->setText(q1.value(0).toString());
 	ui->aliasLineEdit->setText(q1.value(1).toString());
 	// TODO: 2 - setcodes / archetypes
-	constexpr quint32 TYPE_LINK = 0x4000000;
 	quint32 const type = q1.value(3).toUInt();
 	toggle_cbs(type, TYPE_FIELDS, typeCbs.get());
 	qint32 const atk = q1.value(4).toInt();
@@ -369,28 +369,28 @@ void MainWindow::updateCardWithUi()
 	q2.bindValue(0, code);
 	q2.exec();
 	// Insert data
-	auto compute_type_value = [&]() -> quint32
+	auto compute_bitfield = [&](auto const& fields, QCheckBox** cbs) -> quint64
 	{
-		return 0; // TODO
+		quint64 value = 0x0;
+		for(size_t i = 0; i < fields.size(); ++i)
+			value |= cbs[i]->isChecked() ? fields[i].value : 0x0;
+		return value;
 	};
+	quint64 const type = compute_bitfield(TYPE_FIELDS, typeCbs.get());
 	auto compute_def_value = [&]() -> qint32
 	{
-		if(0) // TODO: if type link
-		{
-			quint32 link = 0U;
-			link |= ui->markerBottomLeftButton->isChecked() ? 0x1 : 0;
-			link |= ui->markerBottomButton->isChecked() ? 0x2 : 0;
-			link |= ui->markerBottomRightButton->isChecked() ? 0x4 : 0;
-			link |= ui->markerLeftButton->isChecked() ? 0x8 : 0;
-			link |= ui->markerRightButton->isChecked() ? 0x20 : 0;
-			link |= ui->markerTopLeftButton->isChecked() ? 0x40 : 0;
-			link |= ui->markerTopButton->isChecked() ? 0x80 : 0;
-			link |= ui->markerTopRightButton->isChecked() ? 0x100 : 0;
-			return static_cast<qint32>(link);
-		}
-		if(ui->defQmCheckBox->isChecked())
-			return QMARK_ATK_DEF;
-		return ui->defSpinBox->value();
+		if((type & TYPE_LINK) == 0U)
+			return ui->defQmCheckBox->isChecked() ? QMARK_ATK_DEF : ui->defSpinBox->value();
+		quint32 link = 0U;
+		link |= ui->markerBottomLeftButton->isChecked() ? 0x1 : 0;
+		link |= ui->markerBottomButton->isChecked() ? 0x2 : 0;
+		link |= ui->markerBottomRightButton->isChecked() ? 0x4 : 0;
+		link |= ui->markerLeftButton->isChecked() ? 0x8 : 0;
+		link |= ui->markerRightButton->isChecked() ? 0x20 : 0;
+		link |= ui->markerTopLeftButton->isChecked() ? 0x40 : 0;
+		link |= ui->markerTopButton->isChecked() ? 0x80 : 0;
+		link |= ui->markerTopRightButton->isChecked() ? 0x100 : 0;
+		return static_cast<qint32>(link);
 	};
 	auto compute_level_value = [&]() -> quint32
 	{
@@ -401,14 +401,14 @@ void MainWindow::updateCardWithUi()
 	q3.bindValue(0, code);
 	q3.bindValue(1, ui->aliasLineEdit->text().toUInt());
 	q3.bindValue(2, 0); // TODO: setcodes
-	q3.bindValue(3, 0); // TODO: type
+	q3.bindValue(3, type);
 	q3.bindValue(4, ui->atkQmCheckBox->isChecked() ? QMARK_ATK_DEF : ui->atkSpinBox->value());
 	q3.bindValue(5, compute_def_value());
 	q3.bindValue(6, compute_level_value());
-	q3.bindValue(7, 0); // TODO: race
-	q3.bindValue(8, 0); // TODO: attribute
-	q3.bindValue(9, 0); // TODO: scope/ot
-	q3.bindValue(10, 0); // TODO: category
+	q3.bindValue(7, compute_bitfield(RACE_FIELDS, raceCbs.get()));
+	q3.bindValue(8, compute_bitfield(ATTRIBUTE_FIELDS, attributeCbs.get()));
+	q3.bindValue(9, compute_bitfield(SCOPE_FIELDS, scopeCbs.get()));
+	q3.bindValue(10, compute_bitfield(CATEGORY_FIELDS, categoryCbs.get()));
 	q3.exec();
 	// Insert strings
 	q4.bindValue(0, code);
