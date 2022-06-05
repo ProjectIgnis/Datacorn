@@ -358,8 +358,10 @@ void MainWindow::updateCardWithUi()
 	q4.prepare(SQL_INSERT_TEXT);
 	qint32 const code = ui->passLineEdit->text().toUInt();
 	// Remove previous data
+	q1.bindValue(0, code);
 	q1.exec();
 	// Remove previous strings
+	q2.bindValue(0, code);
 	q2.exec();
 	// Insert data
 	auto compute_type_value = [&]() -> quint32
