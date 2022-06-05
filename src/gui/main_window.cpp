@@ -118,6 +118,10 @@ constexpr std::array const CATEGORY_FIELDS{
 
 QString const SQL_DB_DRIVER("QSQLITE");
 
+QString const SQL_QUERY_FIRST_ROW_CODE(R"(
+SELECT id FROM datas ORDER BY ROWID ASC LIMIT 1;
+)");
+
 QString const SQL_QUERY_DATA(R"(
 SELECT id,alias,setcode,type,atk,def,level,race,attribute,ot,category
 FROM datas WHERE datas.id = ?;
@@ -236,7 +240,9 @@ void MainWindow::openDatabase()
 		closeDatabase();
 		return;
 	}
-	updateUiWithCode(5043010); // TODO: Maybe load the first card on the db?
+	QSqlQuery q(SQL_QUERY_FIRST_ROW_CODE, db);
+	q.first();
+	updateUiWithCode(q.value(0).toUInt());
 }
 
 void MainWindow::closeDatabase()
@@ -298,7 +304,7 @@ void MainWindow::updateUiWithCode(quint32 code)
 	q2.bindValue(0, code);
 	bool const q2result = q2.exec() && q2.first();
 	Q_ASSERT(q2result);
-	// Proceed to populate the fields with the new data
+	// Populate the fields with the new data
 	auto toggle_cbs = [&](quint64 bits, auto const& fields, QCheckBox** cbs)
 	{
 		for(size_t i = 0; i < fields.size(); ++i)
