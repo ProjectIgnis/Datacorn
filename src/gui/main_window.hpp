@@ -23,6 +23,8 @@ private slots:
 	void openDatabase();
 	void closeDatabase();
 
+	void saveData();
+
 	void toSpanish();
 	void toEnglish();
 private:

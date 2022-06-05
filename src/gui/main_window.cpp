@@ -170,6 +170,7 @@ MainWindow::MainWindow(QWidget* parent) :
 // 	connect(ui->actionNewDatabase, &QAction::triggered, this, &MainWindow::newDatabase);
 	connect(ui->actionOpenDatabase, &QAction::triggered, this, &MainWindow::openDatabase);
 	connect(ui->actionCloseDatabase, &QAction::triggered, this, &MainWindow::closeDatabase);
+	connect(ui->actionSaveData, &QAction::triggered, this, &MainWindow::saveData);
 	connect(ui->actionSpanish, &QAction::triggered, this, &MainWindow::toSpanish);
 	connect(ui->actionEnglish, &QAction::triggered, this, &MainWindow::toEnglish);
 	auto populate_cbs = [&](QWidget* parent, auto const& fields)
@@ -256,6 +257,11 @@ void MainWindow::closeDatabase()
 	updateUiWithCode(0U);
 }
 
+void MainWindow::saveData()
+{
+	updateCardWithUi();
+}
+
 void MainWindow::toSpanish()
 {
 	ui->actionSpanish->setEnabled(false);
@@ -289,6 +295,7 @@ bool MainWindow::checkAndAskToCloseDb()
 void MainWindow::updateUiWithCode(quint32 code)
 {
 	// Clean the UI first
+	// TODO
 	if(code == 0U) // If code is 0 then we don't fill in the info
 		return;
 	// Query the data
