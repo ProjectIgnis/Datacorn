@@ -9,8 +9,8 @@
 #include <QSqlQuery>
 #include <QTranslator>
 
+#include "flow_layout.hpp"
 #include "ui_main_window.h"
-#include "flowlayout.h"
 
 namespace
 {
