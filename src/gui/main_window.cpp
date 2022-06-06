@@ -9,7 +9,6 @@
 #include <QSqlQuery>
 #include <QTranslator>
 
-#include "flow_layout.hpp"
 #include "ui_main_window.h"
 
 namespace
@@ -152,6 +151,16 @@ INSERT INTO texts (id,name,desc,str1,str2,str3,str4,str5,str6,str7,str8,str9,str
 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
 )");
 
+inline bool isChecked(QListWidgetItem* item) noexcept
+{
+	return item->checkState() == Qt::Checked;
+}
+
+inline void setChecked(QListWidgetItem* item, bool value) noexcept
+{
+	item->setCheckState(value ? Qt::Checked : Qt::Unchecked);
+}
+
 }
 
 // public
@@ -173,18 +182,17 @@ MainWindow::MainWindow(QWidget* parent) :
 	connect(ui->actionSaveData, &QAction::triggered, this, &MainWindow::saveData);
 	connect(ui->actionSpanish, &QAction::triggered, this, &MainWindow::toSpanish);
 	connect(ui->actionEnglish, &QAction::triggered, this, &MainWindow::toEnglish);
-	auto populate_cbs = [&](QWidget* parent, auto const& fields)
+	auto populate_cbs = [&](QListWidget* parent, auto const& fields)
 	{
-		auto* layout = new FlowLayout;
-		Q_ASSERT(layout != nullptr);
-		std::unique_ptr<QCheckBox*[]> boxes(new QCheckBox*[fields.size()]);
+		using Item = QListWidgetItem;
+		std::unique_ptr<Item*[]> boxes(new Item*[fields.size()]);
 		for(size_t i = 0; i < fields.size(); ++i)
 		{
-			auto* cb = new QCheckBox(tr(fields[i].name));
-			layout->addWidget(cb);
-			boxes[i] = cb;
+			auto* item = new QListWidgetItem(tr(fields[i].name), parent);
+			item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemNeverHasChildren);
+			setChecked(item, false);
+			boxes[i] = item;
 		}
-		parent->setLayout(layout);
 		return boxes;
 	};
 	typeCbs = populate_cbs(ui->typesWidget, TYPE_FIELDS);
@@ -312,10 +320,10 @@ void MainWindow::updateUiWithCode(quint32 code)
 	bool const q2result = q2.exec() && q2.first();
 	Q_ASSERT(q2result);
 	// Populate the fields with the new data
-	auto toggle_cbs = [&](quint64 bits, auto const& fields, QCheckBox** cbs)
+	auto toggle_cbs = [&](quint64 bits, auto const& fields, QListWidgetItem** cbs)
 	{
 		for(size_t i = 0; i < fields.size(); ++i)
-			cbs[i]->setChecked((bits & fields[i].value) != 0U);
+			setChecked(cbs[i], (bits & fields[i].value) != 0U);
 	};
 	ui->passLineEdit->setText(q1.value(0).toString());
 	ui->aliasLineEdit->setText(q1.value(1).toString());
@@ -382,11 +390,11 @@ void MainWindow::updateCardWithUi()
 	q2.bindValue(0, code);
 	q2.exec();
 	// Insert data
-	auto compute_bitfield = [&](auto const& fields, QCheckBox** cbs) -> quint64
+	auto compute_bitfield = [&](auto const& fields, QListWidgetItem** cbs) -> quint64
 	{
 		quint64 value = 0x0;
 		for(size_t i = 0; i < fields.size(); ++i)
-			value |= cbs[i]->isChecked() ? fields[i].value : 0x0;
+			value |= isChecked(cbs[i]) ? fields[i].value : 0x0;
 		return value;
 	};
 	quint64 const type = compute_bitfield(TYPE_FIELDS, typeCbs.get());

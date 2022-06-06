@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-class QCheckBox;
+class QListWidgetItem;
 class QTranslator;
 class QTreeWidgetItem;
 namespace Ui { class MainWindow; }
@@ -30,11 +30,11 @@ private slots:
 private:
 	std::unique_ptr<QTranslator> spanishTranslator;
 	std::unique_ptr<Ui::MainWindow> ui;
-	std::unique_ptr<QCheckBox*[]> typeCbs;
-	std::unique_ptr<QCheckBox*[]> raceCbs;
-	std::unique_ptr<QCheckBox*[]> attributeCbs;
-	std::unique_ptr<QCheckBox*[]> scopeCbs;
-	std::unique_ptr<QCheckBox*[]> categoryCbs;
+	std::unique_ptr<QListWidgetItem*[]> typeCbs;
+	std::unique_ptr<QListWidgetItem*[]> raceCbs;
+	std::unique_ptr<QListWidgetItem*[]> attributeCbs;
+	std::unique_ptr<QListWidgetItem*[]> scopeCbs;
+	std::unique_ptr<QListWidgetItem*[]> categoryCbs;
 
 	bool checkAndAskToCloseDb();
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1055</width>
-    <height>812</height>
+    <width>737</width>
+    <height>805</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,14 +21,742 @@
    <property name="enabled">
     <bool>true</bool>
    </property>
-   <layout class="QGridLayout" name="gridLayout_4"/>
+   <layout class="QHBoxLayout" name="horizontalLayout_7">
+    <property name="spacing">
+     <number>1</number>
+    </property>
+    <property name="leftMargin">
+     <number>1</number>
+    </property>
+    <property name="topMargin">
+     <number>1</number>
+    </property>
+    <property name="rightMargin">
+     <number>1</number>
+    </property>
+    <property name="bottomMargin">
+     <number>1</number>
+    </property>
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Database</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_10">
+       <property name="spacing">
+        <number>1</number>
+       </property>
+       <property name="leftMargin">
+        <number>1</number>
+       </property>
+       <property name="topMargin">
+        <number>1</number>
+       </property>
+       <property name="rightMargin">
+        <number>1</number>
+       </property>
+       <property name="bottomMargin">
+        <number>1</number>
+       </property>
+       <item>
+        <widget class="QTableWidget" name="tableWidget_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="rowCount">
+          <number>0</number>
+         </property>
+         <property name="columnCount">
+          <number>2</number>
+         </property>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>Code</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Name</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>Card Data</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <property name="spacing">
+        <number>1</number>
+       </property>
+       <property name="leftMargin">
+        <number>1</number>
+       </property>
+       <property name="topMargin">
+        <number>1</number>
+       </property>
+       <property name="rightMargin">
+        <number>1</number>
+       </property>
+       <property name="bottomMargin">
+        <number>1</number>
+       </property>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_8">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <widget class="QLabel" name="passLabel">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>passcode</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="passLineEdit">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="inputMask">
+              <string/>
+             </property>
+             <property name="text">
+              <string>0</string>
+             </property>
+             <property name="maxLength">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="aliasLabel">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>alias</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="aliasLineEdit">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="inputMask">
+              <string/>
+             </property>
+             <property name="text">
+              <string>0</string>
+             </property>
+             <property name="maxLength">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="nameLineEdit">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="placeholderText">
+            <string>Name</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPlainTextEdit" name="descPlainTextEdit">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="placeholderText">
+            <string>Card Text</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTabWidget" name="tabWidget">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="tab">
+          <attribute name="title">
+           <string>Scope</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QListWidget" name="scopesWidget"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tab_3">
+          <attribute name="title">
+           <string>Type</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QListWidget" name="typesWidget"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tab_2">
+          <attribute name="title">
+           <string>Monster</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <property name="leftMargin">
+            <number>1</number>
+           </property>
+           <property name="topMargin">
+            <number>1</number>
+           </property>
+           <property name="rightMargin">
+            <number>1</number>
+           </property>
+           <property name="bottomMargin">
+            <number>1</number>
+           </property>
+           <item>
+            <widget class="QTabWidget" name="tabWidget_2">
+             <property name="currentIndex">
+              <number>2</number>
+             </property>
+             <widget class="QWidget" name="tab_5">
+              <attribute name="title">
+               <string>Stats</string>
+              </attribute>
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <property name="spacing">
+                <number>1</number>
+               </property>
+               <property name="leftMargin">
+                <number>1</number>
+               </property>
+               <property name="topMargin">
+                <number>1</number>
+               </property>
+               <property name="rightMargin">
+                <number>1</number>
+               </property>
+               <property name="bottomMargin">
+                <number>1</number>
+               </property>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_2">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="levelLabel">
+                     <property name="text">
+                      <string>Level/Rank</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="levelSpinBox">
+                     <property name="maximum">
+                      <number>12</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_3">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="atkLabel">
+                     <property name="text">
+                      <string>ATK</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="atkQmCheckBox">
+                     <property name="text">
+                      <string>?</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="atkSpinBox">
+                     <property name="maximum">
+                      <number>9999</number>
+                     </property>
+                     <property name="singleStep">
+                      <number>10</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_7">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout">
+                   <property name="spacing">
+                    <number>2</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="lScaleLabel">
+                     <property name="text">
+                      <string>L</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="lScaleSpinBox"/>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="rScaleSpinBox">
+                     <property name="suffix">
+                      <string/>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="rScaleLabel">
+                     <property name="text">
+                      <string>R</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_4">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="defLabel">
+                     <property name="text">
+                      <string>DEF</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="defQmCheckBox">
+                     <property name="text">
+                      <string>?</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="defSpinBox">
+                     <property name="maximum">
+                      <number>9999</number>
+                     </property>
+                     <property name="singleStep">
+                      <number>10</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QGridLayout" name="gridLayout_5">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QToolButton" name="markerTopLeftButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>↖</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QToolButton" name="markerTopButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>⬆</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QToolButton" name="markerTopRightButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>↗</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QToolButton" name="markerLeftButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>⬅</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="QToolButton" name="markerRightButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>➡</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QToolButton" name="markerBottomLeftButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>↙</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QToolButton" name="markerBottomButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>⬇</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="2">
+                  <widget class="QToolButton" name="markerBottomRightButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>↘</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab_6">
+              <attribute name="title">
+               <string>Attribute</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item>
+                <widget class="QListWidget" name="attributesWidget"/>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab_7">
+              <attribute name="title">
+               <string>Race</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_4">
+               <item>
+                <widget class="QListWidget" name="racesWidget"/>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTabWidget" name="tabWidget_3">
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <widget class="QWidget" name="tab_8">
+          <attribute name="title">
+           <string>Strings</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_11">
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <property name="leftMargin">
+            <number>1</number>
+           </property>
+           <property name="topMargin">
+            <number>1</number>
+           </property>
+           <property name="rightMargin">
+            <number>1</number>
+           </property>
+           <property name="bottomMargin">
+            <number>1</number>
+           </property>
+           <item>
+            <widget class="QTableWidget" name="stringsTableWidget">
+             <property name="rowCount">
+              <number>16</number>
+             </property>
+             <property name="columnCount">
+              <number>1</number>
+             </property>
+             <attribute name="horizontalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="horizontalHeaderMinimumSectionSize">
+              <number>124</number>
+             </attribute>
+             <attribute name="horizontalHeaderStretchLastSection">
+              <bool>true</bool>
+             </attribute>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <row/>
+             <column/>
+             <item row="0" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="1" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="2" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="3" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="4" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="5" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="6" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="7" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="8" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="9" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="10" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="11" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="12" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="13" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="14" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+             <item row="15" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tab_9">
+          <attribute name="title">
+           <string>Category</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_12">
+           <item>
+            <widget class="QListWidget" name="categoriesWidget"/>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1055</width>
+     <width>737</width>
      <height>30</height>
     </rect>
    </property>
@@ -74,656 +802,6 @@
    <addaction name="menuCard"/>
    <addaction name="menuOptions"/>
    <addaction name="menuHelp"/>
-  </widget>
-  <widget class="QDockWidget" name="textDockWidget">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="allowedAreas">
-    <set>Qt::AllDockWidgetAreas</set>
-   </property>
-   <property name="windowTitle">
-    <string>Text</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>4</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents">
-    <property name="layoutDirection">
-     <enum>Qt::RightToLeft</enum>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QLineEdit" name="nameLineEdit">
-       <property name="placeholderText">
-        <string>Name</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPlainTextEdit" name="descPlainTextEdit">
-       <property name="placeholderText">
-        <string>Card Text</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="typeDockWidget">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="allowedAreas">
-    <set>Qt::AllDockWidgetAreas</set>
-   </property>
-   <property name="windowTitle">
-    <string>Types</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>4</number>
-   </attribute>
-   <widget class="QWidget" name="typesWidget"/>
-  </widget>
-  <widget class="QDockWidget" name="stringDockWidget">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="floating">
-    <bool>false</bool>
-   </property>
-   <property name="allowedAreas">
-    <set>Qt::AllDockWidgetAreas</set>
-   </property>
-   <property name="windowTitle">
-    <string>Strings</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>8</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_7">
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QTableWidget" name="stringsTableWidget">
-       <property name="rowCount">
-        <number>16</number>
-       </property>
-       <property name="columnCount">
-        <number>1</number>
-       </property>
-       <attribute name="horizontalHeaderVisible">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="horizontalHeaderMinimumSectionSize">
-        <number>124</number>
-       </attribute>
-       <attribute name="horizontalHeaderStretchLastSection">
-        <bool>true</bool>
-       </attribute>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <row/>
-       <column/>
-       <item row="0" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="1" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="2" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="3" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="4" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="5" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="6" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="7" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="8" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="9" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="10" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="11" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="12" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="13" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="14" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-       <item row="15" column="0">
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="raceDockWidget">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="allowedAreas">
-    <set>Qt::AllDockWidgetAreas</set>
-   </property>
-   <property name="windowTitle">
-    <string>Races</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>4</number>
-   </attribute>
-   <widget class="QWidget" name="racesWidget"/>
-  </widget>
-  <widget class="QDockWidget" name="linkMarkersDockWidget">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="windowTitle">
-    <string>Link Markers</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>4</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_2">
-    <layout class="QGridLayout" name="gridLayout">
-     <property name="leftMargin">
-      <number>1</number>
-     </property>
-     <property name="topMargin">
-      <number>1</number>
-     </property>
-     <property name="rightMargin">
-      <number>1</number>
-     </property>
-     <property name="bottomMargin">
-      <number>1</number>
-     </property>
-     <property name="spacing">
-      <number>1</number>
-     </property>
-     <item row="1" column="0">
-      <widget class="QToolButton" name="markerLeftButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>⬅</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QToolButton" name="markerTopLeftButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>↖</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QToolButton" name="markerTopButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>⬆</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QToolButton" name="markerTopRightButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>↗</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QToolButton" name="markerRightButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>➡</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QToolButton" name="markerBottomLeftButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>↙</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QToolButton" name="markerBottomButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>⬇</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QToolButton" name="markerBottomRightButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>↘</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="categoryDockWidget">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="allowedAreas">
-    <set>Qt::AllDockWidgetAreas</set>
-   </property>
-   <property name="windowTitle">
-    <string>Categories</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>4</number>
-   </attribute>
-   <widget class="QWidget" name="categoriesWidget"/>
-  </widget>
-  <widget class="QDockWidget" name="monsterStatDockWidget">
-   <property name="windowTitle">
-    <string>Monster Stats</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_8">
-    <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QLabel" name="lScaleLabel">
-         <property name="text">
-          <string>L</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="lScaleSpinBox"/>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="rScaleSpinBox">
-         <property name="suffix">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="rScaleLabel">
-         <property name="text">
-          <string>R</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="levelLabel">
-         <property name="text">
-          <string>Level/Rank</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="levelSpinBox">
-         <property name="maximum">
-          <number>12</number>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="attributeDockWidget">
-   <property name="windowTitle">
-    <string>Attributes</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>2</number>
-   </attribute>
-   <widget class="QWidget" name="attributesWidget"/>
-  </widget>
-  <widget class="QDockWidget" name="battleStatsDockWidget">
-   <property name="windowTitle">
-    <string>Battle Stats</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>8</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_10">
-    <layout class="QGridLayout" name="gridLayout_2">
-     <item row="0" column="0">
-      <widget class="QLabel" name="atkLabel">
-       <property name="text">
-        <string>ATK</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QCheckBox" name="atkQmCheckBox">
-       <property name="text">
-        <string>?</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QSpinBox" name="atkSpinBox">
-       <property name="maximum">
-        <number>9999</number>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="defLabel">
-       <property name="text">
-        <string>DEF</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QCheckBox" name="defQmCheckBox">
-       <property name="text">
-        <string>?</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QSpinBox" name="defSpinBox">
-       <property name="maximum">
-        <number>9999</number>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="codeDockWidget">
-   <property name="windowTitle">
-    <string>Codes</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>2</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_11">
-    <layout class="QGridLayout" name="gridLayout_3">
-     <item row="0" column="0">
-      <widget class="QLabel" name="passLabel">
-       <property name="text">
-        <string>pass</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="aliasLabel">
-       <property name="text">
-        <string>alias</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="passLineEdit">
-       <property name="inputMask">
-        <string/>
-       </property>
-       <property name="text">
-        <string>0</string>
-       </property>
-       <property name="maxLength">
-        <number>10</number>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="aliasLineEdit">
-       <property name="inputMask">
-        <string/>
-       </property>
-       <property name="text">
-        <string>0</string>
-       </property>
-       <property name="maxLength">
-        <number>10</number>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="scopeDockWidget">
-   <property name="windowTitle">
-    <string>Scope</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>4</number>
-   </attribute>
-   <widget class="QWidget" name="scopesWidget"/>
-  </widget>
-  <widget class="QDockWidget" name="dockWidget_2">
-   <property name="windowTitle">
-    <string>Database</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>4</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_13">
-    <layout class="QVBoxLayout" name="verticalLayout_4">
-     <item>
-      <widget class="QTableWidget" name="tableWidget_2">
-       <property name="rowCount">
-        <number>0</number>
-       </property>
-       <property name="columnCount">
-        <number>2</number>
-       </property>
-       <attribute name="horizontalHeaderStretchLastSection">
-        <bool>true</bool>
-       </attribute>
-       <column>
-        <property name="text">
-         <string>Code</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Name</string>
-        </property>
-       </column>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QPushButton" name="pushButton">
-         <property name="text">
-          <string>-</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="text">
-          <string>+</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_3">
-         <property name="text">
-          <string>*</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
   </widget>
   <action name="actionNewDatabase">
    <property name="text">
