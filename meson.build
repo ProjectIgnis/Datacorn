@@ -5,7 +5,6 @@ qt_dep = dependency('qt5', modules : ['Core', 'Gui', 'Widgets', 'Sql'])
 
 src_files = files([
 	'src/main.cpp',
-	'src/gui/flow_layout.cpp',
 	'src/gui/main_window.cpp'
 ])
 
