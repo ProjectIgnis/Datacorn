@@ -302,11 +302,44 @@ bool MainWindow::checkAndAskToCloseDb()
 
 void MainWindow::updateUiWithCode(quint32 code)
 {
+	auto toggle_cbs = [&](quint64 bits, auto const& fields, QListWidgetItem** cbs)
+	{
+		for(size_t i = 0; i < fields.size(); ++i)
+			setChecked(cbs[i], (bits & fields[i].value) != 0U);
+	};
+	int const stringsRowCount = ui->stringsTableWidget->rowCount();
 	// Clean the UI first
-	// TODO
-	if(code == 0U) // If code is 0 then we don't fill in the info
+	toggle_cbs(0U, TYPE_FIELDS, typeCbs.get());
+	toggle_cbs(0U, RACE_FIELDS, raceCbs.get());
+	toggle_cbs(0U, ATTRIBUTE_FIELDS, attributeCbs.get());
+	toggle_cbs(0U, SCOPE_FIELDS, scopeCbs.get());
+	toggle_cbs(0U, CATEGORY_FIELDS, categoryCbs.get());
+	ui->passLineEdit->setText("0");
+	ui->aliasLineEdit->setText("0");
+	ui->nameLineEdit->setText("");
+	ui->descPlainTextEdit->setPlainText("");
+	ui->atkQmCheckBox->setChecked(false);
+	ui->atkSpinBox->setEnabled(true);
+	ui->atkSpinBox->setValue(0);
+	ui->defQmCheckBox->setChecked(false);
+	ui->defSpinBox->setEnabled(true);
+	ui->defSpinBox->setValue(0);
+	ui->levelSpinBox->setValue(0);
+	ui->lScaleSpinBox->setValue(0);
+	ui->rScaleSpinBox->setValue(0);
+	ui->markerBottomLeftButton->setChecked(false);
+	ui->markerBottomButton->setChecked(false);
+	ui->markerBottomRightButton->setChecked(false);
+	ui->markerLeftButton->setChecked(false);
+	ui->markerRightButton->setChecked(false);
+	ui->markerTopLeftButton->setChecked(false);
+	ui->markerTopButton->setChecked(false);
+	ui->markerTopRightButton->setChecked(false);
+	for(int i = 0; i < stringsRowCount; ++i)
+		ui->stringsTableWidget->item(i, 0)->setText("");
+	if(code == 0U) // if 0 then we just exit to leave UI in "clean" state
 		return;
-	// Query the data
+	// Query data and strings
 	auto db = QSqlDatabase::database();
 	Q_ASSERT(db.isValid());
 	QSqlQuery q1(db);
@@ -319,12 +352,7 @@ void MainWindow::updateUiWithCode(quint32 code)
 	q2.bindValue(0, code);
 	bool const q2result = q2.exec() && q2.first();
 	Q_ASSERT(q2result);
-	// Populate the fields with the new data
-	auto toggle_cbs = [&](quint64 bits, auto const& fields, QListWidgetItem** cbs)
-	{
-		for(size_t i = 0; i < fields.size(); ++i)
-			setChecked(cbs[i], (bits & fields[i].value) != 0U);
-	};
+	// Populate the fields with the new data and strings
 	ui->passLineEdit->setText(q1.value(0).toString());
 	ui->aliasLineEdit->setText(q1.value(1).toString());
 	// TODO: 2 - setcodes / archetypes
@@ -359,11 +387,9 @@ void MainWindow::updateUiWithCode(quint32 code)
 	toggle_cbs(q1.value(8).toUInt(), ATTRIBUTE_FIELDS, attributeCbs.get());
 	toggle_cbs(q1.value(9).toUInt(), SCOPE_FIELDS, scopeCbs.get());
 	toggle_cbs(q1.value(10).toUInt(), CATEGORY_FIELDS, categoryCbs.get());
-
 	ui->nameLineEdit->setText(q2.value(0).toString());
 	ui->descPlainTextEdit->setPlainText(q2.value(1).toString());
-	int const count = ui->stringsTableWidget->rowCount();
-	for(int i = 0; i < count; ++i)
+	for(int i = 0; i < stringsRowCount; ++i)
 	{
 		auto& item = *ui->stringsTableWidget->item(i, 0);
 		item.setText(q2.value(2 + i).toString());
@@ -435,8 +461,8 @@ void MainWindow::updateCardWithUi()
 	q4.bindValue(0, code);
 	q4.bindValue(1, ui->nameLineEdit->text());
 	q4.bindValue(2, ui->descPlainTextEdit->toPlainText());
-	int const count = ui->stringsTableWidget->rowCount();
-	for(int i = 0; i < count; ++i)
+	int const stringsRowCount = ui->stringsTableWidget->rowCount();
+	for(int i = 0; i < stringsRowCount; ++i)
 	{
 		auto& item = *ui->stringsTableWidget->item(i, 0);
 		q4.bindValue(3 + i, item.text());
