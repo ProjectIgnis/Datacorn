@@ -23,6 +23,7 @@ struct BitField
 	char const* name;
 };
 
+// clang-format off
 constexpr std::array const TYPE_FIELDS{
 	BitField{0x1, QT_TR_NOOP("Monster")},
 	BitField{0x2, QT_TR_NOOP("Spell")},
@@ -114,6 +115,7 @@ constexpr std::array const SCOPE_FIELDS{
 constexpr std::array const CATEGORY_FIELDS{
 	BitField{0x1, QT_TR_NOOP("help welcomed to do these :^)")},
 };
+// clang-format on
 
 QString const SQL_DB_DRIVER("QSQLITE");
 
@@ -161,27 +163,30 @@ inline void setChecked(QListWidgetItem* item, bool value) noexcept
 	item->setCheckState(value ? Qt::Checked : Qt::Unchecked);
 }
 
-}
+} // namespace
 
 // public
 
-MainWindow::MainWindow(QWidget* parent) :
-	QMainWindow(parent),
-	spanishTranslator(std::make_unique<QTranslator>()),
-	ui(std::make_unique<Ui::MainWindow>())
+MainWindow::MainWindow(QWidget* parent)
+	: QMainWindow(parent)
+	, spanishTranslator(std::make_unique<QTranslator>())
+	, ui(std::make_unique<Ui::MainWindow>())
 {
 	spanishTranslator->load(":/es");
 	QApplication::instance()->installTranslator(spanishTranslator.get());
 	ui->setupUi(this);
-	// TODO: Create custom Validator that works with unsigned integers...
-// 	ui->passLineEdit->setValidator(new QIntValidator(0, 4294967295, this));
-// 	ui->aliasLineEdit->setValidator(new QIntValidator(0, 4294967295, this));
-// 	connect(ui->actionNewDatabase, &QAction::triggered, this, &MainWindow::newDatabase);
-	connect(ui->actionOpenDatabase, &QAction::triggered, this, &MainWindow::openDatabase);
-	connect(ui->actionCloseDatabase, &QAction::triggered, this, &MainWindow::closeDatabase);
-	connect(ui->actionSaveData, &QAction::triggered, this, &MainWindow::saveData);
-	connect(ui->actionSpanish, &QAction::triggered, this, &MainWindow::toSpanish);
-	connect(ui->actionEnglish, &QAction::triggered, this, &MainWindow::toEnglish);
+	connect(ui->actionNewDatabase, &QAction::triggered, this,
+	        &MainWindow::newDatabase);
+	connect(ui->actionOpenDatabase, &QAction::triggered, this,
+	        &MainWindow::openDatabase);
+	connect(ui->actionCloseDatabase, &QAction::triggered, this,
+	        &MainWindow::closeDatabase);
+	connect(ui->actionSaveData, &QAction::triggered, this,
+	        &MainWindow::saveData);
+	connect(ui->actionSpanish, &QAction::triggered, this,
+	        &MainWindow::toSpanish);
+	connect(ui->actionEnglish, &QAction::triggered, this,
+	        &MainWindow::toEnglish);
 	auto populate_cbs = [&](QListWidget* parent, auto const& fields)
 	{
 		using Item = QListWidgetItem;
@@ -189,7 +194,8 @@ MainWindow::MainWindow(QWidget* parent) :
 		for(size_t i = 0; i < fields.size(); ++i)
 		{
 			auto* item = new QListWidgetItem(tr(fields[i].name), parent);
-			item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemNeverHasChildren);
+			item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled |
+			               Qt::ItemNeverHasChildren);
 			setChecked(item, false);
 			boxes[i] = item;
 		}
@@ -207,15 +213,20 @@ MainWindow::~MainWindow()
 	QApplication::instance()->removeTranslator(spanishTranslator.get());
 }
 
-void MainWindow::changeEvent(QEvent *event)
+void MainWindow::changeEvent(QEvent* event)
 {
-	if (event->type() == QEvent::LanguageChange)
+	if(event->type() == QEvent::LanguageChange)
 		ui->retranslateUi(this);
 	else
 		QWidget::changeEvent(event);
 }
 
 // private slots
+
+void MainWindow::newDatabase()
+{
+	// TODO
+}
 
 void MainWindow::openDatabase()
 {
@@ -225,27 +236,25 @@ void MainWindow::openDatabase()
 	};
 	if(!checkAndAskToCloseDb())
 		return;
-	auto const file = QString("/mnt/LINUX_DATA/src/Multirole/build/sync/databases/cards.cdb");
-// 	QString const file = QFileDialog::getOpenFileName
-// 	(
-// 		this,
-// 		tr("Select Database"),
-// 		".",
-// 		tr("YGOPro Database (*.cdb *.db *.sqlite)")
-// 	);
+	QString const file = QFileDialog::getOpenFileName(
+		this, tr("Select Database"), ".",
+		tr("YGOPro Database (*.cdb *.db *.sqlite)"));
 	if(file.isEmpty())
 		return;
 	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER);
 	db.setDatabaseName(file);
 	if(!db.open())
 	{
-		QMessageBox::critical(this, tr("Error Opening Database"), db.lastError().text());
+		QMessageBox::critical(this, tr("Error Opening Database"),
+		                      db.lastError().text());
 		closeDatabase();
 		return;
 	}
 	if(!does_db_have_correct_format(db))
 	{
-		QMessageBox::critical(this, tr("Error Opening Database"), tr("Selected file is not a proper YGOPRO database."));
+		QMessageBox::critical(
+			this, tr("Error Opening Database"),
+			tr("Selected file is not a proper YGOPRO database."));
 		closeDatabase();
 		return;
 	}
@@ -292,7 +301,10 @@ bool MainWindow::checkAndAskToCloseDb()
 {
 	if(!QSqlDatabase::database().isValid())
 		return true;
-	if(QMessageBox::question(this, tr("Close Opened Database?"), tr("Do you wish to close the currently opened database?")) == QMessageBox::Yes)
+	if(QMessageBox::question(
+		   this, tr("Close Opened Database?"),
+		   tr("Do you wish to close the currently opened database?")) ==
+	   QMessageBox::Yes)
 	{
 		closeDatabase();
 		return true;
@@ -302,7 +314,8 @@ bool MainWindow::checkAndAskToCloseDb()
 
 void MainWindow::updateUiWithCode(quint32 code)
 {
-	auto toggle_cbs = [&](quint64 bits, auto const& fields, QListWidgetItem** cbs)
+	auto toggle_cbs =
+		[&](quint64 bits, auto const& fields, QListWidgetItem** cbs)
 	{
 		for(size_t i = 0; i < fields.size(); ++i)
 			setChecked(cbs[i], (bits & fields[i].value) != 0U);
@@ -416,7 +429,8 @@ void MainWindow::updateCardWithUi()
 	q2.bindValue(0, code);
 	q2.exec();
 	// Insert data
-	auto compute_bitfield = [&](auto const& fields, QListWidgetItem** cbs) -> quint64
+	auto compute_bitfield = [&](auto const& fields,
+	                            QListWidgetItem** cbs) -> quint64
 	{
 		quint64 value = 0x0;
 		for(size_t i = 0; i < fields.size(); ++i)
@@ -427,7 +441,8 @@ void MainWindow::updateCardWithUi()
 	auto compute_def_value = [&]() -> qint32
 	{
 		if((type & TYPE_LINK) == 0U)
-			return ui->defQmCheckBox->isChecked() ? QMARK_ATK_DEF : ui->defSpinBox->value();
+			return ui->defQmCheckBox->isChecked() ? QMARK_ATK_DEF
+			                                      : ui->defSpinBox->value();
 		quint32 link = 0U;
 		link |= ui->markerBottomLeftButton->isChecked() ? 0x1 : 0;
 		link |= ui->markerBottomButton->isChecked() ? 0x2 : 0;
@@ -449,7 +464,8 @@ void MainWindow::updateCardWithUi()
 	q3.bindValue(1, ui->aliasLineEdit->text().toUInt());
 	q3.bindValue(2, 0); // TODO: setcodes
 	q3.bindValue(3, type);
-	q3.bindValue(4, ui->atkQmCheckBox->isChecked() ? QMARK_ATK_DEF : ui->atkSpinBox->value());
+	q3.bindValue(4, ui->atkQmCheckBox->isChecked() ? QMARK_ATK_DEF
+	                                               : ui->atkSpinBox->value());
 	q3.bindValue(5, compute_def_value());
 	q3.bindValue(6, compute_level_value());
 	q3.bindValue(7, compute_bitfield(RACE_FIELDS, raceCbs.get()));
