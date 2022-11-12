@@ -210,6 +210,8 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::toSpanish);
 	connect(ui->actionEnglish, &QAction::triggered, this,
 	        &MainWindow::toEnglish);
+	connect(ui->cardCodeNameList, &QAbstractItemView::activated, this,
+	        &MainWindow::onCardsListItemActivated);
 	auto populate_cbs = [&](QListWidget* parent, auto const& fields)
 	{
 		using Item = QListWidgetItem;
@@ -317,6 +319,11 @@ void MainWindow::toEnglish()
 	ui->actionSpanish->setEnabled(true);
 	ui->actionSpanish->setChecked(false);
 	QApplication::instance()->removeTranslator(spanishTranslator.get());
+}
+
+void MainWindow::onCardsListItemActivated(QModelIndex const& index)
+{
+	updateUiWithCode(index.siblingAtColumn(0).data().toUInt());
 }
 
 // private

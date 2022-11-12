@@ -31,6 +31,8 @@ private slots:
 	void toSpanish();
 	void toEnglish();
 
+	void onCardsListItemActivated(QModelIndex const& index);
+
 private:
 	std::unique_ptr<QTranslator> spanishTranslator;
 	std::unique_ptr<Ui::MainWindow> ui;
