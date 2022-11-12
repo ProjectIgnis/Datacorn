@@ -7,6 +7,7 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QSqlTableModel>
 #include <QTranslator>
 
 #include "ui_main_window.h"
@@ -163,6 +164,28 @@ inline void setChecked(QListWidgetItem* item, bool value) noexcept
 	item->setCheckState(value ? Qt::Checked : Qt::Unchecked);
 }
 
+class CardCodeNameSqlModel final : public QSqlTableModel
+{
+public:
+	explicit CardCodeNameSqlModel(QWidget* parent, QSqlDatabase db)
+		: QSqlTableModel(parent, db)
+	{
+		setTable("texts");
+		setEditStrategy(QSqlTableModel::OnManualSubmit);
+		select();
+		setHeaderData(0, Qt::Horizontal, tr("Code"));
+		setHeaderData(1, Qt::Horizontal, tr("Name"));
+	}
+
+	virtual ~CardCodeNameSqlModel() = default;
+
+private:
+	QString selectStatement() const override
+	{
+		return R"(SELECT "id", "name" FROM "texts")";
+	}
+};
+
 } // namespace
 
 // public
@@ -258,6 +281,7 @@ void MainWindow::openDatabase()
 		closeDatabase();
 		return;
 	}
+	fillCardList();
 	QSqlQuery q(SQL_QUERY_FIRST_ROW_CODE, db);
 	q.first();
 	updateUiWithCode(q.value(0).toUInt());
@@ -310,6 +334,14 @@ bool MainWindow::checkAndAskToCloseDb()
 		return true;
 	}
 	return false;
+}
+
+void MainWindow::fillCardList()
+{
+	auto db = QSqlDatabase::database();
+	auto* model = new CardCodeNameSqlModel(ui->cardCodeNameList, db);
+	ui->cardCodeNameList->setModel(model);
+	ui->cardCodeNameList->resizeColumnsToContents();
 }
 
 void MainWindow::updateUiWithCode(quint32 code)

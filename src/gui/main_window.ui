@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>737</width>
-    <height>805</height>
+    <width>816</width>
+    <height>598</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -59,32 +59,16 @@
         <number>1</number>
        </property>
        <item>
-        <widget class="QTableWidget" name="tableWidget_2">
+        <widget class="QTableView" name="cardCodeNameList">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="rowCount">
-          <number>0</number>
-         </property>
-         <property name="columnCount">
-          <number>2</number>
-         </property>
-         <attribute name="horizontalHeaderStretchLastSection">
-          <bool>true</bool>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
          </attribute>
-         <column>
-          <property name="text">
-           <string>Code</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Name</string>
-          </property>
-         </column>
         </widget>
        </item>
       </layout>
@@ -756,7 +740,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>737</width>
+     <width>816</width>
      <height>30</height>
     </rect>
    </property>

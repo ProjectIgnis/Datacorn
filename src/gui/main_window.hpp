@@ -42,6 +42,7 @@ private:
 
 	bool checkAndAskToCloseDb();
 
+	void fillCardList();
 	void updateUiWithCode(quint32 code);
 	void updateCardWithUi();
 };
