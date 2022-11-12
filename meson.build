@@ -1,4 +1,6 @@
-project('datacorn', 'cpp', default_options : ['cpp_std=c++17'])
+project('datacorn', 'cpp',
+	default_options : ['cpp_std=c++17', 'cpp_eh=none', 'cpp_rtti=false']
+)
 
 qt_mod = import('qt5')
 qt_dep = dependency('qt5', modules : ['Core', 'Gui', 'Widgets', 'Sql'])
