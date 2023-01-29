@@ -166,6 +166,11 @@ inline void setChecked(QListWidgetItem* item, bool value) noexcept
 	item->setCheckState(value ? Qt::Checked : Qt::Unchecked);
 }
 
+inline void setRegexValidator(QLineEdit& parent, QString const& regex)
+{
+	parent.setValidator(new QRegExpValidator(QRegExp(regex), &parent));
+}
+
 class CardCodeNameSqlModel final : public QSqlTableModel
 {
 public:
@@ -201,11 +206,6 @@ public:
 		for(int i = 0; i < 2; i++)
 		{
 			auto* w = new QLineEdit(this);
-			if(i == 0)
-			{
-				auto const INT_REGEX = QRegExp("[1-9][0-9]*");
-				w->setValidator(new QRegExpValidator(INT_REGEX, w));
-			}
 			w->setClearButtonEnabled(true);
 			w->setPlaceholderText(tr("Filter"));
 			w->setVisible(true);
@@ -213,6 +213,7 @@ public:
 			connect(w, &QLineEdit::textEdited, this,
 			        &FilteringHeader::updateTableFilters);
 		}
+		setRegexValidator(*filters[0], "[1-9][0-9]*");
 		connect(this, &FilteringHeader::sectionResized, this,
 		        &FilteringHeader::adjustFilters);
 		connect(this, &FilteringHeader::sectionClicked, this,
@@ -296,6 +297,8 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::openHomepage);
 	connect(ui->cardCodeNameList, &QAbstractItemView::activated, this,
 	        &MainWindow::onCardsListItemActivated);
+	setRegexValidator(*ui->passLineEdit, "[0-9]+");
+	setRegexValidator(*ui->aliasLineEdit, "[0-9]+");
 	cardListFilter = new FilteringHeader(*ui->cardCodeNameList);
 	ui->cardCodeNameList->setHorizontalHeader(cardListFilter);
 	auto populate_cbs = [&](QListWidget* parent, auto const& fields)
@@ -411,7 +414,8 @@ void MainWindow::toSpanish()
 
 void MainWindow::openHomepage()
 {
-	QDesktopServices::openUrl(QUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
+	QDesktopServices::openUrl(
+		QUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
 }
 
 void MainWindow::onCardsListItemActivated(QModelIndex const& index)
@@ -544,6 +548,13 @@ void MainWindow::updateUiWithCode(quint32 code)
 
 void MainWindow::updateCardWithUi()
 {
+	qint32 const code = ui->passLineEdit->text().toUInt();
+	if(code == 0)
+	{
+		QMessageBox::warning(this, tr("Invalid passcode"),
+		                     tr("Passcode cannot be 0 or empty."));
+		return;
+	}
 	auto db = QSqlDatabase::database();
 	Q_ASSERT(db.isValid());
 	QSqlQuery q1(db);
@@ -554,7 +565,6 @@ void MainWindow::updateCardWithUi()
 	q3.prepare(SQL_INSERT_DATA);
 	QSqlQuery q4(db);
 	q4.prepare(SQL_INSERT_TEXT);
-	qint32 const code = ui->passLineEdit->text().toUInt();
 	// Remove previous data
 	q1.bindValue(0, code);
 	q1.exec();
