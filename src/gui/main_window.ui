@@ -587,7 +587,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget_3">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_8">
           <attribute name="title">
@@ -769,8 +769,6 @@
      <string>Help</string>
     </property>
     <addaction name="actionHomepage"/>
-    <addaction name="separator"/>
-    <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
@@ -780,8 +778,8 @@
      <property name="title">
       <string>Language</string>
      </property>
-     <addaction name="actionSpanish"/>
      <addaction name="actionEnglish"/>
+     <addaction name="actionSpanish"/>
     </widget>
     <addaction name="menuLanguage"/>
    </widget>
@@ -829,10 +827,10 @@
     <bool>true</bool>
    </property>
    <property name="checked">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Español (Spanish)</string>
@@ -843,10 +841,13 @@
     <bool>true</bool>
    </property>
    <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Inglés (English)</string>
+    <string>English (English)</string>
    </property>
   </action>
   <action name="actionSaveData">

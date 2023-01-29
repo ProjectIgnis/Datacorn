@@ -30,8 +30,8 @@ private slots:
 
 	void saveData();
 
-	void toSpanish();
 	void toEnglish();
+	void toSpanish();
 
 	void onCardsListItemActivated(QModelIndex const& index);
 
