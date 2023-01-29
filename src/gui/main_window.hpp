@@ -13,6 +13,8 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
+class FilteringHeader;
+
 class MainWindow final : public QMainWindow
 {
 	Q_OBJECT
@@ -36,6 +38,7 @@ private slots:
 private:
 	std::unique_ptr<QTranslator> spanishTranslator;
 	std::unique_ptr<Ui::MainWindow> ui;
+	FilteringHeader* cardListFilter;
 	std::unique_ptr<QListWidgetItem*[]> typeCbs;
 	std::unique_ptr<QListWidgetItem*[]> raceCbs;
 	std::unique_ptr<QListWidgetItem*[]> attributeCbs;

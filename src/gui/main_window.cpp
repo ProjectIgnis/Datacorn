@@ -4,6 +4,8 @@
 // #include <QDesktopServices> // openUrl
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QRegExpValidator>
+#include <QScrollBar>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -182,11 +184,90 @@ public:
 private:
 	QString selectStatement() const override
 	{
-		return R"(SELECT "id", "name" FROM "texts")";
+		return QString(R"(SELECT "id", "name" FROM "texts" WHERE )") + filter();
 	}
 };
 
 } // namespace
+
+class FilteringHeader final : public QHeaderView
+{
+public:
+	FilteringHeader(QTableView& parent)
+		: QHeaderView(Qt::Horizontal, &parent), model(nullptr)
+	{
+		setSortIndicatorShown(false);
+		setSectionsClickable(false);
+		for(int i = 0; i < 2; i++)
+		{
+			auto* w = new QLineEdit(this);
+			if(i == 0)
+			{
+				auto const INT_REGEX = QRegExp("[1-9][0-9]*");
+				w->setValidator(new QRegExpValidator(INT_REGEX, w));
+			}
+			w->setClearButtonEnabled(true);
+			w->setPlaceholderText(tr("Filter"));
+			w->setVisible(true);
+			filters.push_back(w);
+			connect(w, &QLineEdit::textEdited, this,
+			        &FilteringHeader::updateTableFilters);
+		}
+		connect(this, &FilteringHeader::sectionResized, this,
+		        &FilteringHeader::adjustFilters);
+		connect(this, &FilteringHeader::sectionClicked, this,
+		        &FilteringHeader::adjustFilters);
+		connect(parent.horizontalScrollBar(), &QScrollBar::valueChanged, this,
+		        &FilteringHeader::adjustFilters);
+		connect(parent.verticalScrollBar(), &QScrollBar::valueChanged, this,
+		        &FilteringHeader::adjustFilters);
+	}
+
+	QSize sizeHint() const override
+	{
+		QSize s = QHeaderView::sizeHint();
+		s.setHeight(s.height() + filters[0]->sizeHint().height());
+		return s;
+	}
+
+	void updateGeometries() override
+	{
+		setViewportMargins(0, 0, 0, filters[0]->sizeHint().height());
+		QHeaderView::updateGeometries();
+		adjustFilters();
+	}
+
+	void setModel(QSqlTableModel* newModel)
+	{
+		model = newModel;
+		updateTableFilters();
+	}
+private slots:
+	void adjustFilters()
+	{
+		int const y = QHeaderView::sizeHint().height();
+		int section = 0;
+		for(auto* f : filters)
+		{
+			f->move(sectionPosition(section) - offset(), y);
+			f->resize(sectionSize(section), f->sizeHint().height());
+			++section;
+		}
+	}
+
+	void updateTableFilters(QString const& text = "")
+	{
+		if(model == nullptr)
+			return;
+		model->setFilter(QString(R"("id" LIKE "%%1%" AND "name" LIKE "%%2%")")
+		                     .arg(filters[0]->text(), filters[1]->text()));
+		model->select();
+	}
+
+private:
+	QList<QLineEdit*> filters;
+	QSqlTableModel* model;
+};
 
 // public
 
@@ -194,6 +275,7 @@ MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
 	, spanishTranslator(std::make_unique<QTranslator>())
 	, ui(std::make_unique<Ui::MainWindow>())
+	, cardListFilter(nullptr) // Must be fully init'd later due to "setupUi".
 {
 	spanishTranslator->load(":/es");
 	QApplication::instance()->installTranslator(spanishTranslator.get());
@@ -212,6 +294,8 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::toEnglish);
 	connect(ui->cardCodeNameList, &QAbstractItemView::activated, this,
 	        &MainWindow::onCardsListItemActivated);
+	cardListFilter = new FilteringHeader(*ui->cardCodeNameList);
+	ui->cardCodeNameList->setHorizontalHeader(cardListFilter);
 	auto populate_cbs = [&](QListWidget* parent, auto const& fields)
 	{
 		using Item = QListWidgetItem;
@@ -291,6 +375,8 @@ void MainWindow::openDatabase()
 
 void MainWindow::closeDatabase()
 {
+	cardListFilter->setModel(nullptr);
+	ui->cardCodeNameList->setModel(nullptr);
 	auto db = QSqlDatabase::database();
 	if(db.isValid())
 	{
@@ -347,6 +433,7 @@ void MainWindow::fillCardList()
 {
 	auto db = QSqlDatabase::database();
 	auto* model = new CardCodeNameSqlModel(ui->cardCodeNameList, db);
+	cardListFilter->setModel(model);
 	ui->cardCodeNameList->setModel(model);
 	ui->cardCodeNameList->resizeColumnsToContents();
 }
