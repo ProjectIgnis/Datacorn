@@ -33,6 +33,8 @@ private slots:
 	void toEnglish();
 	void toSpanish();
 
+	void openHomepage();
+
 	void onCardsListItemActivated(QModelIndex const& index);
 
 private:

@@ -1,7 +1,7 @@
 #include "main_window.hpp"
 
 #include <QDateTime>
-// #include <QDesktopServices> // openUrl
+#include <QDesktopServices> // openUrl
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QRegExpValidator>
@@ -292,6 +292,8 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::toEnglish);
 	connect(ui->actionSpanish, &QAction::triggered, this,
 	        &MainWindow::toSpanish);
+	connect(ui->actionHomepage, &QAction::triggered, this,
+	        &MainWindow::openHomepage);
 	connect(ui->cardCodeNameList, &QAbstractItemView::activated, this,
 	        &MainWindow::onCardsListItemActivated);
 	cardListFilter = new FilteringHeader(*ui->cardCodeNameList);
@@ -405,6 +407,11 @@ void MainWindow::toSpanish()
 	ui->actionEnglish->setEnabled(true);
 	ui->actionEnglish->setChecked(false);
 	QApplication::instance()->installTranslator(spanishTranslator.get());
+}
+
+void MainWindow::openHomepage()
+{
+	QDesktopServices::openUrl(QUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
 }
 
 void MainWindow::onCardsListItemActivated(QModelIndex const& index)
