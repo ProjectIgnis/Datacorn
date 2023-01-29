@@ -38,7 +38,10 @@
      <number>1</number>
     </property>
     <item>
-     <widget class="QGroupBox" name="groupBox">
+     <widget class="QGroupBox" name="dbGroup">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="title">
        <string>Database</string>
       </property>
@@ -84,7 +87,10 @@
      </widget>
     </item>
     <item>
-     <widget class="QGroupBox" name="groupBox_2">
+     <widget class="QGroupBox" name="cardGroup">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="title">
        <string>Card Data</string>
       </property>
@@ -244,7 +250,7 @@
            <item>
             <widget class="QTabWidget" name="tabWidget_2">
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="tab_5">
               <attribute name="title">
@@ -818,6 +824,9 @@
    </property>
   </action>
   <action name="actionCloseDatabase">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Close Database</string>
    </property>
@@ -851,6 +860,9 @@
    </property>
   </action>
   <action name="actionSaveData">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Save Data</string>
    </property>

@@ -375,6 +375,7 @@ void MainWindow::openDatabase()
 	fillCardList();
 	QSqlQuery q(SQL_QUERY_FIRST_ROW_CODE, db);
 	q.first();
+	enableEditing(true);
 	updateUiWithCode(q.value(0).toUInt());
 }
 
@@ -388,6 +389,7 @@ void MainWindow::closeDatabase()
 		db.close();
 		QSqlDatabase::removeDatabase(db.connectionName());
 	}
+	enableEditing(false);
 	updateUiWithCode(0U);
 }
 
@@ -438,6 +440,14 @@ bool MainWindow::checkAndAskToCloseDb()
 		return true;
 	}
 	return false;
+}
+
+void MainWindow::enableEditing(bool editing)
+{
+	ui->actionCloseDatabase->setEnabled(editing);
+	ui->dbGroup->setEnabled(editing);
+	ui->cardGroup->setEnabled(editing);
+	ui->actionSaveData->setEnabled(editing);
 }
 
 void MainWindow::fillCardList()

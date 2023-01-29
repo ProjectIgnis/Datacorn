@@ -48,6 +48,7 @@ private:
 	std::unique_ptr<QListWidgetItem*[]> categoryCbs;
 
 	bool checkAndAskToCloseDb();
+	void enableEditing(bool editing);
 
 	void fillCardList();
 	void updateUiWithCode(quint32 code);
