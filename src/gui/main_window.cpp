@@ -21,6 +21,9 @@ namespace
 constexpr qint32 QMARK_ATK_DEF = -2;
 constexpr quint32 TYPE_LINK = 0x4000000;
 
+// Used to access archetype list item's value.
+constexpr auto ARCHETYPE_ROLE = Qt::UserRole + 1;
+
 struct BitField
 {
 	quint64 value;
@@ -323,8 +326,11 @@ MainWindow::MainWindow(QWidget* parent)
 	categoryCbs = populate_cbs(ui->categoriesWidget, CATEGORY_FIELDS);
 	auto const end = ARCHETYPES_MAP.constEnd();
 	for(auto it = ARCHETYPES_MAP.constBegin(); it != end; ++it)
-		ui->archeComboBox->addItem(formatSetcode(it.key(), it.value()),
-		                           it.key());
+	{
+		ui->archeComboBox->addItem(formatSetcode(it.key(), it.value()));
+		ui->archeComboBox->setItemData(ui->archeComboBox->count() - 1,
+		                               it.value(), ARCHETYPE_ROLE);
+	}
 }
 
 MainWindow::~MainWindow()
@@ -540,6 +546,8 @@ void MainWindow::updateUiWithCode(quint32 code)
 			auto const search = ARCHETYPES_MAP.find(setcode);
 			ui->archeList->addItem(formatSetcode(
 				setcode, search != end ? search.value() : nullptr));
+			auto& item = *ui->archeList->item(ui->archeList->count() - 1);
+			item.setData(ARCHETYPE_ROLE, setcode);
 		}
 	}
 	quint32 const type = q1.value(3).toUInt();
@@ -641,7 +649,23 @@ void MainWindow::updateCardWithUi()
 	};
 	q3.bindValue(0, code);
 	q3.bindValue(1, ui->aliasLineEdit->text().toUInt());
-	q3.bindValue(2, 0); // TODO: setcodes
+	q3.bindValue(
+		2,
+		[&]()
+		{
+			quint64 setcodes = 0;
+			// NOTE: Limitation of current DB schema.
+		    // Only 4 quint16 can fit in a quint64.
+			int const max = std::min(4, ui->archeList->count());
+			for(int i = 0; i < max; i++)
+			{
+				quint16 const setcode =
+					ui->archeList->item(i)->data(ARCHETYPE_ROLE).toUInt();
+				setcodes |= static_cast<quint64>(setcode & 0xFFFFU)
+			                << (i * 16U);
+			}
+			return setcodes;
+		}());
 	q3.bindValue(3, type);
 	q3.bindValue(4, ui->atkQmCheckBox->isChecked() ? QMARK_ATK_DEF
 	                                               : ui->atkSpinBox->value());
