@@ -47,6 +47,8 @@ private:
 	std::unique_ptr<QListWidgetItem*[]> scopeCbs;
 	std::unique_ptr<QListWidgetItem*[]> categoryCbs;
 
+	QString formatSetcode(quint16 code, char const* name) const;
+
 	bool checkAndAskToCloseDb();
 	void enableEditing(bool editing);
 

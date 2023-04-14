@@ -12,6 +12,7 @@
 #include <QSqlTableModel>
 #include <QTranslator>
 
+#include "../archetypes.hpp"
 #include "ui_main_window.h"
 
 namespace
@@ -320,6 +321,10 @@ MainWindow::MainWindow(QWidget* parent)
 	attributeCbs = populate_cbs(ui->attributesWidget, ATTRIBUTE_FIELDS);
 	scopeCbs = populate_cbs(ui->scopesWidget, SCOPE_FIELDS);
 	categoryCbs = populate_cbs(ui->categoriesWidget, CATEGORY_FIELDS);
+	auto const end = ARCHETYPES_MAP.constEnd();
+	for(auto it = ARCHETYPES_MAP.constBegin(); it != end; ++it)
+		ui->archeComboBox->addItem(formatSetcode(it.key(), it.value()),
+		                           it.key());
 }
 
 MainWindow::~MainWindow()
@@ -427,6 +432,13 @@ void MainWindow::onCardsListItemActivated(QModelIndex const& index)
 
 // private
 
+QString MainWindow::formatSetcode(quint16 code, char const* name) const
+{
+	QString const ret(R"(0x%1 | %2)");
+	auto const code_str = QString::number(code, 16);
+	return ret.arg(code_str, name == nullptr ? "???" : tr(name));
+}
+
 bool MainWindow::checkAndAskToCloseDb()
 {
 	if(!QSqlDatabase::database().isValid())
@@ -477,6 +489,7 @@ void MainWindow::updateUiWithCode(quint32 code)
 	ui->passLineEdit->setText("0");
 	ui->aliasLineEdit->setText("0");
 	ui->nameLineEdit->setText("");
+	ui->archeList->clear();
 	ui->descPlainTextEdit->setPlainText("");
 	ui->atkQmCheckBox->setChecked(false);
 	ui->atkSpinBox->setEnabled(true);
@@ -515,7 +528,20 @@ void MainWindow::updateUiWithCode(quint32 code)
 	// Populate the fields with the new data and strings
 	ui->passLineEdit->setText(q1.value(0).toString());
 	ui->aliasLineEdit->setText(q1.value(1).toString());
-	// TODO: 2 - setcodes / archetypes
+	{ // Setcode population
+		static constexpr auto MAX_SETCODES = 4;
+		auto const end = ARCHETYPES_MAP.constEnd();
+		quint64 const setcodes = q1.value(2).toULongLong();
+		for(unsigned i = 0U; i < MAX_SETCODES; i++)
+		{
+			quint16 const setcode = (setcodes >> (i * 16U)) & 0xFFFFU;
+			if(setcode == 0)
+				continue;
+			auto const search = ARCHETYPES_MAP.find(setcode);
+			ui->archeList->addItem(formatSetcode(
+				setcode, search != end ? search.value() : nullptr));
+		}
+	}
 	quint32 const type = q1.value(3).toUInt();
 	toggle_cbs(type, TYPE_FIELDS, typeCbs.get());
 	qint32 const atk = q1.value(4).toInt();
