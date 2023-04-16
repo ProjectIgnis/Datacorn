@@ -281,6 +281,7 @@ MainWindow::MainWindow(QWidget* parent)
 	, spanishTranslator(std::make_unique<QTranslator>())
 	, ui(std::make_unique<Ui::MainWindow>())
 	, cardListFilter(nullptr) // Must be fully init'd later due to "setupUi".
+	, customArchetype(false)
 {
 	spanishTranslator->load(":/es");
 	QApplication::instance()->installTranslator(spanishTranslator.get());
@@ -307,6 +308,10 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::onArcheListItemChanged);
 	connect(ui->cardCodeNameList, &QAbstractItemView::activated, this,
 	        &MainWindow::onCardsListItemActivated);
+	connect(ui->archeComboBox, QOverload<int>::of(&QComboBox::activated), this,
+	        &MainWindow::onArcheComboIndexActivated);
+	connect(ui->archeComboBox, &QComboBox::editTextChanged, this,
+	        &MainWindow::onArcheComboEditTextChanged);
 	setRegexValidator(*ui->passLineEdit, "[0-9]+");
 	setRegexValidator(*ui->aliasLineEdit, "[0-9]+");
 	cardListFilter = new FilteringHeader(*ui->cardCodeNameList);
@@ -330,6 +335,7 @@ MainWindow::MainWindow(QWidget* parent)
 	attributeCbs = populate_cbs(ui->attributesWidget, ATTRIBUTE_FIELDS);
 	scopeCbs = populate_cbs(ui->scopesWidget, SCOPE_FIELDS);
 	categoryCbs = populate_cbs(ui->categoriesWidget, CATEGORY_FIELDS);
+	ui->archeComboBox->blockSignals(true);
 	auto const end = ARCHETYPES_MAP.constEnd();
 	for(auto it = ARCHETYPES_MAP.constBegin(); it != end; ++it)
 	{
@@ -337,6 +343,8 @@ MainWindow::MainWindow(QWidget* parent)
 		ui->archeComboBox->setItemData(ui->archeComboBox->count() - 1, it.key(),
 		                               ARCHETYPE_ROLE);
 	}
+	ui->archeComboBox->setCurrentIndex(0);
+	ui->archeComboBox->blockSignals(false);
 }
 
 MainWindow::~MainWindow()
@@ -441,15 +449,38 @@ void MainWindow::addArchetypeToList(bool clicked)
 {
 	if(ui->archeList->count() >= 4 &&
 	   QMessageBox::question(
-		   this, tr("Add archetype?"),
-		   tr("The Database schema can only save up to 4 archetypes, even if "
+		   this, tr("Add Archetype?"),
+		   tr("The database schema can only save up to 4 archetypes, even if "
 	          "you add this one it won't be saved. Proceed anyways?")) !=
 	       QMessageBox::Yes)
 		return;
-	// Easy case: Just append the currently selected archetype from the
-	// ComboBox's data.
-	addArchetype(static_cast<quint16>(
-		ui->archeComboBox->currentData(ARCHETYPE_ROLE).toUInt()));
+	if(!customArchetype)
+	{
+		// Easy case: Just append the currently selected archetype from the
+		// ComboBox's data.
+		addArchetype(static_cast<quint16>(
+			ui->archeComboBox->currentData(ARCHETYPE_ROLE).toUInt()));
+		return;
+	}
+	// Here we do a best effort to parse the ComboBox's current text and get
+	// the archetype's code either in decimal or hexadecimal.
+	auto const text = ui->archeComboBox->currentText().split('|')[0];
+	quint16 setcode;
+	bool ok;
+	for(auto base : {10, 16})
+	{
+		setcode = text.toUInt(&ok, base);
+		if(ok && setcode != 0)
+		{
+			addArchetype(setcode);
+			return;
+		}
+	}
+	QMessageBox::critical(
+		this, tr("Couldn't Parse Archetype"),
+		tr("The currently set archetype could not be parsed either in decimal "
+	       "or hexadecimal format. Either fix the format or select one of the "
+	       "preset archetypes from the list."));
 }
 
 void MainWindow::removeArchetypeFromList(bool clicked)
@@ -463,6 +494,17 @@ void MainWindow::onArcheListItemChanged(QListWidgetItem* current,
                                         QListWidgetItem* previous)
 {
 	ui->removeArcheButton->setEnabled(current != nullptr);
+}
+
+void MainWindow::onArcheComboIndexActivated(int index)
+{
+	customArchetype = false;
+}
+
+void MainWindow::onArcheComboEditTextChanged(QString const& text)
+{
+	customArchetype = true;
+	ui->addArcheButton->setEnabled(!text.isEmpty());
 }
 
 void MainWindow::onCardsListItemActivated(QModelIndex const& index)

@@ -39,6 +39,8 @@ private slots:
 	void removeArchetypeFromList(bool clicked);
 	void onArcheListItemChanged(QListWidgetItem* current,
 	                            QListWidgetItem* previous);
+	void onArcheComboIndexActivated(int index);
+	void onArcheComboEditTextChanged(QString const& text);
 
 	void onCardsListItemActivated(QModelIndex const& index);
 
@@ -46,6 +48,7 @@ private:
 	std::unique_ptr<QTranslator> spanishTranslator;
 	std::unique_ptr<Ui::MainWindow> ui;
 	FilteringHeader* cardListFilter;
+	bool customArchetype;
 	std::unique_ptr<QListWidgetItem*[]> typeCbs;
 	std::unique_ptr<QListWidgetItem*[]> raceCbs;
 	std::unique_ptr<QListWidgetItem*[]> attributeCbs;
