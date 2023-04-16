@@ -299,6 +299,12 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::toSpanish);
 	connect(ui->actionHomepage, &QAction::triggered, this,
 	        &MainWindow::openHomepage);
+	connect(ui->addArcheButton, &QPushButton::clicked, this,
+	        &MainWindow::addArchetypeToList);
+	connect(ui->removeArcheButton, &QPushButton::clicked, this,
+	        &MainWindow::removeArchetypeFromList);
+	connect(ui->archeList, &QListWidget::currentItemChanged, this,
+	        &MainWindow::onArcheListItemChanged);
 	connect(ui->cardCodeNameList, &QAbstractItemView::activated, this,
 	        &MainWindow::onCardsListItemActivated);
 	setRegexValidator(*ui->passLineEdit, "[0-9]+");
@@ -327,9 +333,9 @@ MainWindow::MainWindow(QWidget* parent)
 	auto const end = ARCHETYPES_MAP.constEnd();
 	for(auto it = ARCHETYPES_MAP.constBegin(); it != end; ++it)
 	{
-		ui->archeComboBox->addItem(formatSetcode(it.key(), it.value()));
-		ui->archeComboBox->setItemData(ui->archeComboBox->count() - 1,
-		                               it.value(), ARCHETYPE_ROLE);
+		ui->archeComboBox->addItem(formatArchetype(it.key(), it.value()));
+		ui->archeComboBox->setItemData(ui->archeComboBox->count() - 1, it.key(),
+		                               ARCHETYPE_ROLE);
 	}
 }
 
@@ -431,6 +437,34 @@ void MainWindow::openHomepage()
 		QUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
 }
 
+void MainWindow::addArchetypeToList(bool clicked)
+{
+	if(ui->archeList->count() >= 4 &&
+	   QMessageBox::question(
+		   this, tr("Add archetype?"),
+		   tr("The Database schema can only save up to 4 archetypes, even if "
+	          "you add this one it won't be saved. Proceed anyways?")) !=
+	       QMessageBox::Yes)
+		return;
+	// Easy case: Just append the currently selected archetype from the
+	// ComboBox's data.
+	addArchetype(static_cast<quint16>(
+		ui->archeComboBox->currentData(ARCHETYPE_ROLE).toUInt()));
+}
+
+void MainWindow::removeArchetypeFromList(bool clicked)
+{
+	Q_ASSERT(ui->archeList->currentItem() != nullptr);
+	delete ui->archeList->takeItem(
+		ui->archeList->row(ui->archeList->currentItem()));
+}
+
+void MainWindow::onArcheListItemChanged(QListWidgetItem* current,
+                                        QListWidgetItem* previous)
+{
+	ui->removeArcheButton->setEnabled(current != nullptr);
+}
+
 void MainWindow::onCardsListItemActivated(QModelIndex const& index)
 {
 	updateUiWithCode(index.siblingAtColumn(0).data().toUInt());
@@ -438,11 +472,20 @@ void MainWindow::onCardsListItemActivated(QModelIndex const& index)
 
 // private
 
-QString MainWindow::formatSetcode(quint16 code, char const* name) const
+QString MainWindow::formatArchetype(quint16 code, char const* name) const
 {
 	QString const ret(R"(0x%1 | %2)");
 	auto const code_str = QString::number(code, 16);
 	return ret.arg(code_str, name == nullptr ? "???" : tr(name));
+}
+
+void MainWindow::addArchetype(quint16 code)
+{
+	auto const search = ARCHETYPES_MAP.find(code);
+	ui->archeList->addItem(formatArchetype(
+		code, search != ARCHETYPES_MAP.constEnd() ? search.value() : nullptr));
+	auto& item = *ui->archeList->item(ui->archeList->count() - 1);
+	item.setData(ARCHETYPE_ROLE, code);
 }
 
 bool MainWindow::checkAndAskToCloseDb()
@@ -536,18 +579,13 @@ void MainWindow::updateUiWithCode(quint32 code)
 	ui->aliasLineEdit->setText(q1.value(1).toString());
 	{ // Setcode population
 		static constexpr auto MAX_SETCODES = 4;
-		auto const end = ARCHETYPES_MAP.constEnd();
 		quint64 const setcodes = q1.value(2).toULongLong();
 		for(unsigned i = 0U; i < MAX_SETCODES; i++)
 		{
 			quint16 const setcode = (setcodes >> (i * 16U)) & 0xFFFFU;
 			if(setcode == 0)
 				continue;
-			auto const search = ARCHETYPES_MAP.find(setcode);
-			ui->archeList->addItem(formatSetcode(
-				setcode, search != end ? search.value() : nullptr));
-			auto& item = *ui->archeList->item(ui->archeList->count() - 1);
-			item.setData(ARCHETYPE_ROLE, setcode);
+			addArchetype(setcode);
 		}
 	}
 	quint32 const type = q1.value(3).toUInt();

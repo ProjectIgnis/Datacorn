@@ -35,6 +35,11 @@ private slots:
 
 	void openHomepage();
 
+	void addArchetypeToList(bool clicked);
+	void removeArchetypeFromList(bool clicked);
+	void onArcheListItemChanged(QListWidgetItem* current,
+	                            QListWidgetItem* previous);
+
 	void onCardsListItemActivated(QModelIndex const& index);
 
 private:
@@ -47,7 +52,8 @@ private:
 	std::unique_ptr<QListWidgetItem*[]> scopeCbs;
 	std::unique_ptr<QListWidgetItem*[]> categoryCbs;
 
-	QString formatSetcode(quint16 code, char const* name) const;
+	QString formatArchetype(quint16 code, char const* name) const;
+	void addArchetype(quint16 code);
 
 	bool checkAndAskToCloseDb();
 	void enableEditing(bool editing);

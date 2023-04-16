@@ -604,6 +604,9 @@
             <layout class="QVBoxLayout" name="verticalLayout_13">
              <item>
               <widget class="QPushButton" name="removeArcheButton">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="maximumSize">
                 <size>
                  <width>40</width>
