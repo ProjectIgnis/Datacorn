@@ -157,6 +157,48 @@ constexpr std::array const CATEGORY_FIELDS{
 
 QString const SQL_DB_DRIVER("QSQLITE");
 
+QString const SDL_QUERY_CREATE_DATAS_TABLE(R"(
+CREATE TABLE IF NOT EXISTS "datas" (
+	"id"        INTEGER,
+	"ot"        INTEGER,
+	"alias"     INTEGER,
+	"setcode"   INTEGER,
+	"type"      INTEGER,
+	"atk"       INTEGER,
+	"def"       INTEGER,
+	"level"     INTEGER,
+	"race"      INTEGER,
+	"attribute" INTEGER,
+	"category"  INTEGER,
+	PRIMARY KEY("id")
+);
+)");
+
+QString const SDL_QUERY_CREATE_TEXTS_TABLE(R"(
+CREATE TABLE IF NOT EXISTS "texts" (
+	"id"    INTEGER,
+	"name"  TEXT,
+	"desc"  TEXT,
+	"str1"  TEXT,
+	"str2"  TEXT,
+	"str3"  TEXT,
+	"str4"  TEXT,
+	"str5"  TEXT,
+	"str6"  TEXT,
+	"str7"  TEXT,
+	"str8"  TEXT,
+	"str9"  TEXT,
+	"str10" TEXT,
+	"str11" TEXT,
+	"str12" TEXT,
+	"str13" TEXT,
+	"str14" TEXT,
+	"str15" TEXT,
+	"str16" TEXT,
+	PRIMARY KEY("id")
+);
+)");
+
 QString const SQL_QUERY_FIRST_ROW_CODE(R"(
 SELECT id FROM datas ORDER BY ROWID ASC LIMIT 1;
 )");
@@ -395,7 +437,25 @@ void MainWindow::changeEvent(QEvent* event)
 
 void MainWindow::newDatabase()
 {
-	// TODO
+	if(!checkAndAskToCloseDb())
+		return;
+	const QString file = QFileDialog::getSaveFileName(
+		this, tr("Save Database As"), ".",
+		tr("YGOPro Database (*.cdb *.db *.sqlite)"));
+	if(file.isEmpty())
+		return;
+	QFile::remove(file);
+	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER);
+	db.setDatabaseName(file);
+	if(!db.open())
+	{
+		// TODO: show message
+		return;
+	}
+	QSqlQuery(SDL_QUERY_CREATE_DATAS_TABLE, db);
+	QSqlQuery(SDL_QUERY_CREATE_TEXTS_TABLE, db);
+	fillCardList();
+	enableEditing(true);
 }
 
 void MainWindow::openDatabase()
@@ -452,6 +512,7 @@ void MainWindow::closeDatabase()
 void MainWindow::saveData()
 {
 	updateCardWithUi();
+	ui->cardCodeNameList->update();
 }
 
 void MainWindow::toEnglish()
