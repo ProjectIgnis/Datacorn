@@ -22,11 +22,11 @@ jobs:
         7z x qt.7z
         rm qt.7z
     - name: Fixup qt 5.6 library names
-      shell: bash
+      shell: cmd
       run: |
-        cp C:\Qt\5.6.3-Static-XP\plugins\platforms\qwindows.lib C:\Qt\5.6.3-Static-XP\lib\qt5windows.lib
-        cp C:\Qt\5.6.3-Static-XP\lib\qtfreetype.lib C:\Qt\5.6.3-Static-XP\lib\qt5freetype.lib
-        cp C:\Qt\5.6.3-Static-XP\lib\qtpcre.lib C:\Qt\5.6.3-Static-XP\lib\qt5pcre.lib
+        copy C:\Qt\5.6.3-Static-XP\plugins\platforms\qwindows.lib C:\Qt\5.6.3-Static-XP\lib\qt5windows.lib
+        copy C:\Qt\5.6.3-Static-XP\lib\qtfreetype.lib C:\Qt\5.6.3-Static-XP\lib\qt5freetype.lib
+        copy C:\Qt\5.6.3-Static-XP\lib\qtpcre.lib C:\Qt\5.6.3-Static-XP\lib\qt5pcre.lib
     - name: Fix Boost.Filesystem library location
       shell: bash
       run: |
