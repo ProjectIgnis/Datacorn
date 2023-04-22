@@ -383,7 +383,8 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::onArcheListItemChanged);
 	connect(ui->cardCodeNameList, &QAbstractItemView::activated, this,
 	        &MainWindow::onCardsListItemActivated);
-	connect(ui->archeComboBox, QOverload<int>::of(&QComboBox::activated), this,
+	connect(ui->archeComboBox,
+	        static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
 	        &MainWindow::onArcheComboIndexActivated);
 	connect(ui->archeComboBox, &QComboBox::editTextChanged, this,
 	        &MainWindow::onArcheComboEditTextChanged);
@@ -603,7 +604,7 @@ void MainWindow::onArcheComboEditTextChanged(QString const& text)
 
 void MainWindow::onCardsListItemActivated(QModelIndex const& index)
 {
-	updateUiWithCode(index.siblingAtColumn(0).data().toUInt());
+	updateUiWithCode(index.sibling(index.row(), 0).data().toUInt());
 }
 
 // private
