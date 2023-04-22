@@ -1,5 +1,6 @@
 #include "main_window.hpp"
 
+#include <array>
 #include <QDateTime>
 #include <QDesktopServices> // openUrl
 #include <QFileDialog>

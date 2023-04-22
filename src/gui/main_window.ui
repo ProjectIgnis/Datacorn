@@ -436,7 +436,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>⬆</string>
+                    <string>↑</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -474,7 +474,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>⬅</string>
+                    <string>←</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -493,7 +493,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>➡</string>
+                    <string>→</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -531,7 +531,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>⬇</string>
+                    <string>↓</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>

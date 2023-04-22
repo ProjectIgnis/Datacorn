@@ -2,6 +2,7 @@
 #define ARCHETYPES_HPP
 #include <QMap>
 #include <QtGlobal> // quint16
+#include <utility>
 
 using Archetype = std::pair<quint16, char const*>;
 
