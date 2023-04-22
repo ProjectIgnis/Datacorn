@@ -827,7 +827,7 @@
      <bool>true</bool>
     </property>
     <property name="title">
-     <string>Database</string>
+     <string>&amp;Database</string>
     </property>
     <addaction name="actionNewDatabase"/>
     <addaction name="actionOpenDatabase"/>
@@ -835,17 +835,17 @@
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>&amp;Help</string>
     </property>
     <addaction name="actionHomepage"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
-     <string>Options</string>
+     <string>&amp;Options</string>
     </property>
     <widget class="QMenu" name="menuLanguage">
      <property name="title">
-      <string>Language</string>
+      <string>&amp;Language</string>
      </property>
      <addaction name="actionEnglish"/>
      <addaction name="actionSpanish"/>
@@ -854,7 +854,7 @@
    </widget>
    <widget class="QMenu" name="menuCard">
     <property name="title">
-     <string>Card</string>
+     <string>&amp;Card</string>
     </property>
     <addaction name="actionSaveData"/>
    </widget>
@@ -865,17 +865,17 @@
   </widget>
   <action name="actionNewDatabase">
    <property name="text">
-    <string>New Database...</string>
+    <string>&amp;New Database...</string>
    </property>
   </action>
   <action name="actionOpenDatabase">
    <property name="text">
-    <string>Open Database...</string>
+    <string>&amp;Open Database...</string>
    </property>
   </action>
   <action name="actionHomepage">
    <property name="text">
-    <string>Homepage</string>
+    <string>&amp;Homepage</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -891,7 +891,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Close Database</string>
+    <string>&amp;Close Database</string>
    </property>
   </action>
   <action name="actionSpanish">
@@ -927,7 +927,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Save Data</string>
+    <string>&amp;Save Data</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
