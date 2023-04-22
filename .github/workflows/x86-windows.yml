@@ -41,7 +41,7 @@ jobs:
       run: |
         set PATH=C:\Qt\5.6.3-Static-XP\bin;%PATH%
         meson setup build -Dbackend=vs2017 -Dbuildtype=release -Dstrip=true -Db_lto=true -Db_ndebug=true -Db_vscrt=mt
-        meson compile -C build -j2
+        meson compile -C build
     - name: Setup directory with artifacts
       shell: bash
       run: |
