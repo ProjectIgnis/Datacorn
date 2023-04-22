@@ -1,7 +1,5 @@
 name: x86-windows
 on: push
-env:
-  VCPKG_TRIPLET: x86-windows-static
 jobs:
   x86-windows:
     runs-on: windows-2019
@@ -27,11 +25,6 @@ jobs:
         copy C:\Qt\5.6.3-Static-XP\plugins\platforms\qwindows.lib C:\Qt\5.6.3-Static-XP\lib\qt5windows.lib
         copy C:\Qt\5.6.3-Static-XP\lib\qtfreetype.lib C:\Qt\5.6.3-Static-XP\lib\qt5freetype.lib
         copy C:\Qt\5.6.3-Static-XP\lib\qtpcre.lib C:\Qt\5.6.3-Static-XP\lib\qt5pcre.lib
-    - name: Fix Boost.Filesystem library location
-      shell: bash
-      run: |
-        VCPKG_LIBRARYDIR=$VCPKG_ROOT/installed/$VCPKG_TRIPLET/lib
-        cp $VCPKG_LIBRARYDIR/boost_filesystem-vc140-mt.lib $VCPKG_LIBRARYDIR/libboost_filesystem-vc140-mt-s.lib
     - name: Set x86 windows build tools as default
       uses: ilammy/msvc-dev-cmd@v1
       with:
