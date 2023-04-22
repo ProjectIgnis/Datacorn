@@ -3,7 +3,7 @@ project('datacorn', 'cpp',
 )
 
 qt_mod = import('qt5')
-qt_dep = dependency('qt5', modules : ['Core', 'Gui', 'Widgets', 'Sql'])
+qt_dep = dependency('qt5', modules : ['Core', 'Gui', 'Widgets', 'Sql'],  main: true)
 
 src_files = files([
 	'src/main.cpp',
@@ -27,18 +27,20 @@ processed_src_files = qt_mod.preprocess(
 is_windows = host_machine.system() == 'windows'
 
 rc_file = []
+static_dep = []
 if is_windows
 	win = import('windows')
 	rc_file = win.compile_resources(
 		'res/res.rc',
 		depend_files : 'res/icon.ico',
 	)
+	subdir('staticqt')
 endif
 
 executable(
 	'datacorn',
 	[src_files, processed_src_files, rc_file],
-	dependencies : qt_dep,
+	dependencies : [qt_dep, static_dep],
 	gui_app : true,
 	link_args : is_windows ? ['-static', '-static-libgcc', '-static-libstdc++'] : []
 )

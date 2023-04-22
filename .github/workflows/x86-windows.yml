@@ -1,0 +1,62 @@
+name: x86-windows
+on: push
+env:
+  VCPKG_TRIPLET: x86-windows-static
+jobs:
+  x86-windows:
+    runs-on: windows-2019
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Install pre-requisites
+      shell: bash
+      run: |
+        pip install meson
+    - name: Download prebuilt qt 5.6
+      shell: bash
+      run: |
+        mkdir C:/Qt
+        cd C:/Qt
+        curl --retry 5 --connect-timeout 30 --location --remote-header-name --output qt.7z https://github.com/xavery/qt563xp/releases/download/1.2/Qt-5.6.3-Static-XP.7z
+        7z x qt.7z
+        rm qt.7z
+    - name: Fixup qt 5.6 library names
+      shell: bash
+      run: |
+        cp C:\Qt\5.6.3-Static-XP\plugins\platforms\qwindows.lib C:\Qt\5.6.3-Static-XP\lib\qt5windows.lib
+        cp C:\Qt\5.6.3-Static-XP\lib\qtfreetype.lib C:\Qt\5.6.3-Static-XP\lib\qt5freetype.lib
+        cp C:\Qt\5.6.3-Static-XP\lib\qtpcre.lib C:\Qt\5.6.3-Static-XP\lib\qt5pcre.lib
+    - name: Fix Boost.Filesystem library location
+      shell: bash
+      run: |
+        VCPKG_LIBRARYDIR=$VCPKG_ROOT/installed/$VCPKG_TRIPLET/lib
+        cp $VCPKG_LIBRARYDIR/boost_filesystem-vc140-mt.lib $VCPKG_LIBRARYDIR/libboost_filesystem-vc140-mt-s.lib
+    - name: Set x86 windows build tools as default
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+          arch: win32
+          toolset: 14.16
+    - name: Make v141_xp toolset v141
+      shell: bash
+      run: |
+        cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v150\Platforms\Win32\PlatformToolsets"
+        rm -r v141 || true
+        mv v141_xp v141
+    - name: Meson build
+      shell: cmd
+      run: |
+        set PATH="C:\Qt\5.6.3-Static-XP\bin;%PATH%"
+        meson setup build -Dbackend=vs2017 -Dbuildtype=release -Dstrip=true -Db_lto=true -Db_ndebug=true -Db_vscrt=m
+        meson compile -C build -j2
+    - name: Setup directory with artifacts
+      shell: bash
+      run: |
+        export RDIR=Datacorn
+        mkdir $RDIR
+        cp build/datacorn.exe $RDIR/
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: Datacorn
+        path: Datacorn/
