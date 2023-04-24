@@ -359,7 +359,6 @@ MainWindow::MainWindow(QWidget* parent)
 	, customArchetype(false)
 {
 	spanishTranslator->load(":/es");
-	QApplication::instance()->installTranslator(spanishTranslator.get());
 	ui->setupUi(this);
 	connect(ui->actionNewDatabase, &QAction::triggered, this,
 	        &MainWindow::newDatabase);
