@@ -1,0 +1,30 @@
+name: x64-linux
+on: push
+jobs:
+  x64-linux:
+    runs-on: ubuntu-latest
+    container: ubuntu:18.04
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Install dependencies
+      run: |
+        apt-get update
+        apt-get --no-install-recommends --yes install build-essential g++ ninja-build python3-pip qt5-default qttools5-dev-tools
+        pip3 install meson
+    - name: Meson build
+      run: |
+        meson setup build -Dbuildtype=release -Dstrip=true -Db_lto=true -Db_ndebug=true
+        meson compile -C build -j2
+    - name: Setup directory with artifacts
+      shell: bash
+      run: |
+        export RDIR=Datacorn
+        mkdir $RDIR
+        cp build/datacorn $RDIR/
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: Datacorn
+        path: Datacorn/
