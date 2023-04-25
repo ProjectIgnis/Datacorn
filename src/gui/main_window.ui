@@ -137,7 +137,7 @@
               <string/>
              </property>
              <property name="text">
-              <string>0</string>
+              <string notr="true">0</string>
              </property>
              <property name="maxLength">
               <number>10</number>
@@ -167,7 +167,7 @@
               <string/>
              </property>
              <property name="text">
-              <string>0</string>
+              <string notr="true">0</string>
              </property>
              <property name="maxLength">
               <number>10</number>
@@ -306,14 +306,14 @@
                    <item>
                     <widget class="QLabel" name="atkLabel">
                      <property name="text">
-                      <string>ATK</string>
+                      <string notr="true">ATK</string>
                      </property>
                     </widget>
                    </item>
                    <item>
                     <widget class="QCheckBox" name="atkQmCheckBox">
                      <property name="text">
-                      <string>?</string>
+                      <string notr="true">?</string>
                      </property>
                     </widget>
                    </item>
@@ -378,14 +378,14 @@
                    <item>
                     <widget class="QLabel" name="defLabel">
                      <property name="text">
-                      <string>DEF</string>
+                      <string notr="true">DEF</string>
                      </property>
                     </widget>
                    </item>
                    <item>
                     <widget class="QCheckBox" name="defQmCheckBox">
                      <property name="text">
-                      <string>?</string>
+                      <string notr="true">?</string>
                      </property>
                     </widget>
                    </item>
@@ -417,7 +417,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>↖</string>
+                    <string notr="true">↖</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -436,7 +436,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>↑</string>
+                    <string notr="true">↑</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -455,7 +455,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>↗</string>
+                    <string notr="true">↗</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -474,7 +474,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>←</string>
+                    <string notr="true">←</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -493,7 +493,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>→</string>
+                    <string notr="true">→</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -512,7 +512,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>↙</string>
+                    <string notr="true">↙</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -531,7 +531,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>↓</string>
+                    <string notr="true">↓</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -550,7 +550,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>↘</string>
+                    <string notr="true">↘</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -614,7 +614,7 @@
                 </size>
                </property>
                <property name="text">
-                <string>-</string>
+                <string notr="true">-</string>
                </property>
               </widget>
              </item>
@@ -642,7 +642,7 @@
               </size>
              </property>
              <property name="text">
-              <string>+</string>
+              <string notr="true">+</string>
              </property>
             </widget>
            </item>
@@ -819,7 +819,7 @@
      <x>0</x>
      <y>0</y>
      <width>798</width>
-     <height>30</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDatabase">
