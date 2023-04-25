@@ -23,6 +23,7 @@ jobs:
       shell: cmd
       run: |
         copy C:\Qt\5.6.3-Static-XP\plugins\platforms\qwindows.lib C:\Qt\5.6.3-Static-XP\lib\qt5windows.lib
+        copy C:\Qt\5.6.3-Static-XP\plugins\imageformats\qico.lib C:\Qt\5.6.3-Static-XP\lib\qt5ico.lib
         copy C:\Qt\5.6.3-Static-XP\lib\qtfreetype.lib C:\Qt\5.6.3-Static-XP\lib\qt5freetype.lib
         copy C:\Qt\5.6.3-Static-XP\lib\qtpcre.lib C:\Qt\5.6.3-Static-XP\lib\qt5pcre.lib
     - name: Set x86 windows build tools as default
