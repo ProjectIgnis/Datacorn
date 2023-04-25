@@ -11,7 +11,7 @@ jobs:
     - name: Install dependencies
       run: |
         apt-get update
-        apt-get --no-install-recommends --yes install build-essential g++ ninja-build python3-pip qt5-default
+        apt-get --no-install-recommends --yes install build-essential g++ ninja-build python3-pip qt5-default qttools5-dev-tools
         pip3 install meson
     - name: Meson build
       run: |

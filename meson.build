@@ -29,23 +29,19 @@ src_files = files([
 	'src/gui/main_window.cpp'
 ])
 
-moc_header_files = files([
+moc_files = qt_mod.compile_moc(headers : files([
 	'src/gui/main_window.hpp'
-])
+]))
 
-ui_files = files([
+ui_files = qt_mod.compile_ui(sources : files([
 	'src/gui/main_window.ui'
-])
+]))
 
-processed_src_files = qt_mod.preprocess(
-	moc_headers : moc_header_files,
-	ui_files : ui_files,
-	qresources : 'res/res.qrc'
-)
+subdir('res') # Provides ts_files and res_files
 
 executable(
 	'datacorn',
-	[src_files, processed_src_files, win_rc_file],
+	[src_files, moc_files, ui_files, ts_files, res_files, win_rc_file],
 	dependencies : [qt_dep, win_deps],
 	gui_app : true,
 	link_args : is_windows ? ['-static', '-static-libgcc', '-static-libstdc++'] : []
