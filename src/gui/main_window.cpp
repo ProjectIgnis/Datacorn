@@ -1,6 +1,5 @@
 #include "main_window.hpp"
 
-#include <array>
 #include <QDateTime>
 #include <QDesktopServices> // openUrl
 #include <QFileDialog>
@@ -13,6 +12,7 @@
 #include <QSqlTableModel>
 #include <QString>
 #include <QTranslator>
+#include <array>
 #include <ui_main_window.h>
 
 #include "../archetypes.hpp"
