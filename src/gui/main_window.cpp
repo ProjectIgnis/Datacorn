@@ -11,10 +11,11 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlTableModel>
+#include <QString>
 #include <QTranslator>
+#include <ui_main_window.h>
 
 #include "../archetypes.hpp"
-#include "ui_main_window.h"
 
 namespace
 {
@@ -430,7 +431,19 @@ MainWindow::~MainWindow()
 void MainWindow::changeEvent(QEvent* event)
 {
 	if(event->type() == QEvent::LanguageChange)
+	{
 		ui->retranslateUi(this);
+		auto retranslate_cbs = [&](auto const& fields, QListWidgetItem** cbs)
+		{
+			for(size_t i = 0; i < fields.size(); ++i)
+				cbs[i]->setText(tr(fields[i].name));
+		};
+		retranslate_cbs(TYPE_FIELDS, typeCbs.get());
+		retranslate_cbs(RACE_FIELDS, raceCbs.get());
+		retranslate_cbs(ATTRIBUTE_FIELDS, attributeCbs.get());
+		retranslate_cbs(SCOPE_FIELDS, scopeCbs.get());
+		retranslate_cbs(CATEGORY_FIELDS, categoryCbs.get());
+	}
 	else
 		QWidget::changeEvent(event);
 }
