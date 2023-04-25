@@ -2,6 +2,12 @@
 #include <QCoreApplication>
 #include <QTranslator>
 
+#ifdef Q_OS_WIN
+// Needed to ensure that the platform plugin is statically linked.
+#include <QtPlugin>
+Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
+#endif // Q_OS_WIN
+
 #include "gui/main_window.hpp"
 
 int main(int argc, char* argv[])
