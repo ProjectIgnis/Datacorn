@@ -11,7 +11,7 @@ jobs:
     - name: Install dependencies
       run: |
         apt-get update
-        apt-get --no-install-recommends --yes install build-essential g++ meson pip3 qt5-default
+        apt-get --no-install-recommends --yes install build-essential g++ meson qt5-default
     - name: Meson build
       run: |
         meson setup build -Dbuildtype=release -Dstrip=true -Db_lto=true -Db_ndebug=true
