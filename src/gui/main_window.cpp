@@ -161,45 +161,49 @@ constexpr std::array const CATEGORY_FIELDS{
 QString const SQL_DB_DRIVER("QSQLITE");
 
 QString const SDL_QUERY_CREATE_DATAS_TABLE(R"(
-CREATE TABLE IF NOT EXISTS "datas" (
-	"id"        INTEGER,
-	"ot"        INTEGER,
-	"alias"     INTEGER,
-	"setcode"   INTEGER,
-	"type"      INTEGER,
-	"atk"       INTEGER,
-	"def"       INTEGER,
-	"level"     INTEGER,
-	"race"      INTEGER,
-	"attribute" INTEGER,
-	"category"  INTEGER,
-	PRIMARY KEY("id")
-);
+CREATE TABLE "datas" (
+    "id"        INTEGER,
+    "ot"        INTEGER,
+    "alias"     INTEGER,
+    "setcode"   INTEGER,
+    "type"      INTEGER,
+    "atk"       INTEGER,
+    "def"       INTEGER,
+    "level"     INTEGER,
+    "race"      INTEGER,
+    "attribute" INTEGER,
+    "category"  INTEGER,
+    PRIMARY KEY("id")
+)
 )");
 
 QString const SDL_QUERY_CREATE_TEXTS_TABLE(R"(
-CREATE TABLE IF NOT EXISTS "texts" (
-	"id"    INTEGER,
-	"name"  TEXT,
-	"desc"  TEXT,
-	"str1"  TEXT,
-	"str2"  TEXT,
-	"str3"  TEXT,
-	"str4"  TEXT,
-	"str5"  TEXT,
-	"str6"  TEXT,
-	"str7"  TEXT,
-	"str8"  TEXT,
-	"str9"  TEXT,
-	"str10" TEXT,
-	"str11" TEXT,
-	"str12" TEXT,
-	"str13" TEXT,
-	"str14" TEXT,
-	"str15" TEXT,
-	"str16" TEXT,
-	PRIMARY KEY("id")
-);
+CREATE TABLE "texts" (
+    "id"    INTEGER,
+    "name"  TEXT,
+    "desc"  TEXT,
+    "str1"  TEXT,
+    "str2"  TEXT,
+    "str3"  TEXT,
+    "str4"  TEXT,
+    "str5"  TEXT,
+    "str6"  TEXT,
+    "str7"  TEXT,
+    "str8"  TEXT,
+    "str9"  TEXT,
+    "str10" TEXT,
+    "str11" TEXT,
+    "str12" TEXT,
+    "str13" TEXT,
+    "str14" TEXT,
+    "str15" TEXT,
+    "str16" TEXT,
+    PRIMARY KEY("id")
+)
+)");
+
+const QString SQL_QUERY_TABLE_SCHEMA(R"(
+SELECT sql FROM sqlite_master WHERE type = "table" AND name = ?;
 )");
 
 QString const SQL_QUERY_FIRST_ROW_CODE(R"(
@@ -248,7 +252,8 @@ inline void setChecked(QListWidgetItem* item, bool value) noexcept
 
 inline void setRegexValidator(QLineEdit& parent, QString const& regex)
 {
-	parent.setValidator(new QRegularExpressionValidator(QRegularExpression(regex), &parent));
+	parent.setValidator(
+		new QRegularExpressionValidator(QRegularExpression(regex), &parent));
 }
 
 class CardCodeNameSqlModel final : public QSqlTableModel
@@ -477,7 +482,23 @@ void MainWindow::openDatabase()
 {
 	auto does_db_have_correct_format = [&](QSqlDatabase& db)
 	{
-		return true; // TODO
+		QSqlQuery q(db);
+		Q_ASSERT(q.prepare(SQL_QUERY_TABLE_SCHEMA));
+		// Verify 'datas' table
+		q.bindValue(0, "datas");
+		if(!q.exec() || !q.first())
+			return false;
+		if(q.value(0).toString().simplified() !=
+		   SDL_QUERY_CREATE_DATAS_TABLE.simplified())
+			return false;
+		// Verify 'texts' table
+		q.bindValue(0, "texts");
+		if(!q.exec() || !q.first())
+			return false;
+		if(q.value(0).toString().simplified() !=
+		   SDL_QUERY_CREATE_TEXTS_TABLE.simplified())
+			return false;
+		return true;
 	};
 	if(!checkAndAskToCloseDb())
 		return;
@@ -714,12 +735,12 @@ void MainWindow::updateUiWithCode(quint32 code)
 	auto db = QSqlDatabase::database();
 	Q_ASSERT(db.isValid());
 	QSqlQuery q1(db);
-	q1.prepare(SQL_QUERY_DATA);
+	Q_ASSERT(q1.prepare(SQL_QUERY_DATA));
 	q1.bindValue(0, code);
 	bool const q1result = q1.exec() && q1.first();
 	Q_ASSERT(q1result);
 	QSqlQuery q2(db);
-	q2.prepare(SQL_QUERY_TEXT);
+	Q_ASSERT(q2.prepare(SQL_QUERY_TEXT));
 	q2.bindValue(0, code);
 	bool const q2result = q2.exec() && q2.first();
 	Q_ASSERT(q2result);
@@ -789,13 +810,13 @@ void MainWindow::updateCardWithUi()
 	auto db = QSqlDatabase::database();
 	Q_ASSERT(db.isValid());
 	QSqlQuery q1(db);
-	q1.prepare(SQL_DELETE_DATA);
+	Q_ASSERT(q1.prepare(SQL_DELETE_DATA));
 	QSqlQuery q2(db);
-	q2.prepare(SQL_DELETE_TEXT);
+	Q_ASSERT(q2.prepare(SQL_DELETE_TEXT));
 	QSqlQuery q3(db);
-	q3.prepare(SQL_INSERT_DATA);
+	Q_ASSERT(q3.prepare(SQL_INSERT_DATA));
 	QSqlQuery q4(db);
-	q4.prepare(SQL_INSERT_TEXT);
+	Q_ASSERT(q4.prepare(SQL_INSERT_TEXT));
 	// Remove previous data
 	q1.bindValue(0, code);
 	q1.exec();
