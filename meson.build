@@ -5,7 +5,7 @@ project('datacorn', 'cpp',
 is_windows = host_machine.system() == 'windows'
 
 qt_used_mods = ['Core', 'Gui', 'Widgets', 'Sql']
-qt_used_mods += is_windows ? ['PlatformSupport', 'windows', 'pcre', 'freetype'] : []
+qt_used_mods += is_windows ? ['PlatformSupport', 'windows', 'ico', 'pcre', 'freetype'] : []
 
 qt_mod = import('qt5')
 qt_dep = dependency('qt5', modules : qt_used_mods, main : true)

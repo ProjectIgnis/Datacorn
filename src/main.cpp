@@ -6,6 +6,7 @@
 // Needed to ensure that the platform plugin is statically linked.
 #include <QtPlugin>
 Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
+Q_IMPORT_PLUGIN(QICOPlugin);
 #endif // Q_OS_WIN
 
 #include "gui/main_window.hpp"
