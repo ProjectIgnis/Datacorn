@@ -467,11 +467,7 @@ void MainWindow::newDatabase()
 	QFile::remove(file);
 	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER);
 	db.setDatabaseName(file);
-	if(!db.open())
-	{
-		// TODO: show message
-		return;
-	}
+	Q_ASSERT(db.open());
 	QSqlQuery(SDL_QUERY_CREATE_DATAS_TABLE, db);
 	QSqlQuery(SDL_QUERY_CREATE_TEXTS_TABLE, db);
 	fillCardList();
