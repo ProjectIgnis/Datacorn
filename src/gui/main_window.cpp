@@ -9,8 +9,10 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QSqlRecord>
 #include <QSqlTableModel>
 #include <QString>
+#include <QStringList>
 #include <QTranslator>
 #include <array>
 #include <ui_main_window.h>
@@ -160,13 +162,19 @@ constexpr std::array const CATEGORY_FIELDS{
 
 QString const SQL_DB_DRIVER("QSQLITE");
 
-QString const SQL_DATAS_TABLE_FIELDS(
-	"alias0,atk0,attribute0,category0,def0,id1,level0,ot0,race0,setcode0,"
-    "type0");
+std::array SQL_DATAS_TABLE_FIELDS = {
+	QString{"PRAGMA table_info('datas');"},
+	QString{
+		"alias0,atk0,attribute0,category0,def0,id1,level0,ot0,race0,setcode0,"
+		"type0"},
+};
 
-QString const SQL_TEXTS_TABLE_FIELDS(
-	"desc0,id1,name0,str10,str100,str110,str120,str130,str140,str150,str160,"
-    "str20,str30,str40,str50,str60,str70,str80,str90");
+std::array SQL_TEXTS_TABLE_FIELDS = {
+	QString{"PRAGMA table_info('texts');"},
+	QString{"desc0,id1,name0,str10,str100,str110,str120,str130,str140,str150,"
+            "str160,"
+            "str20,str30,str40,str50,str60,str70,str80,str90"},
+};
 
 QString const SQL_QUERY_CREATE_DATAS_TABLE(R"(
 CREATE TABLE "datas" (
@@ -211,7 +219,7 @@ CREATE TABLE "texts" (
 )");
 
 const QString SQL_QUERY_TABLE_FIELDS(R"(
-SELECT GROUP_CONCAT(name_pk,',') FROM (SELECT LOWER(name || pk) AS name_pk FROM pragma_table_info(?) ORDER BY name);
+PRAGMA table_info('texts');
 )");
 
 QString const SQL_QUERY_FIRST_ROW_CODE(R"(
@@ -486,19 +494,28 @@ void MainWindow::openDatabase()
 {
 	auto does_db_have_correct_format = [&](QSqlDatabase& db)
 	{
-		QSqlQuery q(db);
-		Q_ASSERT(q.prepare(SQL_QUERY_TABLE_FIELDS));
-		// Verify 'datas' table
-		q.bindValue(0, "datas");
-		if(!q.exec() || !q.first() ||
-		   q.value(0).toString().simplified() != SQL_DATAS_TABLE_FIELDS)
-			return false;
-		// Verify 'texts' table
-		q.bindValue(0, "texts");
-		if(!q.exec() || !q.first() ||
-		   q.value(0).toString().simplified() != SQL_TEXTS_TABLE_FIELDS)
-			return false;
-		return true;
+		auto verify_table =
+			[&](const auto& query_and_result)
+		{
+			QSqlQuery q(db);
+			if(!q.exec(query_and_result[0]))
+				return false;
+			const auto& record = q.record();
+			auto name_index = record.indexOf("name");
+			auto pk_index = record.indexOf("pk");
+			if(name_index == -1 || pk_index == -1)
+				return false;
+			QStringList set;
+			while(q.next())
+				set << QString("%1%2")
+						   .arg(q.value(name_index).toString())
+						   .arg(q.value(pk_index).toString())
+						   .toLower();
+			set.sort();
+			return set.join(',') == query_and_result[1];
+		};
+		return verify_table(SQL_DATAS_TABLE_FIELDS) &&
+		       verify_table(SQL_TEXTS_TABLE_FIELDS);
 	};
 	if(!checkAndAskToCloseDb())
 		return;
