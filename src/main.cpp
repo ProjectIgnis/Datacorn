@@ -13,9 +13,9 @@ Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
 int main(int argc, char* argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-	//QT6: High-DPI pixmaps are always enabled. This attribute no longer has any effect.
+	// Qt6: High-DPI pixmaps are always enabled. This attribute no longer has any effect.
 	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-	//QT6: High-DPI scaling is always enabled. This attribute no longer has any effect.
+	// Qt6: High-DPI scaling is always enabled. This attribute no longer has any effect.
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 #endif
 	QApplication a(argc, argv);
