@@ -24,7 +24,34 @@ jobs:
         mkdir $RDIR
         cp build/datacorn $RDIR/
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v3
       with:
         name: Datacorn
+        path: Datacorn/
+
+  x64-linux-qt6:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get --no-install-recommends --yes install build-essential g++ ninja-build python3-pip qt6-base-dev qt6-base-dev-tools qt6-l10n-tools
+        pip3 install meson
+    - name: Meson build
+      run: |
+        meson setup build -Dbuildtype=release -Dstrip=true -Db_lto=true -Db_ndebug=true
+        meson compile -C build -j2
+    - name: Setup directory with artifacts
+      shell: bash
+      run: |
+        export RDIR=Datacorn
+        mkdir $RDIR
+        cp build/datacorn $RDIR/
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Datacorn-qt6
         path: Datacorn/

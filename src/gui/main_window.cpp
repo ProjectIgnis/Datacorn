@@ -4,7 +4,7 @@
 #include <QDesktopServices> // openUrl
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QRegExpValidator>
+#include <QRegularExpressionValidator>
 #include <QScrollBar>
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -248,7 +248,7 @@ inline void setChecked(QListWidgetItem* item, bool value) noexcept
 
 inline void setRegexValidator(QLineEdit& parent, QString const& regex)
 {
-	parent.setValidator(new QRegExpValidator(QRegExp(regex), &parent));
+	parent.setValidator(new QRegularExpressionValidator(QRegularExpression(regex), &parent));
 }
 
 class CardCodeNameSqlModel final : public QSqlTableModel

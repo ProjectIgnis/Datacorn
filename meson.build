@@ -7,8 +7,8 @@ is_windows = host_machine.system() == 'windows'
 qt_used_mods = ['Core', 'Gui', 'Widgets', 'Sql']
 qt_used_mods += is_windows ? ['PlatformSupport', 'windows', 'ico', 'pcre', 'freetype'] : []
 
-qt_mod = import('qt5')
-qt_dep = dependency('qt5', modules : qt_used_mods, main : true)
+qt_dep = dependency('qt5', 'qt6', modules : qt_used_mods, main : true)
+qt_mod = import('qt@0@'.format(qt_dep.version().split('.')[0]))
 
 win_rc_file = []
 win_deps = []
