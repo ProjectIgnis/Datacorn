@@ -51,7 +51,7 @@ jobs:
         mkdir $RDIR
         cp build/datacorn $RDIR/
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v3
       with:
         name: Datacorn-qt6
         path: Datacorn/
