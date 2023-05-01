@@ -497,22 +497,19 @@ void MainWindow::openDatabase()
 		auto verify_table =
 			[&](const auto& query_and_result)
 		{
-			QSqlQuery q(db);
-			if(!q.exec(query_and_result[0]))
-				return false;
+			auto q = db.exec(query_and_result[0]);
 			const auto& record = q.record();
 			auto name_index = record.indexOf("name");
 			auto pk_index = record.indexOf("pk");
 			if(name_index == -1 || pk_index == -1)
 				return false;
-			QStringList set;
+			QStringList columns;
 			while(q.next())
-				set << QString("%1%2")
-						   .arg(q.value(name_index).toString())
-						   .arg(q.value(pk_index).toString())
-						   .toLower();
-			set.sort();
-			return set.join(',') == query_and_result[1];
+				columns << q.value(name_index).toString() +
+							   q.value(pk_index).toString();
+			columns.sort();
+			return columns.join(',').compare(query_and_result[1],
+			                                 Qt::CaseInsensitive) == 0;
 		};
 		return verify_table(SQL_DATAS_TABLE_FIELDS) &&
 		       verify_table(SQL_TEXTS_TABLE_FIELDS);
