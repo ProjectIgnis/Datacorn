@@ -218,10 +218,6 @@ CREATE TABLE "texts" (
 )
 )");
 
-const QString SQL_QUERY_TABLE_FIELDS(R"(
-PRAGMA table_info('texts');
-)");
-
 QString const SQL_QUERY_FIRST_ROW_CODE(R"(
 SELECT id FROM datas ORDER BY ROWID ASC LIMIT 1;
 )");
