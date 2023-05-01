@@ -498,7 +498,7 @@ void MainWindow::openDatabase()
 			[&](const auto& query_and_result)
 		{
 			auto q = db.exec(query_and_result[0]);
-			const auto& record = q.record();
+			auto record = q.record();
 			auto name_index = record.indexOf("name");
 			auto pk_index = record.indexOf("pk");
 			if(name_index == -1 || pk_index == -1)
