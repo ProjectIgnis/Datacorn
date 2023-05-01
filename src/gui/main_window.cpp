@@ -500,7 +500,7 @@ void MainWindow::openDatabase()
 			while(q.next())
 				columns << q.value(name_index).toString() +
 							   q.value(pk_index).toString();
-			columns.sort();
+			columns.sort(Qt::CaseInsensitive);
 			return columns.join(',').compare(query_and_result[1],
 			                                 Qt::CaseInsensitive) == 0;
 		};
