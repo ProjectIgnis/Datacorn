@@ -164,16 +164,14 @@ QString const SQL_DB_DRIVER("QSQLITE");
 
 std::array SQL_DATAS_TABLE_FIELDS = {
 	QString{"PRAGMA table_info('datas');"},
-	QString{
-		"alias0,atk0,attribute0,category0,def0,id1,level0,ot0,race0,setcode0,"
-		"type0"},
+	QString{"alias0,atk0,attribute0,category0,def0,id1,level0,ot0,race0,"
+            "setcode0,type0"},
 };
 
 std::array SQL_TEXTS_TABLE_FIELDS = {
 	QString{"PRAGMA table_info('texts');"},
 	QString{"desc0,id1,name0,str10,str100,str110,str120,str130,str140,str150,"
-            "str160,"
-            "str20,str30,str40,str50,str60,str70,str80,str90"},
+            "str160,str20,str30,str40,str50,str60,str70,str80,str90"},
 };
 
 QString const SQL_QUERY_CREATE_DATAS_TABLE(R"(
@@ -490,8 +488,7 @@ void MainWindow::openDatabase()
 {
 	auto does_db_have_correct_format = [&](QSqlDatabase& db)
 	{
-		auto verify_table =
-			[&](const auto& query_and_result)
+		auto verify_table = [&](const auto& query_and_result)
 		{
 			auto q = db.exec(query_and_result[0]);
 			auto record = q.record();
