@@ -397,6 +397,8 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::closeDatabase);
 	connect(ui->actionSaveData, &QAction::triggered, this,
 	        &MainWindow::saveData);
+	connect(ui->actionDeleteData, &QAction::triggered, this,
+	        &MainWindow::deleteData);
 	connect(ui->actionHomepage, &QAction::triggered, this,
 	        &MainWindow::openHomepage);
 	connect(ui->addArcheButton, &QPushButton::clicked, this,
@@ -567,6 +569,21 @@ void MainWindow::saveData()
 {
 	updateCardWithUi();
 	ui->cardCodeNameList->update();
+}
+
+void MainWindow::deleteData()
+{
+	Q_ASSERT(previousCode != 0);
+	QString body = tr("Are you sure about deleting this card?\n");
+	body.append(tr("Code: ")).append(QString::number(previousCode));
+	if(QMessageBox::question(this, tr("Confirm deletion"), body) !=
+	   QMessageBox::Yes)
+		return;
+	auto db = QSqlDatabase::database();
+	Q_ASSERT(db.isValid());
+	removeCard(db, previousCode);
+	cardListFilter->getModel()->select();
+	// TODO: Properly select new code
 }
 
 void MainWindow::openHomepage()
@@ -815,18 +832,9 @@ void MainWindow::updateCardWithUi()
 	}
 	auto db = QSqlDatabase::database();
 	Q_ASSERT(db.isValid());
-	auto q1 = build_query(db, SQL_DELETE_DATA);
-	auto q2 = build_query(db, SQL_DELETE_TEXT);
-	auto q3 = build_query(db, SQL_INSERT_DATA);
-	auto q4 = build_query(db, SQL_INSERT_TEXT);
-	// Remove previous data
-	q1.bindValue(0, previousCode);
-	bool const q1execResult = q1.exec();
-	Q_ASSERT(q1execResult);
-	// Remove previous strings
-	q2.bindValue(0, previousCode);
-	bool const q2execResult = q2.exec();
-	Q_ASSERT(q2execResult);
+	removeCard(db, previousCode);
+	auto q1 = build_query(db, SQL_INSERT_DATA);
+	auto q2 = build_query(db, SQL_INSERT_TEXT);
 	// Insert data
 	auto compute_bitfield = [&](auto const& fields,
 	                            QListWidgetItem** cbs) -> quint64
@@ -859,9 +867,9 @@ void MainWindow::updateCardWithUi()
 		       ((ui->lScaleSpinBox->value() & 0xFF) << 24U) &
 		       ((ui->rScaleSpinBox->value() & 0xFF) << 16U);
 	};
-	q3.bindValue(0, newCode);
-	q3.bindValue(1, ui->aliasLineEdit->text().toUInt());
-	q3.bindValue(
+	q1.bindValue(0, newCode);
+	q1.bindValue(1, ui->aliasLineEdit->text().toUInt());
+	q1.bindValue(
 		2,
 		[&]()
 		{
@@ -878,30 +886,44 @@ void MainWindow::updateCardWithUi()
 			}
 			return setcodes;
 		}());
-	q3.bindValue(3, type);
-	q3.bindValue(4, ui->atkQmCheckBox->isChecked() ? QMARK_ATK_DEF
+	q1.bindValue(3, type);
+	q1.bindValue(4, ui->atkQmCheckBox->isChecked() ? QMARK_ATK_DEF
 	                                               : ui->atkSpinBox->value());
-	q3.bindValue(5, compute_def_value());
-	q3.bindValue(6, compute_level_value());
-	q3.bindValue(7, compute_bitfield(RACE_FIELDS, raceCbs.get()));
-	q3.bindValue(8, compute_bitfield(ATTRIBUTE_FIELDS, attributeCbs.get()));
-	q3.bindValue(9, compute_bitfield(SCOPE_FIELDS, scopeCbs.get()));
-	q3.bindValue(10, compute_bitfield(CATEGORY_FIELDS, categoryCbs.get()));
-	bool const q3execResult = q3.exec();
-	Q_ASSERT(q3execResult);
+	q1.bindValue(5, compute_def_value());
+	q1.bindValue(6, compute_level_value());
+	q1.bindValue(7, compute_bitfield(RACE_FIELDS, raceCbs.get()));
+	q1.bindValue(8, compute_bitfield(ATTRIBUTE_FIELDS, attributeCbs.get()));
+	q1.bindValue(9, compute_bitfield(SCOPE_FIELDS, scopeCbs.get()));
+	q1.bindValue(10, compute_bitfield(CATEGORY_FIELDS, categoryCbs.get()));
+	bool const q1execResult = q1.exec();
+	Q_ASSERT(q1execResult);
 	// Insert strings
-	q4.bindValue(0, newCode);
-	q4.bindValue(1, ui->nameLineEdit->text());
-	q4.bindValue(2, ui->descPlainTextEdit->toPlainText());
+	q2.bindValue(0, newCode);
+	q2.bindValue(1, ui->nameLineEdit->text());
+	q2.bindValue(2, ui->descPlainTextEdit->toPlainText());
 	int const stringsRowCount = ui->stringsTableWidget->rowCount();
 	for(int i = 0; i < stringsRowCount; ++i)
 	{
 		auto& item = *ui->stringsTableWidget->item(i, 0);
-		q4.bindValue(3 + i, item.text());
+		q2.bindValue(3 + i, item.text());
 	}
-	bool const q4execResult = q4.exec();
-	Q_ASSERT(q4execResult);
+	bool const q2execResult = q2.exec();
+	Q_ASSERT(q2execResult);
 	// Update list and track new code
-	cardListFilter->getModel()->select();
+	cardListFilter->getModel()->select(); // TODO: Properly select new code
 	previousCode = newCode;
+}
+
+void MainWindow::removeCard(QSqlDatabase& db, quint32 code)
+{
+	// Remove data
+	auto q1 = build_query(db, SQL_DELETE_DATA);
+	q1.bindValue(0, code);
+	bool const q1execResult = q1.exec();
+	Q_ASSERT(q1execResult);
+	// Remove strings
+	auto q2 = build_query(db, SQL_DELETE_TEXT);
+	q2.bindValue(0, code);
+	bool const q2execResult = q2.exec();
+	Q_ASSERT(q2execResult);
 }

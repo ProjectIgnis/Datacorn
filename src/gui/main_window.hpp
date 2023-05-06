@@ -5,6 +5,7 @@
 
 QT_BEGIN_NAMESPACE
 class QListWidgetItem;
+class QSqlDatabase;
 class QTranslator;
 class QTreeWidgetItem;
 namespace Ui
@@ -29,6 +30,7 @@ private slots:
 	void closeDatabase();
 
 	void saveData();
+	void deleteData();
 
 	void openHomepage();
 
@@ -63,6 +65,8 @@ private:
 	void fillCardList();
 	void updateUiWithCode(quint32 code);
 	void updateCardWithUi();
+
+	void removeCard(QSqlDatabase& db, quint32 code);
 };
 
 #endif // GUI_MAIN_WINDOW_HPP

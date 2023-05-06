@@ -847,9 +847,9 @@
     <property name="title">
      <string>&amp;Card</string>
     </property>
+    <addaction name="actionNewCard"/>
     <addaction name="actionSaveData"/>
     <addaction name="actionDeleteData"/>
-    <addaction name="actionNewCard"/>
    </widget>
    <addaction name="menuDatabase"/>
    <addaction name="menuCard"/>
