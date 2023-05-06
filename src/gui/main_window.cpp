@@ -341,14 +341,12 @@ public:
 		adjustFilters();
 	}
 
-	QSqlTableModel* getModel() const
-	{
-		return model;
-	}
+	QSqlTableModel* getModel() const { return model; }
 
 	void setModel(QSqlTableModel* newModel)
 	{
-		model = newModel;
+		if((model = newModel) == nullptr)
+			return;
 		updateTableFilters();
 		model->select();
 	}
@@ -385,6 +383,7 @@ MainWindow::MainWindow(QWidget* parent)
 	, spanishTranslator(std::make_unique<QTranslator>())
 	, ui(std::make_unique<Ui::MainWindow>())
 	, cardListFilter(nullptr) // Must be fully init'd later due to "setupUi".
+	, stringsRowCount(0)      // Must be fully init'd later due to "setupUi".
 	, previousCode(0)
 	, customArchetype(false)
 {
@@ -421,6 +420,7 @@ MainWindow::MainWindow(QWidget* parent)
 	setRegexValidator(*ui->aliasLineEdit, "[0-9]+");
 	cardListFilter = new FilteringHeader(*ui->cardCodeNameList);
 	ui->cardCodeNameList->setHorizontalHeader(cardListFilter);
+	stringsRowCount = ui->stringsTableWidget->rowCount();
 	auto populate_cbs = [&](QListWidget* parent, auto const& fields)
 	{
 		using Item = QListWidgetItem;
@@ -701,6 +701,7 @@ void MainWindow::enableEditing(bool editing)
 	ui->dbGroup->setEnabled(editing);
 	ui->cardGroup->setEnabled(editing);
 	ui->actionSaveData->setEnabled(editing);
+	ui->actionNewCard->setEnabled(editing);
 }
 
 void MainWindow::fillCardList()
@@ -714,15 +715,17 @@ void MainWindow::fillCardList()
 
 void MainWindow::updateUiWithCode(quint32 code)
 {
+	// Set internal code so we know which card to "move" from
+	previousCode = code;
+	// Toggle the "Delete Card" menu action depending on non-0 card code
+	ui->actionDeleteData->setEnabled(code != 0);
+	// Helper function to quickly iterate comboboxes per bit of a value
 	auto toggle_cbs =
 		[&](quint64 bits, auto const& fields, QListWidgetItem** cbs)
 	{
 		for(size_t i = 0; i < fields.size(); ++i)
 			setChecked(cbs[i], (bits & fields[i].value) != 0U);
 	};
-	int const stringsRowCount = ui->stringsTableWidget->rowCount();
-	// Set internal code so we know which card to "move" from
-	previousCode = code;
 	// Clean the UI
 	toggle_cbs(0U, TYPE_FIELDS, typeCbs.get());
 	toggle_cbs(0U, RACE_FIELDS, raceCbs.get());
