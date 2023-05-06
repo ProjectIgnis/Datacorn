@@ -30,9 +30,6 @@ private slots:
 
 	void saveData();
 
-	void toEnglish();
-	void toSpanish();
-
 	void openHomepage();
 
 	void addArchetypeToList(bool clicked);

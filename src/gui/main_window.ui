@@ -886,34 +886,6 @@
     <string>&amp;Close Database</string>
    </property>
   </action>
-  <action name="actionSpanish">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Español (Spanish)</string>
-   </property>
-  </action>
-  <action name="actionEnglish">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>English (English)</string>
-   </property>
-  </action>
   <action name="actionSaveData">
    <property name="enabled">
     <bool>false</bool>

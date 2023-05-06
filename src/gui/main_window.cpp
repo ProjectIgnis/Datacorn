@@ -397,10 +397,6 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::closeDatabase);
 	connect(ui->actionSaveData, &QAction::triggered, this,
 	        &MainWindow::saveData);
-	connect(ui->actionEnglish, &QAction::triggered, this,
-	        &MainWindow::toEnglish);
-	connect(ui->actionSpanish, &QAction::triggered, this,
-	        &MainWindow::toSpanish);
 	connect(ui->actionHomepage, &QAction::triggered, this,
 	        &MainWindow::openHomepage);
 	connect(ui->addArcheButton, &QPushButton::clicked, this,
@@ -571,22 +567,6 @@ void MainWindow::saveData()
 {
 	updateCardWithUi();
 	ui->cardCodeNameList->update();
-}
-
-void MainWindow::toEnglish()
-{
-	ui->actionEnglish->setEnabled(false);
-	ui->actionSpanish->setEnabled(true);
-	ui->actionSpanish->setChecked(false);
-	QApplication::instance()->removeTranslator(spanishTranslator.get());
-}
-
-void MainWindow::toSpanish()
-{
-	ui->actionSpanish->setEnabled(false);
-	ui->actionEnglish->setEnabled(true);
-	ui->actionEnglish->setChecked(false);
-	QApplication::instance()->installTranslator(spanishTranslator.get());
 }
 
 void MainWindow::openHomepage()
