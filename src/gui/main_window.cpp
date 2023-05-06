@@ -266,6 +266,14 @@ inline void setRegexValidator(QLineEdit& parent, QString const& regex)
 		new QRegularExpressionValidator(QRegularExpression(regex), &parent));
 }
 
+inline QSqlQuery build_query(QSqlDatabase& db, QString const& stmt)
+{
+	QSqlQuery q(db);
+	bool const qPrepareResult = q.prepare(stmt);
+	Q_ASSERT(qPrepareResult);
+	return q;
+}
+
 class CardCodeNameSqlModel final : public QSqlTableModel
 {
 public:
@@ -333,10 +341,16 @@ public:
 		adjustFilters();
 	}
 
+	QSqlTableModel* getModel() const
+	{
+		return model;
+	}
+
 	void setModel(QSqlTableModel* newModel)
 	{
 		model = newModel;
 		updateTableFilters();
+		model->select();
 	}
 private slots:
 	void adjustFilters()
@@ -357,7 +371,6 @@ private slots:
 			return;
 		model->setFilter(QString(R"("id" LIKE "%%1%" AND "name" LIKE "%%2%")")
 		                     .arg(filters[0]->text(), filters[1]->text()));
-		model->select();
 	}
 
 private:
@@ -372,6 +385,7 @@ MainWindow::MainWindow(QWidget* parent)
 	, spanishTranslator(std::make_unique<QTranslator>())
 	, ui(std::make_unique<Ui::MainWindow>())
 	, cardListFilter(nullptr) // Must be fully init'd later due to "setupUi".
+	, previousCode(0)
 	, customArchetype(false)
 {
 	spanishTranslator->load(":/es");
@@ -477,7 +491,8 @@ void MainWindow::newDatabase()
 	QFile::remove(file);
 	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER);
 	db.setDatabaseName(file);
-	Q_ASSERT(db.open());
+	bool const isDbOpen = db.open();
+	Q_ASSERT(isDbOpen);
 	QSqlQuery(SQL_QUERY_CREATE_DATAS_TABLE, db);
 	QSqlQuery(SQL_QUERY_CREATE_TEXTS_TABLE, db);
 	fillCardList();
@@ -706,7 +721,9 @@ void MainWindow::updateUiWithCode(quint32 code)
 			setChecked(cbs[i], (bits & fields[i].value) != 0U);
 	};
 	int const stringsRowCount = ui->stringsTableWidget->rowCount();
-	// Clean the UI first
+	// Set internal code so we know which card to "move" from
+	previousCode = code;
+	// Clean the UI
 	toggle_cbs(0U, TYPE_FIELDS, typeCbs.get());
 	toggle_cbs(0U, RACE_FIELDS, raceCbs.get());
 	toggle_cbs(0U, ATTRIBUTE_FIELDS, attributeCbs.get());
@@ -741,13 +758,11 @@ void MainWindow::updateUiWithCode(quint32 code)
 	// Query data and strings
 	auto db = QSqlDatabase::database();
 	Q_ASSERT(db.isValid());
-	QSqlQuery q1(db);
-	Q_ASSERT(q1.prepare(SQL_QUERY_DATA));
+	auto q1 = build_query(db, SQL_QUERY_DATA);
 	q1.bindValue(0, code);
 	bool const q1result = q1.exec() && q1.first();
 	Q_ASSERT(q1result);
-	QSqlQuery q2(db);
-	Q_ASSERT(q2.prepare(SQL_QUERY_TEXT));
+	auto q2 = build_query(db, SQL_QUERY_TEXT);
 	q2.bindValue(0, code);
 	bool const q2result = q2.exec() && q2.first();
 	Q_ASSERT(q2result);
@@ -807,8 +822,9 @@ void MainWindow::updateUiWithCode(quint32 code)
 
 void MainWindow::updateCardWithUi()
 {
-	qint32 const code = ui->passLineEdit->text().toUInt();
-	if(code == 0)
+	Q_ASSERT(previousCode != 0);
+	qint32 const newCode = ui->passLineEdit->text().toUInt();
+	if(newCode == 0)
 	{
 		QMessageBox::warning(this, tr("Invalid passcode"),
 		                     tr("Passcode cannot be 0 or empty."));
@@ -816,20 +832,18 @@ void MainWindow::updateCardWithUi()
 	}
 	auto db = QSqlDatabase::database();
 	Q_ASSERT(db.isValid());
-	QSqlQuery q1(db);
-	Q_ASSERT(q1.prepare(SQL_DELETE_DATA));
-	QSqlQuery q2(db);
-	Q_ASSERT(q2.prepare(SQL_DELETE_TEXT));
-	QSqlQuery q3(db);
-	Q_ASSERT(q3.prepare(SQL_INSERT_DATA));
-	QSqlQuery q4(db);
-	Q_ASSERT(q4.prepare(SQL_INSERT_TEXT));
+	auto q1 = build_query(db, SQL_DELETE_DATA);
+	auto q2 = build_query(db, SQL_DELETE_TEXT);
+	auto q3 = build_query(db, SQL_INSERT_DATA);
+	auto q4 = build_query(db, SQL_INSERT_TEXT);
 	// Remove previous data
-	q1.bindValue(0, code);
-	q1.exec();
+	q1.bindValue(0, previousCode);
+	bool const q1execResult = q1.exec();
+	Q_ASSERT(q1execResult);
 	// Remove previous strings
-	q2.bindValue(0, code);
-	q2.exec();
+	q2.bindValue(0, previousCode);
+	bool const q2execResult = q2.exec();
+	Q_ASSERT(q2execResult);
 	// Insert data
 	auto compute_bitfield = [&](auto const& fields,
 	                            QListWidgetItem** cbs) -> quint64
@@ -862,7 +876,7 @@ void MainWindow::updateCardWithUi()
 		       ((ui->lScaleSpinBox->value() & 0xFF) << 24U) &
 		       ((ui->rScaleSpinBox->value() & 0xFF) << 16U);
 	};
-	q3.bindValue(0, code);
+	q3.bindValue(0, newCode);
 	q3.bindValue(1, ui->aliasLineEdit->text().toUInt());
 	q3.bindValue(
 		2,
@@ -890,9 +904,10 @@ void MainWindow::updateCardWithUi()
 	q3.bindValue(8, compute_bitfield(ATTRIBUTE_FIELDS, attributeCbs.get()));
 	q3.bindValue(9, compute_bitfield(SCOPE_FIELDS, scopeCbs.get()));
 	q3.bindValue(10, compute_bitfield(CATEGORY_FIELDS, categoryCbs.get()));
-	q3.exec();
+	bool const q3execResult = q3.exec();
+	Q_ASSERT(q3execResult);
 	// Insert strings
-	q4.bindValue(0, code);
+	q4.bindValue(0, newCode);
 	q4.bindValue(1, ui->nameLineEdit->text());
 	q4.bindValue(2, ui->descPlainTextEdit->toPlainText());
 	int const stringsRowCount = ui->stringsTableWidget->rowCount();
@@ -901,5 +916,9 @@ void MainWindow::updateCardWithUi()
 		auto& item = *ui->stringsTableWidget->item(i, 0);
 		q4.bindValue(3 + i, item.text());
 	}
-	q4.exec();
+	bool const q4execResult = q4.exec();
+	Q_ASSERT(q4execResult);
+	// Update list and track new code
+	cardListFilter->getModel()->select();
+	previousCode = newCode;
 }

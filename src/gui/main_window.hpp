@@ -48,6 +48,7 @@ private:
 	std::unique_ptr<QTranslator> spanishTranslator;
 	std::unique_ptr<Ui::MainWindow> ui;
 	FilteringHeader* cardListFilter;
+	quint32 previousCode;
 	bool customArchetype;
 	std::unique_ptr<QListWidgetItem*[]> typeCbs;
 	std::unique_ptr<QListWidgetItem*[]> raceCbs;

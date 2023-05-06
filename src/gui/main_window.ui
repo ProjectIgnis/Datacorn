@@ -278,7 +278,7 @@
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QFrame" name="">
+                  <widget class="QFrame" name="frame1">
                    <layout class="QHBoxLayout" name="horizontalLayout_2">
                     <property name="spacing">
                      <number>0</number>
@@ -301,7 +301,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QFrame" name="">
+                  <widget class="QFrame" name="frame2">
                    <layout class="QHBoxLayout" name="horizontalLayout_3">
                     <property name="spacing">
                      <number>0</number>
@@ -341,7 +341,7 @@
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QFrame" name="">
+                  <widget class="QFrame" name="frame3">
                    <layout class="QHBoxLayout" name="horizontalLayout">
                     <property name="spacing">
                      <number>2</number>
@@ -377,7 +377,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QFrame" name="">
+                  <widget class="QFrame" name="frame4">
                    <layout class="QHBoxLayout" name="horizontalLayout_4">
                     <property name="spacing">
                      <number>0</number>
@@ -412,7 +412,7 @@
                 </layout>
                </item>
                <item>
-                <widget class="QFrame" name="">
+                <widget class="QFrame" name="frame">
                  <layout class="QGridLayout" name="gridLayout_5">
                   <property name="spacing">
                    <number>0</number>
