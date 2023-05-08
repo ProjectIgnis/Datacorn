@@ -3,6 +3,8 @@
 #include <QMainWindow>
 #include <memory>
 
+#include "new_card_dialog.hpp"
+
 QT_BEGIN_NAMESPACE
 class QListWidgetItem;
 class QSqlDatabase;
@@ -29,6 +31,7 @@ private slots:
 	void openDatabase();
 	void closeDatabase();
 
+	void newCard();
 	void saveData();
 	void deleteData();
 
@@ -46,6 +49,7 @@ private slots:
 private:
 	std::unique_ptr<QTranslator> spanishTranslator;
 	std::unique_ptr<Ui::MainWindow> ui;
+	NewCardDialog ncd;
 	FilteringHeader* cardListFilter;
 	int stringsRowCount;
 	quint32 previousCode;
@@ -66,6 +70,7 @@ private:
 	void updateUiWithCode(quint32 code);
 	void updateCardWithUi();
 
+	bool cardExists(QSqlDatabase& db, quint32 code) const;
 	void removeCard(QSqlDatabase& db, quint32 code);
 };
 

@@ -220,6 +220,10 @@ QString const SQL_QUERY_FIRST_ROW_CODE(R"(
 SELECT id FROM datas ORDER BY ROWID ASC LIMIT 1;
 )");
 
+QString const SQL_QUERY_CODE_EXISTS(R"(
+SELECT EXISTS(SELECT 1 FROM datas WHERE datas.id = ?);
+)");
+
 QString const SQL_QUERY_DATA(R"(
 SELECT id,alias,setcode,type,atk,def,level,race,attribute,ot,category
 FROM datas WHERE datas.id = ?;
@@ -382,6 +386,7 @@ MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
 	, spanishTranslator(std::make_unique<QTranslator>())
 	, ui(std::make_unique<Ui::MainWindow>())
+	, ncd(this)
 	, cardListFilter(nullptr) // Must be fully init'd later due to "setupUi".
 	, stringsRowCount(0)      // Must be fully init'd later due to "setupUi".
 	, previousCode(0)
@@ -395,6 +400,7 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::openDatabase);
 	connect(ui->actionCloseDatabase, &QAction::triggered, this,
 	        &MainWindow::closeDatabase);
+	connect(ui->actionNewCard, &QAction::triggered, this, &MainWindow::newCard);
 	connect(ui->actionSaveData, &QAction::triggered, this,
 	        &MainWindow::saveData);
 	connect(ui->actionDeleteData, &QAction::triggered, this,
@@ -563,6 +569,19 @@ void MainWindow::closeDatabase()
 	}
 	enableEditing(false);
 	updateUiWithCode(0U);
+}
+
+void MainWindow::newCard()
+{
+	auto db = QSqlDatabase::database();
+	auto const r = ncd.display(db, previousCode != 0);
+	if(r.dialogResult == QDialog::Rejected)
+		return;
+	if(!r.copy)
+		updateUiWithCode(0);
+	previousCode = 0; // NOTE: Used to avoid removing previous card, if any.
+	ui->passLineEdit->setText(QString::number(r.newCode));
+	updateCardWithUi();
 }
 
 void MainWindow::saveData()
@@ -822,8 +841,7 @@ void MainWindow::updateUiWithCode(quint32 code)
 
 void MainWindow::updateCardWithUi()
 {
-	Q_ASSERT(previousCode != 0);
-	qint32 const newCode = ui->passLineEdit->text().toUInt();
+	quint32 const newCode = ui->passLineEdit->text().toUInt();
 	if(newCode == 0)
 	{
 		QMessageBox::warning(this, tr("Invalid passcode"),
@@ -832,7 +850,17 @@ void MainWindow::updateCardWithUi()
 	}
 	auto db = QSqlDatabase::database();
 	Q_ASSERT(db.isValid());
-	removeCard(db, previousCode);
+	bool const targetCardExists = cardExists(db, newCode);
+	if(previousCode != newCode && targetCardExists &&
+	   QMessageBox::question(this, tr("Confirm Overwrite"),
+	                         tr("The chosen card code already exists, do "
+	                            "you wish to overwrite it?")) !=
+	       QMessageBox::Yes)
+		return;
+	if(targetCardExists)
+		removeCard(db, newCode);
+	if(previousCode != 0)
+		removeCard(db, previousCode);
 	auto q1 = build_query(db, SQL_INSERT_DATA);
 	auto q2 = build_query(db, SQL_INSERT_TEXT);
 	// Insert data
@@ -912,6 +940,15 @@ void MainWindow::updateCardWithUi()
 	// Update list and track new code
 	cardListFilter->getModel()->select(); // TODO: Properly select new code
 	previousCode = newCode;
+}
+
+bool MainWindow::cardExists(QSqlDatabase& db, quint32 code) const
+{
+	auto q = build_query(db, SQL_QUERY_CODE_EXISTS);
+	q.bindValue(0, code);
+	bool const qResult = q.exec() && q.first();
+	Q_ASSERT(qResult);
+	return q.value(0).toBool();
 }
 
 void MainWindow::removeCard(QSqlDatabase& db, quint32 code)
