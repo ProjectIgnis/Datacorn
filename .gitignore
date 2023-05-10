@@ -1,3 +1,4 @@
 resources/
 build*
 res/es.qm
+.cache
