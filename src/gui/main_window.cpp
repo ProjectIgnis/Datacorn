@@ -891,8 +891,8 @@ void MainWindow::updateCardWithUi()
 	};
 	auto compute_level_value = [&]() -> quint32
 	{
-		return ui->levelSpinBox->value() &
-		       ((ui->lScaleSpinBox->value() & 0xFF) << 24U) &
+		return (ui->levelSpinBox->value() & 0x800000FF) |
+		       ((ui->lScaleSpinBox->value() & 0xFF) << 24U) |
 		       ((ui->rScaleSpinBox->value() & 0xFF) << 16U);
 	};
 	q1.bindValue(0, newCode);
