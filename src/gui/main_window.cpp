@@ -281,7 +281,7 @@ inline QSqlQuery build_query(QSqlDatabase& db, QString const& stmt)
 class CardCodeNameSqlModel final : public QSqlTableModel
 {
 public:
-	explicit CardCodeNameSqlModel(QWidget* parent, const QSqlDatabase& db)
+	explicit CardCodeNameSqlModel(QWidget* parent, QSqlDatabase const& db)
 		: QSqlTableModel(parent, db)
 	{
 		setTable("texts");
