@@ -162,13 +162,13 @@ constexpr std::array const CATEGORY_FIELDS{
 
 QString const SQL_DB_DRIVER("QSQLITE");
 
-std::array SQL_DATAS_TABLE_FIELDS = {
+std::array const SQL_DATAS_TABLE_FIELDS = {
 	QString{"PRAGMA table_info('datas');"},
 	QString{"alias0,atk0,attribute0,category0,def0,id1,level0,ot0,race0,"
             "setcode0,type0"},
 };
 
-std::array SQL_TEXTS_TABLE_FIELDS = {
+std::array const SQL_TEXTS_TABLE_FIELDS = {
 	QString{"PRAGMA table_info('texts');"},
 	QString{"desc0,id1,name0,str10,str100,str110,str120,str130,str140,str150,"
             "str160,str20,str30,str40,str50,str60,str70,str80,str90"},
@@ -281,7 +281,7 @@ inline QSqlQuery build_query(QSqlDatabase& db, QString const& stmt)
 class CardCodeNameSqlModel final : public QSqlTableModel
 {
 public:
-	explicit CardCodeNameSqlModel(QWidget* parent, QSqlDatabase db)
+	explicit CardCodeNameSqlModel(QWidget* parent, QSqlDatabase const& db)
 		: QSqlTableModel(parent, db)
 	{
 		setTable("texts");
@@ -291,7 +291,7 @@ public:
 		setHeaderData(1, Qt::Horizontal, tr("Name"));
 	}
 
-	virtual ~CardCodeNameSqlModel() = default;
+	~CardCodeNameSqlModel() override = default;
 
 private:
 	QString selectStatement() const override
@@ -305,7 +305,7 @@ private:
 class FilteringHeader final : public QHeaderView
 {
 public:
-	FilteringHeader(QTableView& parent)
+	explicit FilteringHeader(QTableView& parent)
 		: QHeaderView(Qt::Horizontal, &parent), model(nullptr)
 	{
 		setSortIndicatorShown(false);
@@ -367,7 +367,7 @@ private slots:
 		}
 	}
 
-	void updateTableFilters(QString const& text = "")
+	void updateTableFilters([[maybe_unused]] QString const& text = "")
 	{
 		if(model == nullptr)
 			return;
@@ -392,7 +392,7 @@ MainWindow::MainWindow(QWidget* parent)
 	, previousCode(0)
 	, customArchetype(false)
 {
-	spanishTranslator->load(":/es");
+	(void)spanishTranslator->load(":/es");
 	ui->setupUi(this);
 	connect(ui->actionNewDatabase, &QAction::triggered, this,
 	        &MainWindow::newDatabase);
@@ -458,7 +458,7 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow()
 {
-	QApplication::instance()->removeTranslator(spanishTranslator.get());
+	QApplication::removeTranslator(spanishTranslator.get());
 }
 
 void MainWindow::changeEvent(QEvent* event)
@@ -497,8 +497,8 @@ void MainWindow::newDatabase()
 	db.setDatabaseName(file);
 	bool const isDbOpen = db.open();
 	Q_ASSERT(isDbOpen);
-	QSqlQuery(SQL_QUERY_CREATE_DATAS_TABLE, db);
-	QSqlQuery(SQL_QUERY_CREATE_TEXTS_TABLE, db);
+	db.exec(SQL_QUERY_CREATE_DATAS_TABLE);
+	db.exec(SQL_QUERY_CREATE_TEXTS_TABLE);
 	fillCardList();
 	enableEditing(true);
 }
@@ -611,7 +611,7 @@ void MainWindow::openHomepage()
 		QUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
 }
 
-void MainWindow::addArchetypeToList(bool clicked)
+void MainWindow::addArchetypeToList([[maybe_unused]] bool clicked)
 {
 	if(ui->archeList->count() >= 4 &&
 	   QMessageBox::question(
@@ -631,11 +631,10 @@ void MainWindow::addArchetypeToList(bool clicked)
 	// Here we do a best effort to parse the ComboBox's current text and get
 	// the archetype's code either in decimal or hexadecimal.
 	auto const text = ui->archeComboBox->currentText().split('|')[0];
-	quint16 setcode;
-	bool ok;
 	for(auto base : {10, 16})
 	{
-		setcode = text.toUInt(&ok, base);
+		bool ok;
+		auto setcode = text.toUShort(&ok, base);
 		if(ok && setcode != 0)
 		{
 			addArchetype(setcode);
@@ -649,7 +648,7 @@ void MainWindow::addArchetypeToList(bool clicked)
 	       "preset archetypes from the list."));
 }
 
-void MainWindow::removeArchetypeFromList(bool clicked)
+void MainWindow::removeArchetypeFromList([[maybe_unused]] bool clicked)
 {
 	Q_ASSERT(ui->archeList->currentItem() != nullptr);
 	delete ui->archeList->takeItem(
@@ -657,12 +656,12 @@ void MainWindow::removeArchetypeFromList(bool clicked)
 }
 
 void MainWindow::onArcheListItemChanged(QListWidgetItem* current,
-                                        QListWidgetItem* previous)
+                                        [[maybe_unused]] QListWidgetItem* previous)
 {
 	ui->removeArcheButton->setEnabled(current != nullptr);
 }
 
-void MainWindow::onArcheComboIndexActivated(int index)
+void MainWindow::onArcheComboIndexActivated([[maybe_unused]] int index)
 {
 	customArchetype = false;
 }
@@ -903,7 +902,7 @@ void MainWindow::updateCardWithUi()
 		{
 			quint64 setcodes = 0;
 			// NOTE: Limitation of current DB schema.
-		    // Only 4 quint16 can fit in a quint64.
+			// Only 4 quint16 can fit in a quint64.
 			int const max = std::min(4, ui->archeList->count());
 			for(int i = 0; i < max; i++)
 			{
