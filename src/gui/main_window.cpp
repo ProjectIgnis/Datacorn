@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QRegularExpressionValidator>
+#include <QScreen>
 #include <QScrollBar>
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -394,6 +395,9 @@ MainWindow::MainWindow(QWidget* parent)
 {
 	(void)spanishTranslator->load(":/es");
 	ui->setupUi(this);
+	setGeometry(
+		QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(),
+	                        QGuiApplication::primaryScreen()->geometry()));
 	connect(ui->actionNewDatabase, &QAction::triggered, this,
 	        &MainWindow::newDatabase);
 	connect(ui->actionOpenDatabase, &QAction::triggered, this,
