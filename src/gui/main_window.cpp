@@ -395,9 +395,11 @@ MainWindow::MainWindow(QWidget* parent)
 {
 	(void)spanishTranslator->load(":/es");
 	ui->setupUi(this);
+#ifdef Q_OS_WIN
 	setGeometry(
 		QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(),
 	                        QGuiApplication::primaryScreen()->geometry()));
+#endif
 	connect(ui->actionNewDatabase, &QAction::triggered, this,
 	        &MainWindow::newDatabase);
 	connect(ui->actionOpenDatabase, &QAction::triggered, this,
