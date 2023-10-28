@@ -11,6 +11,8 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
+class DatabaseEditorWidget;
+
 class MainWindow final : public QMainWindow
 {
 	Q_OBJECT
@@ -35,6 +37,7 @@ private:
 	std::unique_ptr<Ui::MainWindow> const ui;
 
 	void enableEditing(bool editing);
+	DatabaseEditorWidget& widgetFromConnection(QString const& dbConnection);
 };
 
 #endif // GUI_MAIN_WINDOW_HPP

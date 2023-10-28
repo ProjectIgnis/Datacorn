@@ -131,6 +131,12 @@ void MainWindow::newDatabase()
 		tr("YGOPro Database (*.cdb *.db *.sqlite)"));
 	if(file.isEmpty())
 		return;
+	if(QSqlDatabase::contains(file))
+	{
+		// TODO: Completely override opened database instead of just selecting.
+		ui->dbEditorTabsWidget->setCurrentWidget(&widgetFromConnection(file));
+		return;
+	}
 	QFile::remove(file);
 	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER, file);
 	db.setDatabaseName(file);
@@ -138,7 +144,6 @@ void MainWindow::newDatabase()
 	Q_ASSERT(isDbOpen);
 	db.exec(SQL_QUERY_CREATE_DATAS_TABLE);
 	db.exec(SQL_QUERY_CREATE_TEXTS_TABLE);
-	// FIXME: Handle case where new database is overrding an opened database.
 	auto* newTab = new DatabaseEditorWidget(ui->dbEditorTabsWidget, file);
 	ui->dbEditorTabsWidget->setCurrentIndex(
 		ui->dbEditorTabsWidget->addTab(newTab, file.split('/').last()));
@@ -173,6 +178,11 @@ void MainWindow::openDatabase()
 		tr("YGOPro Database (*.cdb *.db *.sqlite)"));
 	if(file.isEmpty())
 		return;
+	if(QSqlDatabase::contains(file))
+	{
+		ui->dbEditorTabsWidget->setCurrentWidget(&widgetFromConnection(file));
+		return;
+	}
 	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER, file);
 	db.setDatabaseName(file);
 	if(!db.open())
@@ -191,7 +201,6 @@ void MainWindow::openDatabase()
 		QSqlDatabase::removeDatabase(file);
 		return;
 	}
-	// FIXME: Handle case where database is already opened.
 	auto* newTab = new DatabaseEditorWidget(ui->dbEditorTabsWidget, file);
 	ui->dbEditorTabsWidget->setCurrentIndex(
 		ui->dbEditorTabsWidget->addTab(newTab, file.split('/').last()));
@@ -243,4 +252,15 @@ void MainWindow::enableEditing(bool editing)
 	ui->actionNewCard->setEnabled(editing);
 	ui->actionDeleteData->setEnabled(editing);
 	ui->actionCloseDatabase->setEnabled(editing);
+}
+
+DatabaseEditorWidget& MainWindow::widgetFromConnection(
+	QString const& dbConnection)
+{
+	auto db = QSqlDatabase::database(dbConnection, false);
+	Q_ASSERT(!db.password().isEmpty());
+	bool ok;
+	auto const ptr = db.password().toULongLong(&ok, 16);
+	Q_ASSERT(ok);
+	return *reinterpret_cast<DatabaseEditorWidget*>(ptr);
 }

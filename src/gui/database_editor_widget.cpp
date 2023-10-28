@@ -381,9 +381,13 @@ DatabaseEditorWidget::DatabaseEditorWidget(QWidget* parent,
 	}
 	ui->archeComboBox->setCurrentIndex(0);
 	ui->archeComboBox->blockSignals(false);
-	fillCardList();
-	QSqlQuery q(SQL_QUERY_FIRST_ROW_CODE,
-	            QSqlDatabase::database(dbConnection, false));
+	auto db = QSqlDatabase::database(dbConnection, false);
+	// NOTE: Yes, very ugly, but beats complicated logic to associate the
+	// database connection with the editor widget.
+	db.setPassword(
+		QString("%1").arg(reinterpret_cast<qulonglong>(this), 0, 16));
+	fillCardList(db);
+	QSqlQuery q(SQL_QUERY_FIRST_ROW_CODE, db);
 	if(q.exec() && q.first())
 		updateUiWithCode(q.value(0).toUInt());
 }
@@ -539,9 +543,8 @@ void DatabaseEditorWidget::addArchetype(quint16 code)
 	item.setData(ARCHETYPE_ROLE, code);
 }
 
-void DatabaseEditorWidget::fillCardList()
+void DatabaseEditorWidget::fillCardList(QSqlDatabase& db)
 {
-	auto db = QSqlDatabase::database(dbConnection, false);
 	auto* model = new CardCodeNameSqlModel(ui->cardCodeNameList, db);
 	cardListFilter->setModel(model);
 	ui->cardCodeNameList->setModel(model);
@@ -552,8 +555,6 @@ void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 {
 	// Set internal code so we know which card to "move" from
 	previousCode = code;
-	// Toggle the "Delete Card" menu action depending on non-0 card code
-	// ui->actionDeleteData->setEnabled(code != 0); // FIXME
 	// Helper function to quickly iterate comboboxes per bit of a value
 	auto toggle_cbs =
 		[&](quint64 bits, auto const& fields, QListWidgetItem** cbs)
