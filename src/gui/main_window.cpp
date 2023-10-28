@@ -2,13 +2,16 @@
 
 #include <QDesktopServices> // openUrl
 #include <QFileDialog>
+#include <QMessageBox>
+#include <QScreen>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QSqlRecord>
+#include <QString>
 #include <QTranslator>
 #include <QUrl>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QMessageBox>
-#include <QSqlRecord>
-#include <QSqlError>
+#include <array>
 #include <ui_main_window.h>
 
 #include "database_editor_widget.hpp"
@@ -90,7 +93,8 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::newDatabase);
 	connect(ui->actionOpenDatabase, &QAction::triggered, this,
 	        &MainWindow::openDatabase);
-	connect(ui->actionCloseDatabase, &QAction::triggered, [this](){ closeDatabase(-1);});
+	connect(ui->actionCloseDatabase, &QAction::triggered,
+	        [this]() { closeDatabase(-1); });
 	connect(ui->dbEditorTabsWidget, &QTabWidget::tabCloseRequested, this,
 	        &MainWindow::closeDatabase);
 	connect(ui->actionNewCard, &QAction::triggered, this, &MainWindow::newCard);
@@ -136,7 +140,8 @@ void MainWindow::newDatabase()
 	db.exec(SQL_QUERY_CREATE_TEXTS_TABLE);
 	// FIXME: Handle case where new database is overrding an opened database.
 	auto* newTab = new DatabaseEditorWidget(ui->dbEditorTabsWidget, file);
-	ui->dbEditorTabsWidget->setCurrentIndex(ui->dbEditorTabsWidget->addTab(newTab, file.split('/').last()));
+	ui->dbEditorTabsWidget->setCurrentIndex(
+		ui->dbEditorTabsWidget->addTab(newTab, file.split('/').last()));
 	enableEditing(true);
 }
 
@@ -188,7 +193,8 @@ void MainWindow::openDatabase()
 	}
 	// FIXME: Handle case where database is already opened.
 	auto* newTab = new DatabaseEditorWidget(ui->dbEditorTabsWidget, file);
-	ui->dbEditorTabsWidget->setCurrentIndex(ui->dbEditorTabsWidget->addTab(newTab, file.split('/').last()));
+	ui->dbEditorTabsWidget->setCurrentIndex(
+		ui->dbEditorTabsWidget->addTab(newTab, file.split('/').last()));
 	enableEditing(true);
 }
 
@@ -196,7 +202,8 @@ void MainWindow::closeDatabase(int index)
 {
 	if(index < 0)
 		index = ui->dbEditorTabsWidget->currentIndex();
-	auto* tab = static_cast<DatabaseEditorWidget*>(ui->dbEditorTabsWidget->widget(index));
+	auto* tab = static_cast<DatabaseEditorWidget*>(
+		ui->dbEditorTabsWidget->widget(index));
 	auto const dbConnection = tab->databaseConnection();
 	ui->dbEditorTabsWidget->removeTab(index);
 	delete tab;
@@ -206,17 +213,20 @@ void MainWindow::closeDatabase(int index)
 
 void MainWindow::newCard()
 {
-	static_cast<DatabaseEditorWidget*>(ui->dbEditorTabsWidget->currentWidget())->newCard();
+	static_cast<DatabaseEditorWidget*>(ui->dbEditorTabsWidget->currentWidget())
+		->newCard();
 }
 
 void MainWindow::saveData()
 {
-	static_cast<DatabaseEditorWidget*>(ui->dbEditorTabsWidget->currentWidget())->saveData();
+	static_cast<DatabaseEditorWidget*>(ui->dbEditorTabsWidget->currentWidget())
+		->saveData();
 }
 
 void MainWindow::deleteData()
 {
-	static_cast<DatabaseEditorWidget*>(ui->dbEditorTabsWidget->currentWidget())->deleteData();
+	static_cast<DatabaseEditorWidget*>(ui->dbEditorTabsWidget->currentWidget())
+		->deleteData();
 }
 
 void MainWindow::openHomepage()

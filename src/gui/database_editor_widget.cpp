@@ -13,8 +13,8 @@
 #include <array>
 #include <ui_database_editor_widget.h>
 
-#include "new_card_dialog.hpp"
 #include "../archetypes.hpp"
+#include "new_card_dialog.hpp"
 
 namespace
 {
@@ -323,7 +323,8 @@ private:
 
 // public
 
-DatabaseEditorWidget::DatabaseEditorWidget(QWidget* parent, QString const& dbConnection)
+DatabaseEditorWidget::DatabaseEditorWidget(QWidget* parent,
+                                           QString const& dbConnection)
 	: QWidget(parent)
 	, ui(std::make_unique<Ui::DatabaseEditorWidget>())
 	, dbConnection(dbConnection)
@@ -381,7 +382,8 @@ DatabaseEditorWidget::DatabaseEditorWidget(QWidget* parent, QString const& dbCon
 	ui->archeComboBox->setCurrentIndex(0);
 	ui->archeComboBox->blockSignals(false);
 	fillCardList();
-	QSqlQuery q(SQL_QUERY_FIRST_ROW_CODE, QSqlDatabase::database(dbConnection, false));
+	QSqlQuery q(SQL_QUERY_FIRST_ROW_CODE,
+	            QSqlDatabase::database(dbConnection, false));
 	if(q.exec() && q.first())
 		updateUiWithCode(q.value(0).toUInt());
 }
@@ -487,20 +489,22 @@ void DatabaseEditorWidget::addArchetypeToList([[maybe_unused]] bool clicked)
 	       "preset archetypes from the list."));
 }
 
-void DatabaseEditorWidget::removeArchetypeFromList([[maybe_unused]] bool clicked)
+void DatabaseEditorWidget::removeArchetypeFromList(
+	[[maybe_unused]] bool clicked)
 {
 	Q_ASSERT(ui->archeList->currentItem() != nullptr);
 	delete ui->archeList->takeItem(
 		ui->archeList->row(ui->archeList->currentItem()));
 }
 
-void DatabaseEditorWidget::onArcheListItemChanged(QListWidgetItem* current,
-                                        [[maybe_unused]] QListWidgetItem* previous)
+void DatabaseEditorWidget::onArcheListItemChanged(
+	QListWidgetItem* current, [[maybe_unused]] QListWidgetItem* previous)
 {
 	ui->removeArcheButton->setEnabled(current != nullptr);
 }
 
-void DatabaseEditorWidget::onArcheComboIndexActivated([[maybe_unused]] int index)
+void DatabaseEditorWidget::onArcheComboIndexActivated(
+	[[maybe_unused]] int index)
 {
 	customArchetype = false;
 }
@@ -518,7 +522,8 @@ void DatabaseEditorWidget::onCardsListItemActivated(QModelIndex const& index)
 
 // private
 
-QString DatabaseEditorWidget::formatArchetype(quint16 code, char const* name) const
+QString DatabaseEditorWidget::formatArchetype(quint16 code,
+                                              char const* name) const
 {
 	QString const ret(R"(0x%1 | %2)");
 	auto const code_str = QString::number(code, 16);
@@ -717,7 +722,7 @@ void DatabaseEditorWidget::updateCardWithUi()
 		{
 			quint64 setcodes = 0;
 			// NOTE: Limitation of current DB schema.
-			// Only 4 quint16 can fit in a quint64.
+		    // Only 4 quint16 can fit in a quint64.
 			int const max = std::min(4, ui->archeList->count());
 			for(int i = 0; i < max; i++)
 			{

@@ -29,6 +29,7 @@ private slots:
 	void deleteData();
 
 	void openHomepage();
+
 private:
 	std::unique_ptr<QTranslator> const spanishTranslator;
 	std::unique_ptr<Ui::MainWindow> const ui;
