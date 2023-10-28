@@ -25,7 +25,7 @@ public:
 	explicit NewCardDialog(QWidget* parent = nullptr);
 	~NewCardDialog() override;
 
-	Result display(QSqlDatabase& db, bool canCopy);
+	static Result display(QSqlDatabase& db, bool canCopy);
 
 private:
 	std::unique_ptr<Ui::NewCardDialog> ui;

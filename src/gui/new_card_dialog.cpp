@@ -16,10 +16,11 @@ NewCardDialog::~NewCardDialog() = default;
 
 NewCardDialog::Result NewCardDialog::display(QSqlDatabase& db, bool canCopy)
 {
-	ui->passLineEdit->setText("0");
-	ui->copyDataCheckBox->setChecked(false);
-	ui->copyDataCheckBox->setEnabled(canCopy);
-	int const dr = exec();
-	return {dr, ui->passLineEdit->text().toUInt(),
-	        ui->copyDataCheckBox->isChecked()};
+	NewCardDialog ncd;
+	ncd.ui->passLineEdit->setText("0");
+	ncd.ui->copyDataCheckBox->setChecked(false);
+	ncd.ui->copyDataCheckBox->setEnabled(canCopy);
+	int const dr = ncd.exec();
+	return {dr, ncd.ui->passLineEdit->text().toUInt(),
+	        ncd.ui->copyDataCheckBox->isChecked()};
 }

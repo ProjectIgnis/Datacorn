@@ -25,19 +25,22 @@ if is_windows
 endif
 
 src_files = files([
-	'src/main.cpp',
+	'src/gui/database_editor_widget.cpp',
 	'src/gui/main_window.cpp',
-	'src/gui/new_card_dialog.cpp'
+	'src/gui/new_card_dialog.cpp',
+	'src/main.cpp',
 ])
 
 moc_files = qt_mod.compile_moc(headers : files([
+	'src/gui/database_editor_widget.hpp',
 	'src/gui/main_window.hpp',
 	'src/gui/new_card_dialog.hpp',
 ]))
 
 ui_files = qt_mod.compile_ui(sources : files([
+	'src/gui/database_editor_widget.ui',
 	'src/gui/main_window.ui',
-	'src/gui/new_card_dialog.ui'
+	'src/gui/new_card_dialog.ui',
 ]))
 
 subdir('res') # Provides ts_files and res_files
