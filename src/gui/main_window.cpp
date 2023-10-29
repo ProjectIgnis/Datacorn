@@ -95,6 +95,7 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::openDatabase);
 	connect(ui->actionCloseDatabase, &QAction::triggered,
 	        [this]() { closeDatabase(-1); });
+	connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
 	connect(ui->dbEditorTabsWidget, &QTabWidget::tabCloseRequested, this,
 	        &MainWindow::closeDatabase);
 	connect(ui->actionNewCard, &QAction::triggered, this, &MainWindow::newCard);
