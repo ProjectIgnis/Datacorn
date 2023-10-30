@@ -57,6 +57,7 @@ private:
 
 	QString formatArchetype(quint16 code, char const* name) const;
 	void addArchetype(quint16 code);
+	void retranslateArchetypes();
 
 	void fillCardList(QSqlDatabase& db);
 	void updateUiWithCode(quint32 code);

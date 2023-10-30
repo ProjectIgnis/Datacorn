@@ -88,10 +88,16 @@
     <addaction name="actionCopySelectedCards"/>
     <addaction name="actionPasteClipboardCards"/>
    </widget>
+   <widget class="QMenu" name="menuLanguage">
+    <property name="title">
+     <string>&amp;Language</string>
+    </property>
+   </widget>
    <addaction name="menuDatabase"/>
    <addaction name="menuCard"/>
    <addaction name="menuAction"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuLanguage"/>
   </widget>
   <action name="actionNewDatabase">
    <property name="text">

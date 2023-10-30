@@ -1,5 +1,6 @@
 #include "main_window.hpp"
 
+#include <QActionGroup>
 #include <QDesktopServices> // openUrl
 #include <QFileDialog>
 #include <QMessageBox>
@@ -87,16 +88,16 @@ static constexpr int TEXT_INDEX_START = 11;
 
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
-	, spanishTranslator(std::make_unique<QTranslator>())
+	, currentTranslator(nullptr)
 	, ui(std::make_unique<Ui::MainWindow>())
 {
-	(void)spanishTranslator->load(":/es");
 	ui->setupUi(this);
 #ifdef Q_OS_WIN
 	setGeometry(
 		QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(),
 	                        QGuiApplication::primaryScreen()->geometry()));
 #endif
+	createLanguageMenu();
 	connect(ui->actionNewDatabase, &QAction::triggered, this,
 	        &MainWindow::newDatabase);
 	connect(ui->actionOpenDatabase, &QAction::triggered, this,
@@ -118,30 +119,48 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(ui->actionPasteClipboardCards, &QAction::triggered, this,
 	        &MainWindow::pasteClipboardCards);
 	connect(ui->actionHomepage, &QAction::triggered, this,
-	        &MainWindow::openHomepage);
+			&MainWindow::openHomepage);
 	// Setup "Clipboard" database
 	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER, SQL_CLIPBOARD_CONN);
 	db.setDatabaseName(":memory:");
 	setupCleanDB(db);
+
+	// TODO: Allow selecting the default locale via an option?
+	loadLanguage("en");
 }
 
 MainWindow::~MainWindow()
 {
-	QApplication::removeTranslator(spanishTranslator.get());
+	if(currentTranslator)
+		QApplication::removeTranslator(currentTranslator.get());
 }
 
 void MainWindow::changeEvent(QEvent* event)
 {
-	if(event->type() == QEvent::LanguageChange)
+	switch(event->type())
 	{
-		ui->retranslateUi(this);
-		// FIXME: Implement translating tabs
+	case QEvent::LanguageChange:
+		return ui->retranslateUi(this);
+	case QEvent::LocaleChange:
+	{
+		QString locale = QLocale::system().name();
+		locale.truncate(locale.lastIndexOf('_'));
+		return loadLanguage(locale);
 	}
-	else
-		QWidget::changeEvent(event);
+	default:
+		return QWidget::changeEvent(event);
+	}
 }
 
 // private slots
+
+void MainWindow::languageChanged(QAction* action)
+{
+	if(action != nullptr)
+	{
+		loadLanguage(action->data().toString());
+	}
+}
 
 void MainWindow::newDatabase()
 {
@@ -319,8 +338,83 @@ void MainWindow::openHomepage()
 
 // private
 
+void MainWindow::loadLanguage(const QString& newLanguage)
+{
+	if(currLang != newLanguage)
+	{
+		currLang = newLanguage;
+		QLocale locale = QLocale(currLang);
+		QLocale::setDefault(locale);
+
+		auto& newTranslator = translations[currLang];
+		if(currentTranslator)
+			QApplication::removeTranslator(currentTranslator.get());
+		currentTranslator = newTranslator;
+		if(currentTranslator)
+			QApplication::installTranslator(currentTranslator.get());
+	}
+}
+
+// we create the menu entries dynamically, dependent on the existing
+// translations.
+void MainWindow::createLanguageMenu()
+{
+	auto* langGroup = new QActionGroup(ui->menuLanguage);
+	langGroup->setExclusive(true);
+
+	connect(ui->actionHomepage, &QAction::triggered, this,
+			&MainWindow::openHomepage);
+
+	connect(langGroup, &QActionGroup::triggered, this,
+			&MainWindow::languageChanged);
+
+	auto add_translator =
+		[&](QString locale, const std::shared_ptr<QTranslator>& translator)
+	{
+		translations.insert(locale, translator);
+		QString lang = QLocale::languageToString(QLocale(locale).language());
+
+		auto* action = new QAction("&" + lang, this);
+		action->setCheckable(true);
+		action->setData(locale);
+
+		ui->menuLanguage->addAction(action);
+		langGroup->addAction(action);
+
+		return action;
+	};
+
+	add_translator("en", nullptr)->setChecked(true);
+
+	auto load_translations_from_path = [&](QString path)
+	{
+		auto translationFiles = QDir(path).entryList(QStringList("*.qm"));
+
+		for(auto filename : translationFiles)
+		{
+			auto locale = filename;
+			// get locale extracted by filename
+			locale.truncate(locale.lastIndexOf('.')); // "es"
+
+			if(translations.contains(locale))
+				continue;
+
+			auto translator = std::make_shared<QTranslator>();
+			if(!translator->load(filename, path))
+				continue;
+
+			(void)add_translator(locale, translator);
+		}
+	};
+
+	// Load from internal resources
+	load_translations_from_path(":/");
+	load_translations_from_path(
+		QApplication::applicationDirPath().append("/languages"));
+}
+
 void MainWindow::copyCards(QVector<quint32> const& codes, QSqlDatabase& dbSrc,
-                           QSqlDatabase& dbDst)
+						   QSqlDatabase& dbDst)
 {
 	auto const stmt = [&]() -> QString
 	{

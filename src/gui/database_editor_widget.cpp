@@ -393,6 +393,7 @@ void DatabaseEditorWidget::changeEvent(QEvent* event)
 		retranslate_cbs(ATTRIBUTE_FIELDS, attributeCbs.get());
 		retranslate_cbs(SCOPE_FIELDS, scopeCbs.get());
 		retranslate_cbs(CATEGORY_FIELDS, categoryCbs.get());
+		retranslateArchetypes();
 	}
 	else
 		QWidget::changeEvent(event);
@@ -533,6 +534,26 @@ void DatabaseEditorWidget::addArchetype(quint16 code)
 		code, search != ARCHETYPES_MAP.constEnd() ? search.value() : nullptr));
 	auto& item = *ui->archeList->item(ui->archeList->count() - 1);
 	item.setData(ARCHETYPE_ROLE, code);
+}
+
+void DatabaseEditorWidget::retranslateArchetypes()
+{
+	auto const end = ARCHETYPES_MAP.constEnd();
+	auto i = 0;
+	for(auto it = ARCHETYPES_MAP.constBegin(); it != end; ++it, ++i)
+	{
+		ui->archeComboBox->setItemText(i,
+									   formatArchetype(it.key(), it.value()));
+	}
+
+	for(int i = 0; i < ui->archeList->count(); ++i)
+	{
+		auto& item = *ui->archeList->item(i);
+		auto code = item.data(ARCHETYPE_ROLE).toUInt();
+		auto const search = ARCHETYPES_MAP.find(code);
+		item.setText(
+			formatArchetype(code, search != end ? search.value() : nullptr));
+	}
 }
 
 void DatabaseEditorWidget::fillCardList(QSqlDatabase& db)
