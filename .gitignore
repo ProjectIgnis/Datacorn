@@ -1,4 +1,5 @@
 resources/
 build*
-res/es.qm
+res/*.qm
 .cache
+*.user
