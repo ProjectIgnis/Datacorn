@@ -283,8 +283,8 @@ void MainWindow::copySelectedCards()
 		return;
 	auto dbSrc = QSqlDatabase::database(tab.databaseConnection(), false);
 	auto dbDst = QSqlDatabase::database(SQL_CLIPBOARD_CONN, false);
-	dbSrc.exec("DELETE FROM datas;");
-	dbSrc.exec("DELETE FROM texts;");
+	dbDst.exec("DELETE FROM datas;");
+	dbDst.exec("DELETE FROM texts;");
 	copyCards(codes, dbSrc, dbDst);
 	// TODO: Update target db's widget
 }
