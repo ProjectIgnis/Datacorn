@@ -28,6 +28,7 @@ src_files = files([
 	'src/gui/database_editor_widget.cpp',
 	'src/gui/main_window.cpp',
 	'src/gui/new_card_dialog.cpp',
+	'src/gui/sql_util.cpp',
 	'src/main.cpp',
 ])
 

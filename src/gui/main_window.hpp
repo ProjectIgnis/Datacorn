@@ -4,6 +4,7 @@
 #include <memory>
 
 QT_BEGIN_NAMESPACE
+class QSqlDatabase;
 class QTranslator;
 namespace Ui
 {
@@ -24,11 +25,15 @@ public:
 private slots:
 	void newDatabase();
 	void openDatabase();
+	void showClipboardDatabase();
 	void closeDatabase(int index);
 
 	void newCard();
 	void saveData();
 	void deleteData();
+
+	void copySelectedCards();
+	void pasteClipboardCards();
 
 	void openHomepage();
 
@@ -36,8 +41,15 @@ private:
 	std::unique_ptr<QTranslator> const spanishTranslator;
 	std::unique_ptr<Ui::MainWindow> const ui;
 
+	static void copyCards(QVector<quint32> const& codes, QSqlDatabase& dbSrc,
+	                      QSqlDatabase& dbDst);
+
+	DatabaseEditorWidget& currentTab() const;
+	DatabaseEditorWidget& widgetFromConnection(
+		QString const& dbConnection) const;
+	void setupCleanDB(QSqlDatabase& db) const;
+
 	void enableEditing(bool editing);
-	DatabaseEditorWidget& widgetFromConnection(QString const& dbConnection);
 };
 
 #endif // GUI_MAIN_WINDOW_HPP

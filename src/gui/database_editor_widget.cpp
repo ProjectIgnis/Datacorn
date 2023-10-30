@@ -15,6 +15,7 @@
 
 #include "../archetypes.hpp"
 #include "new_card_dialog.hpp"
+#include "sql_util.hpp"
 
 namespace
 {
@@ -166,7 +167,7 @@ SELECT EXISTS(SELECT 1 FROM datas WHERE datas.id = ?);
 )");
 
 QString const SQL_QUERY_DATA(R"(
-SELECT id,alias,setcode,type,atk,def,level,race,attribute,ot,category
+SELECT alias,setcode,type,atk,def,level,race,attribute,ot,category
 FROM datas WHERE datas.id = ?;
 )");
 
@@ -185,16 +186,6 @@ DELETE FROM texts
 WHERE id = ?;
 )");
 
-QString const SQL_INSERT_DATA(R"(
-INSERT INTO datas (id,alias,setcode,type,atk,def,level,race,attribute,ot,category)
-VALUES (?,?,?,?,?,?,?,?,?,?,?);
-)");
-
-QString const SQL_INSERT_TEXT(R"(
-INSERT INTO texts (id,name,desc,str1,str2,str3,str4,str5,str6,str7,str8,str9,str10,str11,str12,str13,str14,str15,str16)
-VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
-)");
-
 inline bool isChecked(QListWidgetItem* item) noexcept
 {
 	return item->checkState() == Qt::Checked;
@@ -209,14 +200,6 @@ inline void setRegexValidator(QLineEdit& parent, QString const& regex)
 {
 	parent.setValidator(
 		new QRegularExpressionValidator(QRegularExpression(regex), &parent));
-}
-
-inline QSqlQuery build_query(QSqlDatabase& db, QString const& stmt)
-{
-	QSqlQuery q(db);
-	bool const qPrepareResult = q.prepare(stmt);
-	Q_ASSERT(qPrepareResult);
-	return q;
 }
 
 class CardCodeNameSqlModel final : public QSqlTableModel
@@ -420,6 +403,15 @@ QString DatabaseEditorWidget::databaseConnection() const
 	return dbConnection;
 }
 
+QVector<quint32> DatabaseEditorWidget::selectedCards() const
+{
+	QVector<quint32> ret;
+	auto const* selectionModel = ui->cardCodeNameList->selectionModel();
+	for(auto const& index : selectionModel->selectedRows())
+		ret.append(index.data().toUInt());
+	return ret;
+}
+
 void DatabaseEditorWidget::newCard()
 {
 	auto db = QSqlDatabase::database(dbConnection, false);
@@ -597,20 +589,18 @@ void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 	// Query data and strings
 	auto db = QSqlDatabase::database(dbConnection, false);
 	Q_ASSERT(db.isValid());
-	auto q1 = build_query(db, SQL_QUERY_DATA);
+	auto q1 = buildQuery(db, SQL_QUERY_DATA);
 	q1.bindValue(0, code);
-	bool const q1result = q1.exec() && q1.first();
-	Q_ASSERT(q1result);
-	auto q2 = build_query(db, SQL_QUERY_TEXT);
+	execQuery(q1, true);
+	auto q2 = buildQuery(db, SQL_QUERY_TEXT);
 	q2.bindValue(0, code);
-	bool const q2result = q2.exec() && q2.first();
-	Q_ASSERT(q2result);
+	execQuery(q2, true);
 	// Populate the fields with the new data and strings
-	ui->passLineEdit->setText(q1.value(0).toString());
-	ui->aliasLineEdit->setText(q1.value(1).toString());
+	ui->passLineEdit->setText(QString::number(code));
+	ui->aliasLineEdit->setText(q1.value(0).toString());
 	{ // Setcode population
 		static constexpr auto MAX_SETCODES = 4;
-		quint64 const setcodes = q1.value(2).toULongLong();
+		quint64 const setcodes = q1.value(1).toULongLong();
 		for(unsigned i = 0U; i < MAX_SETCODES; i++)
 		{
 			quint16 const setcode = (setcodes >> (i * 16U)) & 0xFFFFU;
@@ -619,13 +609,13 @@ void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 			addArchetype(setcode);
 		}
 	}
-	quint32 const type = q1.value(3).toUInt();
+	quint32 const type = q1.value(2).toUInt();
 	toggle_cbs(type, TYPE_FIELDS, typeCbs.get());
-	qint32 const atk = q1.value(4).toInt();
+	qint32 const atk = q1.value(3).toInt();
 	ui->atkQmCheckBox->setChecked(atk == QMARK_ATK_DEF);
 	ui->atkSpinBox->setEnabled(atk != QMARK_ATK_DEF);
 	ui->atkSpinBox->setValue(std::max(atk, 0));
-	if(qint32 const def = q1.value(5).toInt(); (type & TYPE_LINK) == 0U)
+	if(qint32 const def = q1.value(4).toInt(); (type & TYPE_LINK) == 0U)
 	{
 		ui->defQmCheckBox->setChecked(def == QMARK_ATK_DEF);
 		ui->defSpinBox->setEnabled(def != QMARK_ATK_DEF);
@@ -642,14 +632,14 @@ void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 		ui->markerTopButton->setChecked((def & 0x80) != 0U);
 		ui->markerTopRightButton->setChecked((def & 0x100) != 0U);
 	}
-	quint32 const dbLevel = q1.value(6).toUInt();
+	quint32 const dbLevel = q1.value(5).toUInt();
 	ui->levelSpinBox->setValue(dbLevel & 0x800000FF);
 	ui->lScaleSpinBox->setValue((dbLevel >> 24U) & 0xFF);
 	ui->rScaleSpinBox->setValue((dbLevel >> 16U) & 0xFF);
-	toggle_cbs(q1.value(7).toUInt(), RACE_FIELDS, raceCbs.get());
-	toggle_cbs(q1.value(8).toUInt(), ATTRIBUTE_FIELDS, attributeCbs.get());
-	toggle_cbs(q1.value(9).toUInt(), SCOPE_FIELDS, scopeCbs.get());
-	toggle_cbs(q1.value(10).toUInt(), CATEGORY_FIELDS, categoryCbs.get());
+	toggle_cbs(q1.value(6).toUInt(), RACE_FIELDS, raceCbs.get());
+	toggle_cbs(q1.value(7).toUInt(), ATTRIBUTE_FIELDS, attributeCbs.get());
+	toggle_cbs(q1.value(8).toUInt(), SCOPE_FIELDS, scopeCbs.get());
+	toggle_cbs(q1.value(9).toUInt(), CATEGORY_FIELDS, categoryCbs.get());
 	ui->nameLineEdit->setText(q2.value(0).toString());
 	ui->descPlainTextEdit->setPlainText(q2.value(1).toString());
 	for(int i = 0; i < stringsRowCount; ++i)
@@ -681,8 +671,8 @@ void DatabaseEditorWidget::updateCardWithUi()
 		removeCard(db, newCode);
 	if(previousCode != 0)
 		removeCard(db, previousCode);
-	auto q1 = build_query(db, SQL_INSERT_DATA);
-	auto q2 = build_query(db, SQL_INSERT_TEXT);
+	auto q1 = buildQuery(db, SQL_INSERT_DATA);
+	auto q2 = buildQuery(db, SQL_INSERT_TEXT);
 	// Insert data
 	auto compute_bitfield = [&](auto const& fields,
 	                            QListWidgetItem** cbs) -> quint64
@@ -764,22 +754,21 @@ void DatabaseEditorWidget::updateCardWithUi()
 
 bool DatabaseEditorWidget::cardExists(QSqlDatabase& db, quint32 code) const
 {
-	auto q = build_query(db, SQL_QUERY_CODE_EXISTS);
+	auto q = buildQuery(db, SQL_QUERY_CODE_EXISTS);
 	q.bindValue(0, code);
-	bool const qResult = q.exec() && q.first();
-	Q_ASSERT(qResult);
+	execQuery(q, true);
 	return q.value(0).toBool();
 }
 
 void DatabaseEditorWidget::removeCard(QSqlDatabase& db, quint32 code)
 {
 	// Remove data
-	auto q1 = build_query(db, SQL_DELETE_DATA);
+	auto q1 = buildQuery(db, SQL_DELETE_DATA);
 	q1.bindValue(0, code);
 	bool const q1execResult = q1.exec();
 	Q_ASSERT(q1execResult);
 	// Remove strings
-	auto q2 = build_query(db, SQL_DELETE_TEXT);
+	auto q2 = buildQuery(db, SQL_DELETE_TEXT);
 	q2.bindValue(0, code);
 	bool const q2execResult = q2.exec();
 	Q_ASSERT(q2execResult);

@@ -1,5 +1,6 @@
 #ifndef GUI_DATABASE_EDITOR_WIDGET_HPP
 #define GUI_DATABASE_EDITOR_WIDGET_HPP
+#include <QVector>
 #include <QWidget>
 #include <memory>
 
@@ -24,6 +25,7 @@ public:
 	void changeEvent(QEvent* event) override;
 
 	QString databaseConnection() const;
+	QVector<quint32> selectedCards() const;
 
 	void newCard();
 	void saveData();
