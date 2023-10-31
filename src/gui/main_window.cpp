@@ -233,7 +233,7 @@ void MainWindow::showClipboardDatabase()
 	auto const ptr = db.password();
 	if(!ptr.isEmpty())
 	{
-		ui->dbEditorTabsWidget->setCurrentWidget(&widgetFromConnection(ptr));
+		ui->dbEditorTabsWidget->setCurrentWidget(&widgetFromConnection(SQL_CLIPBOARD_CONN));
 		return;
 	}
 	// Create "Clipboard" view widget
