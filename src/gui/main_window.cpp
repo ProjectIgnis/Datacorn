@@ -3,12 +3,14 @@
 #include <QDesktopServices> // openUrl
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QMouseEvent>
 #include <QScreen>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QString>
+#include <QTabBar>
 #include <QTranslator>
 #include <QUrl>
 #include <array>
@@ -107,7 +109,9 @@ MainWindow::MainWindow(QWidget* parent)
 	        [this]() { closeDatabase(-1); });
 	connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
 	connect(ui->dbEditorTabsWidget, &QTabWidget::tabCloseRequested, this,
-	        &MainWindow::closeDatabase);
+			&MainWindow::closeDatabase);
+	// Allow filtering for middle mouse clicks to close tabs
+	ui->dbEditorTabsWidget->installEventFilter(this);
 	connect(ui->actionNewCard, &QAction::triggered, this, &MainWindow::newCard);
 	connect(ui->actionSaveData, &QAction::triggered, this,
 	        &MainWindow::saveData);
@@ -233,7 +237,8 @@ void MainWindow::showClipboardDatabase()
 	auto const ptr = db.password();
 	if(!ptr.isEmpty())
 	{
-		ui->dbEditorTabsWidget->setCurrentWidget(&widgetFromConnection(SQL_CLIPBOARD_CONN));
+		ui->dbEditorTabsWidget->setCurrentWidget(
+			&widgetFromConnection(SQL_CLIPBOARD_CONN));
 		return;
 	}
 	// Create "Clipboard" view widget
@@ -315,6 +320,41 @@ void MainWindow::openHomepage()
 {
 	QDesktopServices::openUrl(
 		QUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
+}
+
+// protected
+
+bool MainWindow::eventFilter(QObject* obj, QEvent* event)
+{
+	auto parse_event = [&]
+	{
+		static int pressedTab = -1;
+		if(obj != ui->dbEditorTabsWidget)
+			return false;
+		if(event->type() != QEvent::MouseButtonPress &&
+		   event->type() != QEvent::MouseButtonRelease)
+			return false;
+		auto mouseEvent = static_cast<QMouseEvent*>(event);
+		if(mouseEvent->button() != Qt::MiddleButton)
+			return false;
+		auto tabIndex =
+			ui->dbEditorTabsWidget->tabBar()->tabAt(mouseEvent->pos());
+		if(tabIndex == -1)
+		{
+			pressedTab = -1;
+			return false;
+		}
+		if(event->type() == QEvent::MouseButtonPress)
+		{
+			pressedTab = tabIndex;
+		}
+		else if(std::exchange(pressedTab, -1) == tabIndex)
+		{
+			emit ui->dbEditorTabsWidget->tabCloseRequested(tabIndex);
+		}
+		return true;
+	};
+	return parse_event() || QObject::eventFilter(obj, event);
 }
 
 // private
