@@ -66,6 +66,6 @@ jobs:
         asset_name: Datacorn.exe
         prerelease: true
         tag: |
-          assets
+          latest
         file: |
           Datacorn/datacorn.exe
