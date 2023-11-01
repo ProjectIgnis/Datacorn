@@ -550,7 +550,7 @@ void DatabaseEditorWidget::retranslateArchetypes()
 	for(auto it = ARCHETYPES_MAP.constBegin(); it != end; ++it, ++i)
 	{
 		ui->archeComboBox->setItemText(i,
-									   formatArchetype(it.key(), it.value()));
+		                               formatArchetype(it.key(), it.value()));
 	}
 
 	for(int i = 0; i < ui->archeList->count(); ++i)

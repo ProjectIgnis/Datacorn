@@ -111,7 +111,7 @@ MainWindow::MainWindow(QWidget* parent)
 	        [this]() { closeDatabase(-1); });
 	connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
 	connect(ui->dbEditorTabsWidget, &QTabWidget::tabCloseRequested, this,
-			&MainWindow::closeDatabase);
+	        &MainWindow::closeDatabase);
 	// Allow filtering for middle mouse clicks to close tabs
 	ui->dbEditorTabsWidget->installEventFilter(this);
 	connect(ui->actionNewCard, &QAction::triggered, this, &MainWindow::newCard);
@@ -124,7 +124,7 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(ui->actionPasteClipboardCards, &QAction::triggered, this,
 	        &MainWindow::pasteClipboardCards);
 	connect(ui->actionHomepage, &QAction::triggered, this,
-			&MainWindow::openHomepage);
+	        &MainWindow::openHomepage);
 	// Setup "Clipboard" database
 	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER, SQL_CLIPBOARD_CONN);
 	db.setDatabaseName(":memory:");
@@ -404,10 +404,10 @@ void MainWindow::createLanguageMenu()
 	langGroup->setExclusive(true);
 
 	connect(ui->actionHomepage, &QAction::triggered, this,
-			&MainWindow::openHomepage);
+	        &MainWindow::openHomepage);
 
 	connect(langGroup, &QActionGroup::triggered, this,
-			&MainWindow::languageChanged);
+	        &MainWindow::languageChanged);
 
 	auto add_translator =
 		[&](QString locale, const std::shared_ptr<QTranslator>& translator)
@@ -455,7 +455,7 @@ void MainWindow::createLanguageMenu()
 }
 
 void MainWindow::copyCards(QVector<quint32> const& codes, QSqlDatabase& dbSrc,
-						   QSqlDatabase& dbDst)
+                           QSqlDatabase& dbDst)
 {
 	auto const stmt = [&]() -> QString
 	{
