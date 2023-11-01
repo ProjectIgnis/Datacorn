@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="es" sourcelanguage="en">
 <context>
+    <name>CardCodeNameSqlModel</name>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="215"/>
+        <source>Code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="216"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DatabaseEditorWidget</name>
     <message>
         <location filename="../src/archetypes.hpp" line="10"/>
@@ -1057,6 +1070,7 @@
     </message>
     <message>
         <location filename="../src/archetypes.hpp" line="225"/>
+        <location filename="../src/gui/database_editor_widget.cpp" line="49"/>
         <source>Synchro</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1552,6 +1566,7 @@
     </message>
     <message>
         <location filename="../src/archetypes.hpp" line="327"/>
+        <location filename="../src/gui/database_editor_widget.cpp" line="56"/>
         <source>Counter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2047,6 +2062,7 @@
     </message>
     <message>
         <location filename="../src/archetypes.hpp" line="433"/>
+        <location filename="../src/gui/database_editor_widget.cpp" line="72"/>
         <source>Fairy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2284,6 +2300,7 @@
     </message>
     <message>
         <location filename="../src/archetypes.hpp" line="482"/>
+        <location filename="../src/gui/database_editor_widget.cpp" line="45"/>
         <source>Spirit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2609,6 +2626,7 @@
     </message>
     <message>
         <location filename="../src/archetypes.hpp" line="551"/>
+        <location filename="../src/gui/database_editor_widget.cpp" line="58"/>
         <source>Toon</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2629,6 +2647,7 @@
     </message>
     <message>
         <location filename="../src/archetypes.hpp" line="555"/>
+        <location filename="../src/gui/database_editor_widget.cpp" line="70"/>
         <source>Warrior</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2704,6 +2723,7 @@
     </message>
     <message>
         <location filename="../src/archetypes.hpp" line="571"/>
+        <location filename="../src/gui/database_editor_widget.cpp" line="59"/>
         <source>Xyz</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2744,6 +2764,7 @@
     </message>
     <message>
         <location filename="../src/archetypes.hpp" line="579"/>
+        <location filename="../src/gui/database_editor_widget.cpp" line="101"/>
         <source>Galaxy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3211,6 +3232,7 @@
     </message>
     <message>
         <location filename="../src/archetypes.hpp" line="675"/>
+        <location filename="../src/gui/database_editor_widget.cpp" line="76"/>
         <source>Aqua</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3401,6 +3423,7 @@
     </message>
     <message>
         <location filename="../src/archetypes.hpp" line="714"/>
+        <location filename="../src/gui/database_editor_widget.cpp" line="60"/>
         <source>Pendulum</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3467,6 +3490,672 @@
     <message>
         <location filename="../src/archetypes.hpp" line="727"/>
         <source>Clear Wing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Card Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>passcode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>alias</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Card Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Scope</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <location filename="../src/gui/database_editor_widget.cpp" line="37"/>
+        <source>Monster</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Stats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Level/Rank</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Attribute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Race</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Archetypes / Setcodes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Strings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.ui"/>
+        <source>Category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="38"/>
+        <source>Spell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="39"/>
+        <source>Trap</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="40"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="41"/>
+        <source>Effect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="42"/>
+        <source>Fusion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="43"/>
+        <source>Ritual</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="44"/>
+        <source>Trap Monster</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="46"/>
+        <source>Union</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="47"/>
+        <source>Gemini</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="48"/>
+        <source>Tuner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="50"/>
+        <source>Token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="51"/>
+        <source>Maximum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="52"/>
+        <source>Quick-Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="53"/>
+        <source>Continuous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="54"/>
+        <source>Equip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="55"/>
+        <source>Field</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="57"/>
+        <source>Flip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="61"/>
+        <location filename="../src/gui/database_editor_widget.cpp" line="146"/>
+        <source>Special Summon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="62"/>
+        <source>Link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="63"/>
+        <source>Skill</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="64"/>
+        <source>Action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="65"/>
+        <source>Plus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="66"/>
+        <source>Minus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="67"/>
+        <source>Armor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="71"/>
+        <source>Spellcaster</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="73"/>
+        <source>Fiend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="74"/>
+        <source>Zombie</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="75"/>
+        <source>Machine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="77"/>
+        <source>Pyro</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="78"/>
+        <source>Rock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="79"/>
+        <source>Winged-Beast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="80"/>
+        <source>Plant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="81"/>
+        <source>Insect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="82"/>
+        <source>Thunder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="83"/>
+        <source>Dragon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="84"/>
+        <source>Beast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="85"/>
+        <source>Beast-Warrior</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="86"/>
+        <source>Dinosaur</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="87"/>
+        <source>Fish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="88"/>
+        <source>Sea-Serpent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="89"/>
+        <source>Reptile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="90"/>
+        <source>Psychic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="91"/>
+        <source>Divine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="92"/>
+        <source>Creator God</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="93"/>
+        <source>Wyrm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="94"/>
+        <source>Cyberse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="95"/>
+        <source>Illusionist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="96"/>
+        <source>Cyborg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="97"/>
+        <source>Magical Knight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="98"/>
+        <source>High Dragon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="99"/>
+        <source>Omega Psychic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="100"/>
+        <source>Celestial Warrior</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="104"/>
+        <source>EARTH</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="105"/>
+        <source>WATER</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="106"/>
+        <source>FIRE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="107"/>
+        <source>WIND</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="108"/>
+        <source>LIGHT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="109"/>
+        <source>DARK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="110"/>
+        <source>DIVINE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="113"/>
+        <source>OCG</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="114"/>
+        <source>TCG</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="115"/>
+        <source>Anime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="116"/>
+        <source>Illegal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="117"/>
+        <source>Video Game</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="118"/>
+        <source>Custom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="119"/>
+        <source>Speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="120"/>
+        <source>Pre-Release</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="121"/>
+        <source>Rush</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="122"/>
+        <source>Legend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="123"/>
+        <source>Hidden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="126"/>
+        <source>Destroy Monster</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="127"/>
+        <source>Destroy S/T</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="128"/>
+        <source>Destroy Deck</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="129"/>
+        <source>Destroy Hand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="130"/>
+        <source>Send to GY</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="131"/>
+        <source>Send to Hand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="132"/>
+        <source>Send to Deck</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="133"/>
+        <source>Banish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="134"/>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="135"/>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="136"/>
+        <source>Change ATK/DEF</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="137"/>
+        <source>Change Level/Rank</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="138"/>
+        <source>Position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="139"/>
+        <source>Piercing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="140"/>
+        <source>Direct Attack</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="141"/>
+        <source>Multi Attack</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="142"/>
+        <source>Negate Activation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="143"/>
+        <source>Negate Effect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="144"/>
+        <source>Damage LP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="145"/>
+        <source>Recover LP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="147"/>
+        <source>Non-effect-related</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="148"/>
+        <source>Token-related</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="149"/>
+        <source>Fusion-related</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="150"/>
+        <source>Ritual-related</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="151"/>
+        <source>Synchro-related</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="152"/>
+        <source>Xyz-related</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="153"/>
+        <source>Link-related</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="154"/>
+        <source>Counter-related</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="155"/>
+        <source>Gamble</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="156"/>
+        <source>Control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="157"/>
+        <source>Move Zones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="440"/>
+        <source>Are you sure about deleting this card?
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="441"/>
+        <source>Code: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="442"/>
+        <source>Confirm deletion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="458"/>
+        <source>Add Archetype?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="459"/>
+        <source>The database schema can only save up to 4 archetypes, even if you add this one it won&apos;t be saved. Proceed anyways?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="485"/>
+        <source>Couldn&apos;t Parse Archetype</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="486"/>
+        <source>The currently set archetype could not be parsed either in decimal or hexadecimal format. Either fix the format or select one of the preset archetypes from the list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="680"/>
+        <source>Invalid passcode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="681"/>
+        <source>Passcode cannot be 0 or empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="688"/>
+        <source>Confirm Overwrite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="689"/>
+        <source>The chosen card code already exists, do you wish to overwrite it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FilteringHeader</name>
+    <message>
+        <location filename="../src/gui/database_editor_widget.cpp" line="243"/>
+        <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3575,6 +4264,56 @@
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Show Clipboard Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/main_window.cpp" line="172"/>
+        <source>Save Database As</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/main_window.cpp" line="173"/>
+        <location filename="../src/gui/main_window.cpp" line="221"/>
+        <source>YGOPro Database (*.cdb *.db *.sqlite)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/main_window.cpp" line="220"/>
+        <source>Select Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/main_window.cpp" line="233"/>
+        <location filename="../src/gui/main_window.cpp" line="241"/>
+        <source>Error Opening Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/main_window.cpp" line="242"/>
+        <source>Selected file is not a proper YGOPRO database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/main_window.cpp" line="267"/>
+        <source>Clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NewCardDialog</name>
+    <message>
+        <location filename="../src/gui/new_card_dialog.ui"/>
+        <source>Insert New Card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/new_card_dialog.ui"/>
+        <source>passcode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/new_card_dialog.ui"/>
+        <source>copy currently selected data?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

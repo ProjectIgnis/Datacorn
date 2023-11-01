@@ -204,6 +204,7 @@ inline void setRegexValidator(QLineEdit& parent, QString const& regex)
 
 class CardCodeNameSqlModel final : public QSqlTableModel
 {
+	Q_OBJECT
 public:
 	explicit CardCodeNameSqlModel(QWidget* parent, QSqlDatabase const& db)
 		: QSqlTableModel(parent, db)
@@ -228,6 +229,7 @@ private:
 
 class FilteringHeader final : public QHeaderView
 {
+	Q_OBJECT
 public:
 	explicit FilteringHeader(QTableView& parent)
 		: QHeaderView(Qt::Horizontal, &parent), model(nullptr)
