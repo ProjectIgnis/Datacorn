@@ -37,6 +37,9 @@ private slots:
 
 	void openHomepage();
 
+protected:
+	bool eventFilter(QObject* obj, QEvent* event) override;
+
 private:
 	std::unique_ptr<QTranslator> const spanishTranslator;
 	std::unique_ptr<Ui::MainWindow> const ui;
