@@ -29,6 +29,7 @@ jobs:
         name: Datacorn
         path: Datacorn/
     - name: Release
+      if: ${{ github.ref == 'refs/heads/master' }}
       uses: svenstaro/upload-release-action@v2
       with:
         overwrite: true
@@ -66,6 +67,7 @@ jobs:
         name: Datacorn-qt6
         path: Datacorn/
     - name: Release
+      if: ${{ github.ref == 'refs/heads/master' }}
       uses: svenstaro/upload-release-action@v2
       with:
         overwrite: true
