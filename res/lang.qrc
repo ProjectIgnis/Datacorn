@@ -2,5 +2,6 @@
 <RCC version="1.0">
   <qresource>
       <file>es.qm</file>
+      <file>it.qm</file>
   </qresource>
 </RCC>

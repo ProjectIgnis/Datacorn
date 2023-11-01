@@ -1,6 +1,7 @@
 #ifndef GUI_MAIN_WINDOW_HPP
 #define GUI_MAIN_WINDOW_HPP
 #include <QMainWindow>
+#include <QMap>
 #include <memory>
 
 QT_BEGIN_NAMESPACE
@@ -21,8 +22,12 @@ public:
 	explicit MainWindow(QWidget* parent = nullptr);
 	~MainWindow() override;
 
+protected:
 	void changeEvent(QEvent* event) override;
+
 private slots:
+	void languageChanged(QAction* action);
+
 	void newDatabase();
 	void openDatabase();
 	void showClipboardDatabase();
@@ -41,8 +46,14 @@ protected:
 	bool eventFilter(QObject* obj, QEvent* event) override;
 
 private:
-	std::unique_ptr<QTranslator> const spanishTranslator;
+	void createLanguageMenu();
+	void loadLanguage(const QString& newLanguage);
+
+	std::shared_ptr<QTranslator> currentTranslator;
 	std::unique_ptr<Ui::MainWindow> const ui;
+
+	QMap<QString, std::shared_ptr<QTranslator>> translations;
+	QString currLang;
 
 	static void copyCards(QVector<quint32> const& codes, QSqlDatabase& dbSrc,
 	                      QSqlDatabase& dbDst);

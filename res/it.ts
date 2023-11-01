@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es" sourcelanguage="en">
+<TS version="2.1" language="it" sourcelanguage="en">
 <context>
     <name>DatabaseEditorWidget</name>
     <message>
@@ -3475,107 +3475,107 @@
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>Datacorn</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Database</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Database</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Card</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Carta</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;New Database...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nuovo Database...</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Open Database...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Apri Database...</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Homepage</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Info Programma</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Close Database</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Chiudi Database</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Save Data</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Salva</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Esci</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;New Card...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nuova Carta...</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Delete Data</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cancella Dati</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>Ctrl+Shift+V</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Modifica</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Language</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Lingua</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Copy Selected Cards</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Copia Carte Selezionate</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Paste Clipboard Cards</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Incolla Carte negli Appunti</translation>
     </message>
     <message>
         <location filename="../src/gui/main_window.ui"/>
         <source>&amp;Show Clipboard Database</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Mostra Carte negli Appunti</translation>
     </message>
 </context>
 </TS>
