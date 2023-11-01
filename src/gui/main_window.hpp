@@ -61,6 +61,7 @@ private:
 	DatabaseEditorWidget& currentTab() const;
 	DatabaseEditorWidget& widgetFromConnection(
 		QString const& dbConnection) const;
+	QSqlDatabase clipboardDatabase() const;
 	void setupCleanDB(QSqlDatabase& db) const;
 
 	void enableEditing(bool editing);

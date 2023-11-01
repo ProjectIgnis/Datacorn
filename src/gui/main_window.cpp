@@ -253,7 +253,7 @@ void MainWindow::openDatabase()
 
 void MainWindow::showClipboardDatabase()
 {
-	auto db = QSqlDatabase::database(SQL_CLIPBOARD_CONN, false);
+	auto db = clipboardDatabase();
 	auto const ptr = db.password();
 	if(!ptr.isEmpty())
 	{
@@ -278,10 +278,10 @@ void MainWindow::closeDatabase(int index)
 	auto const dbConnection = tab->database().connectionName();
 	ui->dbEditorTabsWidget->removeTab(index);
 	delete tab;
-	if(dbConnection != SQL_CLIPBOARD_CONN) // Long live the "Clipboard" db!
-		QSqlDatabase::removeDatabase(dbConnection);
+	if(dbConnection == SQL_CLIPBOARD_CONN) // Long live the "Clipboard" db!
+		clipboardDatabase().setPassword("");
 	else
-		QSqlDatabase::database(SQL_CLIPBOARD_CONN, false).setPassword("");
+		QSqlDatabase::removeDatabase(dbConnection);
 	enableEditing(ui->dbEditorTabsWidget->count() != 0);
 }
 
@@ -307,7 +307,7 @@ void MainWindow::copySelectedCards()
 	if(codes.size() == 0)
 		return;
 	auto dbSrc = tab.database();
-	auto dbDst = QSqlDatabase::database(SQL_CLIPBOARD_CONN, false);
+	auto dbDst = clipboardDatabase();
 	dbDst.exec("DELETE FROM datas;");
 	dbDst.exec("DELETE FROM texts;");
 	copyCards(codes, dbSrc, dbDst);
@@ -316,7 +316,7 @@ void MainWindow::copySelectedCards()
 
 void MainWindow::pasteClipboardCards()
 {
-	auto dbSrc = QSqlDatabase::database(SQL_CLIPBOARD_CONN, false);
+	auto dbSrc = clipboardDatabase();
 	auto dbDst = currentTab().database();
 	if(dbDst.connectionName() == SQL_CLIPBOARD_CONN)
 		return;
@@ -499,6 +499,13 @@ DatabaseEditorWidget& MainWindow::widgetFromConnection(
 	DatabaseEditorWidget* ptr{};
 	std::memcpy(&ptr, &pass, sizeof(DatabaseEditorWidget*));
 	return *ptr;
+}
+
+QSqlDatabase MainWindow::clipboardDatabase() const
+{
+	auto db = QSqlDatabase::database(SQL_CLIPBOARD_CONN, false);
+	Q_ASSERT(db.isValid());
+	return db;
 }
 
 void MainWindow::setupCleanDB(QSqlDatabase& db) const
