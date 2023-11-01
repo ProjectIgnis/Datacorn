@@ -87,6 +87,11 @@ FROM datas, texts WHERE datas.id = texts.id AND texts.id IN (
 )");
 static constexpr int TEXT_INDEX_START = 11;
 
+QString const SQL_QUERY_CODE_AND_NAME_LIST(R"(
+SELECT id,name
+FROM texts WHERE id IN (
+)");
+
 } // namespace
 
 MainWindow::MainWindow(QWidget* parent)
@@ -320,7 +325,6 @@ void MainWindow::pasteClipboardCards()
 	auto dbDst = currentTab().database();
 	if(dbDst.connectionName() == SQL_CLIPBOARD_CONN)
 		return;
-	// TODO: Confirm cards to be overwritten
 	auto const codes = [&]() -> QVector<quint32>
 	{
 		QVector<quint32> ret;
@@ -330,7 +334,36 @@ void MainWindow::pasteClipboardCards()
 			ret.append(q.value(0).toUInt());
 		return ret;
 	}();
+	if(codes.size() == 0)
+		return;
+	// Check cards to be overwritten, and confirm if necessary.
+	auto const stmt = [&]() -> QString
+	{
+		QString ret(SQL_QUERY_CODE_AND_NAME_LIST);
+		for(auto const code : codes)
+			ret.append(QString::number(code)).append(',');
+		ret.append("0);");
+		return ret;
+	}();
+	auto q = buildQuery(dbDst, stmt);
+	execQuery(q);
+	QString cardsToOverwrite;
+	while(q.next())
+	{
+		cardsToOverwrite.append("\n[")
+			.append(q.value(0).toString())
+			.append("] ");
+		cardsToOverwrite.append(q.value(1).toString());
+	}
+	if(!cardsToOverwrite.isEmpty() &&
+	   QMessageBox::question(
+		   this, tr("Confirm Overwrite"),
+		   tr("The following cards already exist in this database, are you "
+	          "sure you want to replace them?") +
+			   cardsToOverwrite) != QMessageBox::Yes)
+		return;
 	copyCards(codes, dbSrc, dbDst);
+	// TODO: Highlight pasted cards in db
 	// TODO: Update target db's widget
 }
 
