@@ -57,3 +57,13 @@ jobs:
       with:
         name: Datacorn
         path: Datacorn/
+    - name: Release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        overwrite: true
+        asset_name: Datacorn.exe
+        prerelease: true
+        tag: |
+          assets
+        file: |
+          Datacorn/datacorn.exe

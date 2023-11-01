@@ -28,6 +28,16 @@ jobs:
       with:
         name: Datacorn
         path: Datacorn/
+    - name: Release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        overwrite: true
+        asset_name: datacorn
+        prerelease: true
+        tag: |
+          assets
+        file: |
+          Datacorn/datacorn
 
   x64-linux-qt6:
     runs-on: ubuntu-22.04
@@ -55,3 +65,13 @@ jobs:
       with:
         name: Datacorn-qt6
         path: Datacorn/
+    - name: Release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        overwrite: true
+        asset_name: datacorn-qt6
+        prerelease: true
+        tag: |
+          assets
+        file: |
+          Datacorn/datacorn
