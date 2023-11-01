@@ -15,6 +15,7 @@
 #include <QTranslator>
 #include <QUrl>
 #include <array>
+#include <cstring> // std::memcpy
 #include <ui_main_window.h>
 
 #include "database_editor_widget.hpp"
@@ -495,9 +496,11 @@ DatabaseEditorWidget& MainWindow::widgetFromConnection(
 	auto db = QSqlDatabase::database(dbConnection, false);
 	Q_ASSERT(!db.password().isEmpty());
 	bool ok;
-	auto const ptr = db.password().toULongLong(&ok, 16);
+	auto const pass = db.password().toULongLong(&ok, 16);
 	Q_ASSERT(ok);
-	return *reinterpret_cast<DatabaseEditorWidget*>(ptr);
+	DatabaseEditorWidget* ptr{};
+	std::memcpy(&ptr, &pass, sizeof(DatabaseEditorWidget*));
+	return *ptr;
 }
 
 void MainWindow::setupCleanDB(QSqlDatabase& db) const

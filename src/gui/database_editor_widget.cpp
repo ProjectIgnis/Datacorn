@@ -11,6 +11,7 @@
 #include <QString>
 #include <QStringList>
 #include <array>
+#include <cstring> // std::memcpy
 #include <ui_database_editor_widget.h>
 
 #include "../archetypes.hpp"
@@ -367,11 +368,17 @@ DatabaseEditorWidget::DatabaseEditorWidget(QWidget* parent,
 	auto db = QSqlDatabase::database(dbConnection, false);
 	// NOTE: Yes, very ugly, but beats complicated logic to associate the
 	// database connection with the editor widget.
-	db.setPassword(
-		QString("%1").arg(reinterpret_cast<qulonglong>(this), 0, 16));
+	{
+		static_assert(sizeof(qulonglong) >= sizeof(this));
+		qulonglong pass{};
+		auto* ptr = this;
+		std::memcpy(&pass, &ptr, sizeof(this));
+		db.setPassword(QString("%1").arg(pass, 0, 16));
+	}
 	fillCardList(db);
 	QSqlQuery q(SQL_QUERY_FIRST_ROW_CODE, db);
-	if(q.exec() && q.first())
+	execQuery(q);
+	if(q.first())
 		updateUiWithCode(q.value(0).toUInt());
 }
 
@@ -754,8 +761,7 @@ void DatabaseEditorWidget::updateCardWithUi()
 	q1.bindValue(8, compute_bitfield(ATTRIBUTE_FIELDS, attributeCbs.get()));
 	q1.bindValue(9, compute_bitfield(SCOPE_FIELDS, scopeCbs.get()));
 	q1.bindValue(10, compute_bitfield(CATEGORY_FIELDS, categoryCbs.get()));
-	bool const q1execResult = q1.exec();
-	Q_ASSERT(q1execResult);
+	execQuery(q1);
 	// Insert strings
 	q2.bindValue(0, newCode);
 	q2.bindValue(1, ui->nameLineEdit->text());
@@ -766,8 +772,7 @@ void DatabaseEditorWidget::updateCardWithUi()
 		auto& item = *ui->stringsTableWidget->item(i, 0);
 		q2.bindValue(3 + i, item.text());
 	}
-	bool const q2execResult = q2.exec();
-	Q_ASSERT(q2execResult);
+	execQuery(q2);
 	// Update list and track new code
 	cardListFilter->getModel()->select(); // TODO: Properly select new code
 	previousCode = newCode;
@@ -786,11 +791,9 @@ void DatabaseEditorWidget::removeCard(QSqlDatabase& db, quint32 code)
 	// Remove data
 	auto q1 = buildQuery(db, SQL_DELETE_DATA);
 	q1.bindValue(0, code);
-	bool const q1execResult = q1.exec();
-	Q_ASSERT(q1execResult);
+	execQuery(q1);
 	// Remove strings
 	auto q2 = buildQuery(db, SQL_DELETE_TEXT);
 	q2.bindValue(0, code);
-	bool const q2execResult = q2.exec();
-	Q_ASSERT(q2execResult);
+	execQuery(q2);
 }
