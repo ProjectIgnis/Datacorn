@@ -406,9 +406,11 @@ void DatabaseEditorWidget::changeEvent(QEvent* event)
 		QWidget::changeEvent(event);
 }
 
-QString DatabaseEditorWidget::databaseConnection() const
+QSqlDatabase DatabaseEditorWidget::database() const
 {
-	return dbConnection;
+	auto db = QSqlDatabase::database(dbConnection, false);
+	Q_ASSERT(db.isValid());
+	return db;
 }
 
 QVector<quint32> DatabaseEditorWidget::selectedCards() const
@@ -447,8 +449,7 @@ void DatabaseEditorWidget::deleteData()
 	if(QMessageBox::question(this, tr("Confirm deletion"), body) !=
 	   QMessageBox::Yes)
 		return;
-	auto db = QSqlDatabase::database(dbConnection, false);
-	Q_ASSERT(db.isValid());
+	auto db = database();
 	removeCard(db, previousCode);
 	cardListFilter->getModel()->select();
 	// TODO: Properly select new code
@@ -615,8 +616,7 @@ void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 	if(code == 0U) // if 0 then we just exit to leave UI in "clean" state
 		return;
 	// Query data and strings
-	auto db = QSqlDatabase::database(dbConnection, false);
-	Q_ASSERT(db.isValid());
+	auto db = database();
 	auto q1 = buildQuery(db, SQL_QUERY_DATA);
 	q1.bindValue(0, code);
 	execQuery(q1, true);
@@ -686,8 +686,7 @@ void DatabaseEditorWidget::updateCardWithUi()
 		                     tr("Passcode cannot be 0 or empty."));
 		return;
 	}
-	auto db = QSqlDatabase::database(dbConnection, false);
-	Q_ASSERT(db.isValid());
+	auto db = database();
 	bool const targetCardExists = cardExists(db, newCode);
 	if(previousCode != newCode && targetCardExists &&
 	   QMessageBox::question(this, tr("Confirm Overwrite"),

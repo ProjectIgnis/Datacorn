@@ -275,7 +275,7 @@ void MainWindow::closeDatabase(int index)
 		index = ui->dbEditorTabsWidget->currentIndex();
 	auto* tab = static_cast<DatabaseEditorWidget*>(
 		ui->dbEditorTabsWidget->widget(index));
-	auto const dbConnection = tab->databaseConnection();
+	auto const dbConnection = tab->database().connectionName();
 	ui->dbEditorTabsWidget->removeTab(index);
 	delete tab;
 	if(dbConnection != SQL_CLIPBOARD_CONN) // Long live the "Clipboard" db!
@@ -306,7 +306,7 @@ void MainWindow::copySelectedCards()
 	auto const codes = tab.selectedCards();
 	if(codes.size() == 0)
 		return;
-	auto dbSrc = QSqlDatabase::database(tab.databaseConnection(), false);
+	auto dbSrc = tab.database();
 	auto dbDst = QSqlDatabase::database(SQL_CLIPBOARD_CONN, false);
 	dbDst.exec("DELETE FROM datas;");
 	dbDst.exec("DELETE FROM texts;");
@@ -316,12 +316,10 @@ void MainWindow::copySelectedCards()
 
 void MainWindow::pasteClipboardCards()
 {
-	auto& tab = currentTab();
-	auto const tabDbConnection = tab.databaseConnection();
-	if(tabDbConnection == SQL_CLIPBOARD_CONN)
-		return;
 	auto dbSrc = QSqlDatabase::database(SQL_CLIPBOARD_CONN, false);
-	auto dbDst = QSqlDatabase::database(tabDbConnection, false);
+	auto dbDst = currentTab().database();
+	if(dbDst.connectionName() == SQL_CLIPBOARD_CONN)
+		return;
 	// TODO: Confirm cards to be overwritten
 	auto const codes = [&]() -> QVector<quint32>
 	{
