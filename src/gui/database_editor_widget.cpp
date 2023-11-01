@@ -281,10 +281,10 @@ public:
 private slots:
 	void adjustFilters()
 	{
-		int const y = QHeaderView::sizeHint().height();
 		int section = 0;
 		for(auto* f : filters)
 		{
+			int const y = sectionSizeFromContents(section).height();
 			f->move(sectionPosition(section) - offset(), y);
 			f->resize(sectionSize(section), f->sizeHint().height());
 			++section;
