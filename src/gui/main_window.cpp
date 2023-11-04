@@ -279,17 +279,17 @@ void MainWindow::closeDatabase(int index)
 
 void MainWindow::newCard()
 {
-	currentTab().newCard();
+	emit currentTab().newCard();
 }
 
 void MainWindow::saveData()
 {
-	currentTab().saveData();
+	emit currentTab().saveData();
 }
 
 void MainWindow::deleteData()
 {
-	currentTab().deleteData();
+	emit currentTab().deleteData();
 }
 
 void MainWindow::copySelectedCards()
@@ -538,9 +538,10 @@ void MainWindow::setupCleanDB(QSqlDatabase& db) const
 
 void MainWindow::addTab(QString const& file)
 {
-	auto* newTab = new DatabaseEditorWidget(ui->dbEditorTabsWidget, file);
-	auto const idx = ui->dbEditorTabsWidget->addTab(newTab, newTab->tabName());
-	ui->dbEditorTabsWidget->setCurrentIndex(idx);
+	auto& tabber = *ui->dbEditorTabsWidget;
+	auto* newTab = new DatabaseEditorWidget(tabber, file);
+	auto const idx = tabber.addTab(newTab, newTab->tabName());
+	tabber.setCurrentIndex(idx);
 	enableEditing(true);
 }
 

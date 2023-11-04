@@ -7,6 +7,7 @@
 QT_BEGIN_NAMESPACE
 class QListWidgetItem;
 class QSqlDatabase;
+class QTabWidget;
 namespace Ui
 {
 class DatabaseEditorWidget;
@@ -19,7 +20,8 @@ class DatabaseEditorWidget final : public QWidget
 {
 	Q_OBJECT
 public:
-	explicit DatabaseEditorWidget(QWidget* parent, QString const& dbConnection);
+	explicit DatabaseEditorWidget(QTabWidget& parent,
+	                              QString const& dbConnection);
 	~DatabaseEditorWidget() override;
 
 	void changeEvent(QEvent* event) override;
@@ -28,9 +30,13 @@ public:
 	QString tabName() const;
 	QVector<quint32> selectedCards() const;
 
+	bool hasUnsavedData() const;
+
+public slots:
 	void newCard();
 	void saveData();
 	void deleteData();
+
 private slots:
 	void addArchetypeToList(bool clicked);
 	void removeArchetypeFromList(bool clicked);
@@ -41,9 +47,13 @@ private slots:
 
 	void onCardsListItemActivated(QModelIndex const& index);
 
+	void setUnsaved();
+
 private:
+	QTabWidget& parent;
 	std::unique_ptr<Ui::DatabaseEditorWidget> ui;
 	QString const dbConnection;
+	bool unsavedData;
 	FilteringHeader* cardListFilter;
 	int stringsRowCount;
 	quint32 previousCode;
@@ -57,12 +67,13 @@ private:
 	void enableEditing(bool editing);
 
 	QString formatArchetype(quint16 code, char const* name) const;
-	void addArchetype(quint16 code);
+	void addArchetype(quint16 code, bool ignoreUnsavedState = false);
 	void retranslateArchetypes();
 
 	void fillCardList(QSqlDatabase& db);
 	void updateUiWithCode(quint32 code);
 	void updateCardWithUi();
+	void setSaved();
 
 	bool cardExists(QSqlDatabase& db, quint32 code) const;
 	void removeCard(QSqlDatabase& db, quint32 code);

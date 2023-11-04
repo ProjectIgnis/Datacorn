@@ -307,16 +307,19 @@ private:
 
 // public
 
-DatabaseEditorWidget::DatabaseEditorWidget(QWidget* parent,
+DatabaseEditorWidget::DatabaseEditorWidget(QTabWidget& parent,
                                            QString const& dbConnection)
-	: QWidget(parent)
+	: QWidget(&parent)
+	, parent(parent)
 	, ui(std::make_unique<Ui::DatabaseEditorWidget>())
 	, dbConnection(dbConnection)
+	, unsavedData(false)
 	, cardListFilter(nullptr) // Must be fully init'd later due to "setupUi".
 	, stringsRowCount(0)      // Must be fully init'd later due to "setupUi".
 	, previousCode(0)
 	, customArchetype(false)
 {
+	// UI setup
 	ui->setupUi(this);
 	connect(ui->addArcheButton, &QPushButton::clicked, this,
 	        &DatabaseEditorWidget::addArchetypeToList);
@@ -333,21 +336,64 @@ DatabaseEditorWidget::DatabaseEditorWidget(QWidget* parent,
 	        &DatabaseEditorWidget::onArcheComboEditTextChanged);
 	setRegexValidator(*ui->passLineEdit, "[0-9]+");
 	setRegexValidator(*ui->aliasLineEdit, "[0-9]+");
+	connect(ui->passLineEdit, &QLineEdit::textEdited, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->aliasLineEdit, &QLineEdit::textEdited, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->nameLineEdit, &QLineEdit::textEdited, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->descPlainTextEdit, &QPlainTextEdit::textChanged, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	// TODO: toggle editable spinbox OR use spinbox's specialValueText
+	connect(ui->atkQmCheckBox, &QCheckBox::stateChanged, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->defQmCheckBox, &QCheckBox::stateChanged, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->atkSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->defSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->levelSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->lScaleSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
+	        this, &DatabaseEditorWidget::setUnsaved);
+	connect(ui->rScaleSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
+	        this, &DatabaseEditorWidget::setUnsaved);
+	connect(ui->markerBottomLeftButton, &QPushButton::toggled, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->markerBottomButton, &QPushButton::toggled, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->markerBottomRightButton, &QPushButton::toggled, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->markerLeftButton, &QPushButton::toggled, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->markerRightButton, &QPushButton::toggled, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->markerTopLeftButton, &QPushButton::toggled, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->markerTopButton, &QPushButton::toggled, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->markerTopRightButton, &QPushButton::toggled, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->stringsTableWidget, &QTableWidget::cellChanged, this,
+	        &DatabaseEditorWidget::setUnsaved);
 	cardListFilter = new FilteringHeader(*ui->cardCodeNameList);
 	ui->cardCodeNameList->setHorizontalHeader(cardListFilter);
 	stringsRowCount = ui->stringsTableWidget->rowCount();
-	auto populate_cbs = [&](QListWidget* parent, auto const& fields)
+	auto populate_cbs = [&](QListWidget* itemParent, auto const& fields)
 	{
 		using Item = QListWidgetItem;
 		std::unique_ptr<Item*[]> boxes(new Item*[fields.size()]);
 		for(size_t i = 0; i < fields.size(); ++i)
 		{
-			auto* item = new QListWidgetItem(tr(fields[i].name), parent);
+			auto* item = new Item(tr(fields[i].name), itemParent);
 			item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled |
 			               Qt::ItemNeverHasChildren);
 			setChecked(item, false);
 			boxes[i] = item;
 		}
+		connect(itemParent, &QListWidget::itemChanged, this,
+		        &DatabaseEditorWidget::setUnsaved);
 		return boxes;
 	};
 	typeCbs = populate_cbs(ui->typesWidget, TYPE_FIELDS);
@@ -365,6 +411,7 @@ DatabaseEditorWidget::DatabaseEditorWidget(QWidget* parent,
 	}
 	ui->archeComboBox->setCurrentIndex(0);
 	ui->archeComboBox->blockSignals(false);
+	// DB setup
 	auto db = QSqlDatabase::database(dbConnection, false);
 	// NOTE: Yes, very ugly, but beats complicated logic to associate the
 	// database connection with the editor widget.
@@ -417,15 +464,11 @@ QString DatabaseEditorWidget::tabName() const
 {
 	QString name;
 	if(dbConnection == SQL_CLIPBOARD_CONN)
-	{
 		name = tr("Clipboard");
-	}
 	else
-	{
 		name = dbConnection.split('/').last();
-		if(false) // TODO: unsaved state
-			name.append('*');
-	}
+	if(unsavedData)
+		name.append('*');
 	return name;
 }
 
@@ -438,8 +481,21 @@ QVector<quint32> DatabaseEditorWidget::selectedCards() const
 	return ret;
 }
 
+bool DatabaseEditorWidget::hasUnsavedData() const
+{
+	return unsavedData;
+}
+
+// public slots
+
 void DatabaseEditorWidget::newCard()
 {
+	if(hasUnsavedData() &&
+	   QMessageBox::question(this, tr("Discard changes?"),
+	                         tr("Creating a new card would discard current "
+	                            "unsaved changes. Proceed anyways?")) !=
+	       QMessageBox::Yes)
+		return;
 	auto db = QSqlDatabase::database(dbConnection, false);
 	auto const r = NewCardDialog::display(db, previousCode != 0);
 	if(r.dialogResult == QDialog::Rejected)
@@ -449,12 +505,14 @@ void DatabaseEditorWidget::newCard()
 	previousCode = 0; // NOTE: Used to avoid removing previous card, if any.
 	ui->passLineEdit->setText(QString::number(r.newCode));
 	updateCardWithUi();
+	setSaved();
 }
 
 void DatabaseEditorWidget::saveData()
 {
 	updateCardWithUi();
 	ui->cardCodeNameList->update();
+	setSaved();
 }
 
 void DatabaseEditorWidget::deleteData()
@@ -516,6 +574,7 @@ void DatabaseEditorWidget::removeArchetypeFromList(
 	Q_ASSERT(ui->archeList->currentItem() != nullptr);
 	delete ui->archeList->takeItem(
 		ui->archeList->row(ui->archeList->currentItem()));
+	setUnsaved();
 }
 
 void DatabaseEditorWidget::onArcheListItemChanged(
@@ -541,6 +600,14 @@ void DatabaseEditorWidget::onCardsListItemActivated(QModelIndex const& index)
 	updateUiWithCode(index.sibling(index.row(), 0).data().toUInt());
 }
 
+void DatabaseEditorWidget::setUnsaved()
+{
+	if(unsavedData)
+		return;
+	unsavedData = true;
+	parent.setTabText(parent.indexOf(this), tabName());
+}
+
 // private
 
 QString DatabaseEditorWidget::formatArchetype(quint16 code,
@@ -551,13 +618,15 @@ QString DatabaseEditorWidget::formatArchetype(quint16 code,
 	return ret.arg(code_str, name == nullptr ? "???" : tr(name));
 }
 
-void DatabaseEditorWidget::addArchetype(quint16 code)
+void DatabaseEditorWidget::addArchetype(quint16 code, bool ignoreUnsavedState)
 {
 	auto const search = ARCHETYPES_MAP.find(code);
 	ui->archeList->addItem(formatArchetype(
 		code, search != ARCHETYPES_MAP.constEnd() ? search.value() : nullptr));
 	auto& item = *ui->archeList->item(ui->archeList->count() - 1);
 	item.setData(ARCHETYPE_ROLE, code);
+	if(!ignoreUnsavedState)
+		emit setUnsaved();
 }
 
 void DatabaseEditorWidget::retranslateArchetypes()
@@ -590,6 +659,8 @@ void DatabaseEditorWidget::fillCardList(QSqlDatabase& db)
 
 void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 {
+	// Prevent setting the unsaved state while we update the UI
+	unsavedData = true;
 	// Set internal code so we know which card to "move" from
 	previousCode = code;
 	// Helper function to quickly iterate comboboxes per bit of a value
@@ -630,7 +701,10 @@ void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 	for(int i = 0; i < stringsRowCount; ++i)
 		ui->stringsTableWidget->item(i, 0)->setText("");
 	if(code == 0U) // if 0 then we just exit to leave UI in "clean" state
+	{
+		unsavedData = false;
 		return;
+	}
 	// Query data and strings
 	auto db = database();
 	auto q1 = buildQuery(db, SQL_QUERY_DATA);
@@ -650,7 +724,7 @@ void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 			quint16 const setcode = (setcodes >> (i * 16U)) & 0xFFFFU;
 			if(setcode == 0)
 				continue;
-			addArchetype(setcode);
+			addArchetype(setcode, true);
 		}
 	}
 	quint32 const type = q1.value(2).toUInt();
@@ -691,6 +765,7 @@ void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 		auto& item = *ui->stringsTableWidget->item(i, 0);
 		item.setText(q2.value(2 + i).toString());
 	}
+	unsavedData = false;
 }
 
 void DatabaseEditorWidget::updateCardWithUi()
@@ -791,6 +866,12 @@ void DatabaseEditorWidget::updateCardWithUi()
 	// Update list and track new code
 	cardListFilter->getModel()->select(); // TODO: Properly select new code
 	previousCode = newCode;
+}
+
+void DatabaseEditorWidget::setSaved()
+{
+	unsavedData = false;
+	parent.setTabText(parent.indexOf(this), tabName());
 }
 
 bool DatabaseEditorWidget::cardExists(QSqlDatabase& db, quint32 code) const
