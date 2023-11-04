@@ -349,16 +349,18 @@ DatabaseEditorWidget::DatabaseEditorWidget(QTabWidget& parent,
 	        &DatabaseEditorWidget::setUnsaved);
 	connect(ui->defQmCheckBox, &QCheckBox::stateChanged, this,
 	        &DatabaseEditorWidget::setUnsaved);
-	connect(ui->atkSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this,
+	auto const spinBoxValueChanged =
+		static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged);
+	connect(ui->atkSpinBox, spinBoxValueChanged, this,
 	        &DatabaseEditorWidget::setUnsaved);
-	connect(ui->defSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this,
+	connect(ui->defSpinBox, spinBoxValueChanged, this,
 	        &DatabaseEditorWidget::setUnsaved);
-	connect(ui->levelSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this,
+	connect(ui->levelSpinBox, spinBoxValueChanged, this,
 	        &DatabaseEditorWidget::setUnsaved);
-	connect(ui->lScaleSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
-	        this, &DatabaseEditorWidget::setUnsaved);
-	connect(ui->rScaleSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
-	        this, &DatabaseEditorWidget::setUnsaved);
+	connect(ui->lScaleSpinBox, spinBoxValueChanged, this,
+	        &DatabaseEditorWidget::setUnsaved);
+	connect(ui->rScaleSpinBox, spinBoxValueChanged, this,
+	        &DatabaseEditorWidget::setUnsaved);
 	connect(ui->markerBottomLeftButton, &QPushButton::toggled, this,
 	        &DatabaseEditorWidget::setUnsaved);
 	connect(ui->markerBottomButton, &QPushButton::toggled, this,
