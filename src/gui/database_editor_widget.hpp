@@ -25,6 +25,7 @@ public:
 	void changeEvent(QEvent* event) override;
 
 	QSqlDatabase database() const;
+	QString tabName() const;
 	QVector<quint32> selectedCards() const;
 
 	void newCard();

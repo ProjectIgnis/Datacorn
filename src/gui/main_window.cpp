@@ -24,8 +24,6 @@
 namespace
 {
 
-QString const SQL_CLIPBOARD_CONN("CLIPBOARD");
-
 std::array const SQL_DATAS_TABLE_FIELDS = {
 	QString{"PRAGMA table_info('datas');"},
 	QString{"alias0,atk0,attribute0,category0,def0,id1,level0,ot0,race0,"
@@ -193,10 +191,7 @@ void MainWindow::newDatabase()
 	Q_ASSERT(isDbOpen);
 	db.exec(SQL_QUERY_CREATE_DATAS_TABLE);
 	db.exec(SQL_QUERY_CREATE_TEXTS_TABLE);
-	auto* newTab = new DatabaseEditorWidget(ui->dbEditorTabsWidget, file);
-	ui->dbEditorTabsWidget->setCurrentIndex(
-		ui->dbEditorTabsWidget->addTab(newTab, file.split('/').last()));
-	enableEditing(true);
+	addTab(file);
 }
 
 void MainWindow::openDatabase()
@@ -250,10 +245,7 @@ void MainWindow::openDatabase()
 		QSqlDatabase::removeDatabase(file);
 		return;
 	}
-	auto* newTab = new DatabaseEditorWidget(ui->dbEditorTabsWidget, file);
-	ui->dbEditorTabsWidget->setCurrentIndex(
-		ui->dbEditorTabsWidget->addTab(newTab, file.split('/').last()));
-	enableEditing(true);
+	addTab(file);
 }
 
 void MainWindow::showClipboardDatabase()
@@ -266,12 +258,7 @@ void MainWindow::showClipboardDatabase()
 			&widgetFromConnection(SQL_CLIPBOARD_CONN));
 		return;
 	}
-	// Create "Clipboard" view widget
-	auto* newTab =
-		new DatabaseEditorWidget(ui->dbEditorTabsWidget, SQL_CLIPBOARD_CONN);
-	ui->dbEditorTabsWidget->setCurrentIndex(
-		ui->dbEditorTabsWidget->addTab(newTab, tr("Clipboard")));
-	enableEditing(true);
+	addTab(SQL_CLIPBOARD_CONN);
 }
 
 void MainWindow::closeDatabase(int index)
@@ -547,6 +534,14 @@ void MainWindow::setupCleanDB(QSqlDatabase& db) const
 	Q_ASSERT(isDbOpen);
 	db.exec(SQL_QUERY_CREATE_DATAS_TABLE);
 	db.exec(SQL_QUERY_CREATE_TEXTS_TABLE);
+}
+
+void MainWindow::addTab(QString const& file)
+{
+	auto* newTab = new DatabaseEditorWidget(ui->dbEditorTabsWidget, file);
+	auto const idx = ui->dbEditorTabsWidget->addTab(newTab, newTab->tabName());
+	ui->dbEditorTabsWidget->setCurrentIndex(idx);
+	enableEditing(true);
 }
 
 void MainWindow::enableEditing(bool editing)

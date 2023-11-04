@@ -8,6 +8,7 @@ class QSqlDatabase;
 QT_END_NAMESPACE
 
 extern QString const SQL_DB_DRIVER;
+extern QString const SQL_CLIPBOARD_CONN;
 
 extern QString const SQL_INSERT_DATA;
 extern QString const SQL_INSERT_TEXT;

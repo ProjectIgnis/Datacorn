@@ -64,6 +64,7 @@ private:
 	QSqlDatabase clipboardDatabase() const;
 	void setupCleanDB(QSqlDatabase& db) const;
 
+	void addTab(QString const& file);
 	void enableEditing(bool editing);
 };
 

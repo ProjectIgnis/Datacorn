@@ -4,6 +4,7 @@
 #include <QSqlError>
 
 QString const SQL_DB_DRIVER("QSQLITE");
+QString const SQL_CLIPBOARD_CONN("CLIPBOARD");
 
 QString const SQL_INSERT_DATA(R"(
 INSERT INTO datas (id,alias,setcode,type,atk,def,level,race,attribute,ot,category)

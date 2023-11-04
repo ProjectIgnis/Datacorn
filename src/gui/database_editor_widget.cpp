@@ -413,6 +413,22 @@ QSqlDatabase DatabaseEditorWidget::database() const
 	return db;
 }
 
+QString DatabaseEditorWidget::tabName() const
+{
+	QString name;
+	if(dbConnection == SQL_CLIPBOARD_CONN)
+	{
+		name = tr("Clipboard");
+	}
+	else
+	{
+		name = dbConnection.split('/').last();
+		if(false) // TODO: unsaved state
+			name.append('*');
+	}
+	return name;
+}
+
 QVector<quint32> DatabaseEditorWidget::selectedCards() const
 {
 	QVector<quint32> ret;
