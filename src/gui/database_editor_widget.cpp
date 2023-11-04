@@ -460,14 +460,14 @@ QSqlDatabase DatabaseEditorWidget::database() const
 	return db;
 }
 
-QString DatabaseEditorWidget::tabName() const
+QString DatabaseEditorWidget::tabName(bool ignoreUnsavedState) const
 {
 	QString name;
 	if(dbConnection == SQL_CLIPBOARD_CONN)
 		name = tr("Clipboard");
 	else
 		name = dbConnection.split('/').last();
-	if(unsavedData)
+	if(unsavedData && !ignoreUnsavedState)
 		name.append('*');
 	return name;
 }

@@ -27,7 +27,7 @@ public:
 	void changeEvent(QEvent* event) override;
 
 	QSqlDatabase database() const;
-	QString tabName() const;
+	QString tabName(bool ignoreUnsavedState = false) const;
 	QVector<quint32> selectedCards() const;
 
 	bool hasUnsavedData() const;

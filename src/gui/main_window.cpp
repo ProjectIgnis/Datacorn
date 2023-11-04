@@ -160,6 +160,26 @@ void MainWindow::changeEvent(QEvent* event)
 	}
 }
 
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+	event->ignore();
+	QString unsavedDbs;
+	for(int i = 0; i < ui->dbEditorTabsWidget->count(); i++)
+	{
+		auto* tab = static_cast<DatabaseEditorWidget*>(
+			ui->dbEditorTabsWidget->widget(i));
+		if(tab->hasUnsavedData())
+			unsavedDbs.append('\n').append(tab->tabName(true));
+	}
+	if(!unsavedDbs.isEmpty() &&
+	   QMessageBox::question(
+		   this, tr("Exit discarding changes?"),
+		   tr("The following databases have unsaved data. Proceed anyways?") +
+			   unsavedDbs) != QMessageBox::Yes)
+		return;
+	event->accept();
+}
+
 // private slots
 
 void MainWindow::languageChanged(QAction* action)
@@ -267,6 +287,12 @@ void MainWindow::closeDatabase(int index)
 		index = ui->dbEditorTabsWidget->currentIndex();
 	auto* tab = static_cast<DatabaseEditorWidget*>(
 		ui->dbEditorTabsWidget->widget(index));
+	if(tab->hasUnsavedData() &&
+	   QMessageBox::question(
+		   this, tr("Close database?"),
+		   tr("The database '%1' has unsaved changes. Proceed anyways?")
+			   .arg(tab->tabName(true))) != QMessageBox::Yes)
+		return;
 	auto const dbConnection = tab->database().connectionName();
 	ui->dbEditorTabsWidget->removeTab(index);
 	delete tab;
