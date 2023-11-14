@@ -93,7 +93,7 @@ constexpr std::array const RACE_FIELDS{
 	BitField{0x400000, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "Creator God")},
 	BitField{0x800000, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "Wyrm")},
 	BitField{0x1000000, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "Cyberse")},
-	BitField{0x2000000, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "Illusionist")},
+	BitField{0x2000000, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "Illusion")},
 	BitField{0x4000000, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "Cyborg")},
 	BitField{0x8000000, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "Magical Knight")},
 	BitField{0x10000000, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "High Dragon")},
@@ -389,11 +389,12 @@ DatabaseEditorWidget::DatabaseEditorWidget(QTabWidget& parent,
 		for(size_t i = 0; i < fields.size(); ++i)
 		{
 			auto* item = new Item(tr(fields[i].name), itemParent);
-			item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled |
-			               Qt::ItemNeverHasChildren);
+			item->setFlags(Qt::ItemIsEnabled | Qt::ItemNeverHasChildren);
 			setChecked(item, false);
 			boxes[i] = item;
 		}
+		connect(itemParent, &QListWidget::itemClicked, this,
+		        &DatabaseEditorWidget::onListCheckboxClicked);
 		connect(itemParent, &QListWidget::itemChanged, this,
 		        &DatabaseEditorWidget::setUnsaved);
 		return boxes;
@@ -600,6 +601,11 @@ void DatabaseEditorWidget::onArcheComboEditTextChanged(QString const& text)
 void DatabaseEditorWidget::onCardsListItemActivated(QModelIndex const& index)
 {
 	updateUiWithCode(index.sibling(index.row(), 0).data().toUInt());
+}
+
+void DatabaseEditorWidget::onListCheckboxClicked(QListWidgetItem* item)
+{
+	setChecked(item, item->checkState() != Qt::Checked);
 }
 
 void DatabaseEditorWidget::setUnsaved()

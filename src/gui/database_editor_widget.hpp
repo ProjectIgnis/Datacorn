@@ -40,12 +40,15 @@ public slots:
 private slots:
 	void addArchetypeToList(bool clicked);
 	void removeArchetypeFromList(bool clicked);
+
 	void onArcheListItemChanged(QListWidgetItem* current,
 	                            QListWidgetItem* previous);
 	void onArcheComboIndexActivated(int index);
 	void onArcheComboEditTextChanged(QString const& text);
 
 	void onCardsListItemActivated(QModelIndex const& index);
+
+	void onListCheckboxClicked(QListWidgetItem* item);
 
 	void setUnsaved();
 
