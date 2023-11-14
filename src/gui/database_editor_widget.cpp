@@ -530,8 +530,12 @@ void DatabaseEditorWidget::deleteData()
 		return;
 	auto db = database();
 	removeCard(db, previousCode);
+	emit refreshCardList(); // TODO: Properly show new code chosen by default
+}
+
+void DatabaseEditorWidget::refreshCardList()
+{
 	cardListFilter->getModel()->select();
-	// TODO: Properly select new code
 }
 
 // private slots
@@ -873,9 +877,8 @@ void DatabaseEditorWidget::updateCardWithUi()
 		q2.bindValue(3 + i, item.text());
 	}
 	execQuery(q2);
-	// Update list and track new code
-	cardListFilter->getModel()->select(); // TODO: Properly select new code
 	previousCode = newCode;
+	emit refreshCardList(); // TODO: Properly list and track new code
 }
 
 void DatabaseEditorWidget::setSaved()

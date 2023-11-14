@@ -329,7 +329,9 @@ void MainWindow::copySelectedCards()
 	dbDst.exec("DELETE FROM datas;");
 	dbDst.exec("DELETE FROM texts;");
 	copyCards(codes, dbSrc, dbDst);
-	// TODO: Update target db's widget
+	// Update Clipboard card list if opened in tab
+	if(!dbDst.password().isEmpty()) // TODO: Properly update card list
+		emit widgetFromConnection(SQL_CLIPBOARD_CONN).refreshCardList();
 }
 
 void MainWindow::pasteClipboardCards()
@@ -377,7 +379,7 @@ void MainWindow::pasteClipboardCards()
 		return;
 	copyCards(codes, dbSrc, dbDst);
 	// TODO: Highlight pasted cards in db
-	// TODO: Update target db's widget
+	emit currentTab().refreshCardList(); // TODO: Properly update card list
 }
 
 void MainWindow::openHomepage()

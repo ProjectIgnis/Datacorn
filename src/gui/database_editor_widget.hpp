@@ -37,6 +37,8 @@ public slots:
 	void saveData();
 	void deleteData();
 
+	void refreshCardList();
+
 private slots:
 	void addArchetypeToList(bool clicked);
 	void removeArchetypeFromList(bool clicked);
