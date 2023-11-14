@@ -103,10 +103,16 @@
    <property name="text">
     <string>&amp;New Database...</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+N</string>
+   </property>
   </action>
   <action name="actionOpenDatabase">
    <property name="text">
     <string>&amp;Open Database...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
   <action name="actionHomepage">
@@ -129,6 +135,9 @@
    <property name="text">
     <string>&amp;Close Database</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
   </action>
   <action name="actionSaveData">
    <property name="enabled">
@@ -145,6 +154,9 @@
    <property name="text">
     <string>&amp;Exit</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="actionNewCard">
    <property name="enabled">
@@ -153,6 +165,9 @@
    <property name="text">
     <string>&amp;New Card...</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="actionDeleteData">
    <property name="enabled">
@@ -160,6 +175,9 @@
    </property>
    <property name="text">
     <string>&amp;Delete Data</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
   <action name="actionCopySelectedCards">
