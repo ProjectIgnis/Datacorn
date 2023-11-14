@@ -522,7 +522,9 @@ void DatabaseEditorWidget::deleteData()
 {
 	Q_ASSERT(previousCode != 0);
 	QString body = tr("Are you sure about deleting this card?\n");
-	body.append(tr("Code: ")).append(QString::number(previousCode));
+	body.append(tr("[%1] %2")
+	                .arg(QString::number(previousCode))
+	                .arg(ui->nameLineEdit->text()));
 	if(QMessageBox::question(this, tr("Confirm deletion"), body) !=
 	   QMessageBox::Yes)
 		return;
