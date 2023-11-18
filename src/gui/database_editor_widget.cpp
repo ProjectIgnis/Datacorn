@@ -344,11 +344,6 @@ DatabaseEditorWidget::DatabaseEditorWidget(QTabWidget& parent,
 	        &DatabaseEditorWidget::setUnsaved);
 	connect(ui->descPlainTextEdit, &QPlainTextEdit::textChanged, this,
 	        &DatabaseEditorWidget::setUnsaved);
-	// TODO: toggle editable spinbox OR use spinbox's specialValueText
-	connect(ui->atkQmCheckBox, &QCheckBox::stateChanged, this,
-	        &DatabaseEditorWidget::setUnsaved);
-	connect(ui->defQmCheckBox, &QCheckBox::stateChanged, this,
-	        &DatabaseEditorWidget::setUnsaved);
 	auto const spinBoxValueChanged =
 		static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged);
 	connect(ui->atkSpinBox, spinBoxValueChanged, this,
@@ -695,12 +690,10 @@ void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 	ui->nameLineEdit->setText("");
 	ui->archeList->clear();
 	ui->descPlainTextEdit->setPlainText("");
-	ui->atkQmCheckBox->setChecked(false);
 	ui->atkSpinBox->setEnabled(true);
-	ui->atkSpinBox->setValue(0);
-	ui->defQmCheckBox->setChecked(false);
+	ui->atkSpinBox->setValue(ui->atkSpinBox->minimum());
 	ui->defSpinBox->setEnabled(true);
-	ui->defSpinBox->setValue(0);
+	ui->defSpinBox->setValue(ui->defSpinBox->minimum());
 	ui->levelSpinBox->setValue(0);
 	ui->lScaleSpinBox->setValue(0);
 	ui->rScaleSpinBox->setValue(0);
@@ -744,14 +737,12 @@ void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 	quint32 const type = q1.value(2).toUInt();
 	toggle_cbs(type, TYPE_FIELDS, typeCbs.get());
 	qint32 const atk = q1.value(3).toInt();
-	ui->atkQmCheckBox->setChecked(atk == QMARK_ATK_DEF);
-	ui->atkSpinBox->setEnabled(atk != QMARK_ATK_DEF);
-	ui->atkSpinBox->setValue(std::max(atk, 0));
+	ui->atkSpinBox->setValue(atk == QMARK_ATK_DEF ? ui->atkSpinBox->minimum()
+	                                              : atk);
 	if(qint32 const def = q1.value(4).toInt(); (type & TYPE_LINK) == 0U)
 	{
-		ui->defQmCheckBox->setChecked(def == QMARK_ATK_DEF);
-		ui->defSpinBox->setEnabled(def != QMARK_ATK_DEF);
-		ui->defSpinBox->setValue(std::max(def, 0));
+		ui->defSpinBox->setValue(
+			def == QMARK_ATK_DEF ? ui->defSpinBox->minimum() : def);
 	}
 	else
 	{
@@ -818,8 +809,10 @@ void DatabaseEditorWidget::updateCardWithUi()
 	auto compute_def_value = [&]() -> qint32
 	{
 		if((type & TYPE_LINK) == 0U)
-			return ui->defQmCheckBox->isChecked() ? QMARK_ATK_DEF
-			                                      : ui->defSpinBox->value();
+		{
+			auto const def = ui->defSpinBox->value();
+			return def == ui->defSpinBox->minimum() ? QMARK_ATK_DEF : def;
+		}
 		quint32 link = 0U;
 		link |= ui->markerBottomLeftButton->isChecked() ? 0x1 : 0;
 		link |= ui->markerBottomButton->isChecked() ? 0x2 : 0;
@@ -857,8 +850,8 @@ void DatabaseEditorWidget::updateCardWithUi()
 			return setcodes;
 		}());
 	q1.bindValue(3, type);
-	q1.bindValue(4, ui->atkQmCheckBox->isChecked() ? QMARK_ATK_DEF
-	                                               : ui->atkSpinBox->value());
+	auto const atk = ui->atkSpinBox->value();
+	q1.bindValue(4, atk == ui->atkSpinBox->minimum() ? QMARK_ATK_DEF : atk);
 	q1.bindValue(5, compute_def_value());
 	q1.bindValue(6, compute_level_value());
 	q1.bindValue(7, compute_bitfield(RACE_FIELDS, raceCbs.get()));
