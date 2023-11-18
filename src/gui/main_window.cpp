@@ -110,11 +110,11 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::openDatabase);
 	connect(ui->actionShowClipboardDatabase, &QAction::triggered, this,
 	        &MainWindow::showClipboardDatabase);
-	connect(ui->actionCloseDatabase, &QAction::triggered,
-	        [this]() { closeDatabase(-1); });
+	connect(ui->actionCloseDatabase, &QAction::triggered, this,
+	        &MainWindow::closeSelectedDatabase);
 	connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
 	connect(ui->dbEditorTabsWidget, &QTabWidget::tabCloseRequested, this,
-	        &MainWindow::closeDatabase);
+	        &MainWindow::closeTabDatabase);
 	// Allow filtering for middle mouse clicks to close tabs
 	ui->dbEditorTabsWidget->installEventFilter(this);
 	connect(ui->actionNewCard, &QAction::triggered, this, &MainWindow::newCard);
@@ -131,7 +131,7 @@ MainWindow::MainWindow(QWidget* parent)
 	// Setup "Clipboard" database
 	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER, SQL_CLIPBOARD_CONN);
 	db.setDatabaseName(":memory:");
-	setupCleanDB(db);
+	setupCleanDatabase(db);
 
 	// TODO: Allow selecting the default locale via an option?
 	loadLanguage("en");
@@ -199,19 +199,27 @@ void MainWindow::newDatabase()
 		return;
 	if(QSqlDatabase::contains(file))
 	{
-		// TODO: Completely override opened database instead of just selecting.
-		ui->dbEditorTabsWidget->setCurrentWidget(&widgetFromConnection(file));
-		return;
+		closeDatabaseImpl(
+			ui->dbEditorTabsWidget->indexOf(&widgetFromConnection(file)),
+			false);
 	}
 	QFile::remove(file);
 	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER, file);
 	db.setDatabaseName(file);
-	setupCleanDB(db);
+	setupCleanDatabase(db);
 	bool const isDbOpen = db.open();
 	Q_ASSERT(isDbOpen);
-	db.exec(SQL_QUERY_CREATE_DATAS_TABLE);
-	db.exec(SQL_QUERY_CREATE_TEXTS_TABLE);
 	addTab(file);
+}
+
+void MainWindow::closeSelectedDatabase()
+{
+	closeDatabaseImpl(ui->dbEditorTabsWidget->currentIndex(), true);
+}
+
+void MainWindow::closeTabDatabase(int index)
+{
+	closeDatabaseImpl(index, true);
 }
 
 void MainWindow::openDatabase()
@@ -279,28 +287,6 @@ void MainWindow::showClipboardDatabase()
 		return;
 	}
 	addTab(SQL_CLIPBOARD_CONN);
-}
-
-void MainWindow::closeDatabase(int index)
-{
-	if(index < 0)
-		index = ui->dbEditorTabsWidget->currentIndex();
-	auto* tab = static_cast<DatabaseEditorWidget*>(
-		ui->dbEditorTabsWidget->widget(index));
-	if(tab->hasUnsavedData() &&
-	   QMessageBox::question(
-		   this, tr("Close database?"),
-		   tr("The database '%1' has unsaved changes. Proceed anyways?")
-			   .arg(tab->tabName(true))) != QMessageBox::Yes)
-		return;
-	auto const dbConnection = tab->database().connectionName();
-	ui->dbEditorTabsWidget->removeTab(index);
-	delete tab;
-	if(dbConnection == SQL_CLIPBOARD_CONN) // Long live the "Clipboard" db!
-		clipboardDatabase().setPassword("");
-	else
-		QSqlDatabase::removeDatabase(dbConnection);
-	enableEditing(ui->dbEditorTabsWidget->count() != 0);
 }
 
 void MainWindow::newCard()
@@ -556,12 +542,33 @@ QSqlDatabase MainWindow::clipboardDatabase() const
 	return db;
 }
 
-void MainWindow::setupCleanDB(QSqlDatabase& db) const
+void MainWindow::setupCleanDatabase(QSqlDatabase& db) const
 {
 	bool const isDbOpen = db.open();
 	Q_ASSERT(isDbOpen);
 	db.exec(SQL_QUERY_CREATE_DATAS_TABLE);
 	db.exec(SQL_QUERY_CREATE_TEXTS_TABLE);
+}
+
+void MainWindow::closeDatabaseImpl(int index, bool askForUnsavedData)
+{
+	Q_ASSERT(index >= 0);
+	auto* tab = static_cast<DatabaseEditorWidget*>(
+		ui->dbEditorTabsWidget->widget(index));
+	if(askForUnsavedData && tab->hasUnsavedData() &&
+	   QMessageBox::question(
+		   this, tr("Close database?"),
+		   tr("The database '%1' has unsaved changes. Proceed anyways?")
+			   .arg(tab->tabName(true))) != QMessageBox::Yes)
+		return;
+	auto const dbConnection = tab->database().connectionName();
+	ui->dbEditorTabsWidget->removeTab(index);
+	delete tab;
+	if(dbConnection == SQL_CLIPBOARD_CONN) // Long live the "Clipboard" db!
+		clipboardDatabase().setPassword("");
+	else
+		QSqlDatabase::removeDatabase(dbConnection);
+	enableEditing(ui->dbEditorTabsWidget->count() != 0);
 }
 
 void MainWindow::addTab(QString const& file)

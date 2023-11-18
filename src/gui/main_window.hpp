@@ -32,7 +32,8 @@ private slots:
 	void newDatabase();
 	void openDatabase();
 	void showClipboardDatabase();
-	void closeDatabase(int index);
+	void closeSelectedDatabase();
+	void closeTabDatabase(int index);
 
 	void newCard();
 	void saveData();
@@ -63,8 +64,9 @@ private:
 	DatabaseEditorWidget& widgetFromConnection(
 		QString const& dbConnection) const;
 	QSqlDatabase clipboardDatabase() const;
-	void setupCleanDB(QSqlDatabase& db) const;
+	void setupCleanDatabase(QSqlDatabase& db) const;
 
+	void closeDatabaseImpl(int index, bool askForUnsavedData);
 	void addTab(QString const& file);
 	void enableEditing(bool editing);
 };
