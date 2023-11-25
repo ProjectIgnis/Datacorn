@@ -377,6 +377,12 @@ DatabaseEditorWidget::DatabaseEditorWidget(QTabWidget& parent,
 	cardListFilter = new FilteringHeader(*ui->cardCodeNameList);
 	ui->cardCodeNameList->setHorizontalHeader(cardListFilter);
 	stringsRowCount = ui->stringsTableWidget->rowCount();
+	{
+		QStringList stringsRownNames;
+		for(int i = 0; i < stringsRowCount; i++)
+			stringsRownNames.append(QString::number(i));
+		ui->stringsTableWidget->setVerticalHeaderLabels(stringsRownNames);
+	}
 	auto populate_cbs = [&](QListWidget* itemParent, auto const& fields)
 	{
 		using Item = QListWidgetItem;
