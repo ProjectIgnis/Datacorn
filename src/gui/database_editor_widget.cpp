@@ -407,6 +407,7 @@ DatabaseEditorWidget::DatabaseEditorWidget(QTabWidget& parent,
 	categoryCbs = populate_cbs(ui->categoriesWidget, CATEGORY_FIELDS);
 	ui->archeComboBox->blockSignals(true);
 	auto const end = ARCHETYPES_MAP.constEnd();
+	ui->archeComboBox->addItem(tr("Select or type an archetype to add"));
 	for(auto it = ARCHETYPES_MAP.constBegin(); it != end; ++it)
 	{
 		ui->archeComboBox->addItem(formatArchetype(it.key(), it.value()));
@@ -597,6 +598,7 @@ void DatabaseEditorWidget::onArcheComboIndexActivated(
 	[[maybe_unused]] int index)
 {
 	customArchetype = false;
+	ui->addArcheButton->setEnabled(index != 0);
 }
 
 void DatabaseEditorWidget::onArcheComboEditTextChanged(QString const& text)
@@ -694,6 +696,8 @@ void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 	ui->passLineEdit->setText("0");
 	ui->aliasLineEdit->setText("0");
 	ui->nameLineEdit->setText("");
+	ui->archeComboBox->setCurrentIndex(0);
+	ui->addArcheButton->setEnabled(false);
 	ui->archeList->clear();
 	ui->descPlainTextEdit->setPlainText("");
 	ui->atkSpinBox->setEnabled(true);
