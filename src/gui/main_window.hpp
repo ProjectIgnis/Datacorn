@@ -6,6 +6,7 @@
 
 QT_BEGIN_NAMESPACE
 class QSqlDatabase;
+class QSqlQuery;
 class QTranslator;
 namespace Ui
 {
@@ -37,10 +38,11 @@ private slots:
 
 	void newCard();
 	void saveData();
-	void deleteData();
 
+	void cutSelectedCards();
 	void copySelectedCards();
 	void pasteClipboardCards();
+	void deleteSelectedCards();
 
 	void openHomepage();
 
@@ -57,13 +59,19 @@ private:
 	QMap<QString, std::shared_ptr<QTranslator>> translations;
 	QString currLang;
 
+	static QString stmtFromCodes(QVector<quint32> const& codes,
+	                             QString const& baseStmt);
+	static QSqlQuery queryCards(QVector<quint32> const& codes,
+	                            QSqlDatabase& dbSrc);
 	static void copyCards(QVector<quint32> const& codes, QSqlDatabase& dbSrc,
 	                      QSqlDatabase& dbDst);
+	static void deleteCards(QVector<quint32> const& codes, QSqlDatabase& dbSrc);
 
+	QString printCardsForConfirm(QSqlQuery& q) const;
 	DatabaseEditorWidget& currentTab() const;
 	DatabaseEditorWidget& widgetFromConnection(
 		QString const& dbConnection) const;
-	QSqlDatabase clipboardDatabase() const;
+	QSqlDatabase clipboardDatabase(bool clear = false) const;
 	void setupCleanDatabase(QSqlDatabase& db) const;
 
 	void closeDatabaseImpl(int index, bool askForUnsavedData);

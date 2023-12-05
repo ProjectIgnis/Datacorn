@@ -79,14 +79,15 @@
     </property>
     <addaction name="actionNewCard"/>
     <addaction name="actionSaveData"/>
-    <addaction name="actionDeleteData"/>
    </widget>
    <widget class="QMenu" name="menuAction">
     <property name="title">
      <string>&amp;Edit</string>
     </property>
+    <addaction name="actionCutSelectedCards"/>
     <addaction name="actionCopySelectedCards"/>
     <addaction name="actionPasteClipboardCards"/>
+    <addaction name="actionDeleteSelectedCards"/>
    </widget>
    <widget class="QMenu" name="menuLanguage">
     <property name="title">
@@ -205,6 +206,28 @@
   <action name="actionShowClipboardDatabase">
    <property name="text">
     <string>&amp;Show Clipboard Database</string>
+   </property>
+  </action>
+  <action name="actionCutSelectedCards">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Cut Selected Cards</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+X</string>
+   </property>
+  </action>
+  <action name="actionDeleteSelectedCards">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Delete Selected Cards</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+D</string>
    </property>
   </action>
  </widget>

@@ -90,6 +90,14 @@ SELECT id,name
 FROM texts WHERE id IN (
 )");
 
+QString const SQL_DELETE_DATAS_FROM_CODE_LIST(R"(
+DELETE FROM datas WHERE id IN (
+)");
+
+QString const SQL_DELETE_TEXTS_FROM_CODE_LIST(R"(
+DELETE FROM texts WHERE id IN (
+)");
+
 } // namespace
 
 MainWindow::MainWindow(QWidget* parent)
@@ -120,12 +128,14 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(ui->actionNewCard, &QAction::triggered, this, &MainWindow::newCard);
 	connect(ui->actionSaveData, &QAction::triggered, this,
 	        &MainWindow::saveData);
-	connect(ui->actionDeleteData, &QAction::triggered, this,
-	        &MainWindow::deleteData);
+	connect(ui->actionCutSelectedCards, &QAction::triggered, this,
+	        &MainWindow::cutSelectedCards);
 	connect(ui->actionCopySelectedCards, &QAction::triggered, this,
 	        &MainWindow::copySelectedCards);
 	connect(ui->actionPasteClipboardCards, &QAction::triggered, this,
 	        &MainWindow::pasteClipboardCards);
+	connect(ui->actionDeleteSelectedCards, &QAction::triggered, this,
+	        &MainWindow::deleteSelectedCards);
 	connect(ui->actionHomepage, &QAction::triggered, this,
 	        &MainWindow::openHomepage);
 	// Setup "Clipboard" database
@@ -299,21 +309,36 @@ void MainWindow::saveData()
 	emit currentTab().saveData();
 }
 
-void MainWindow::deleteData()
+void MainWindow::cutSelectedCards()
 {
-	emit currentTab().deleteData();
+	auto const codes = currentTab().selectedCards();
+	if(codes.size() == 0)
+		return;
+	auto dbSrc = currentTab().database();
+	if(dbSrc.connectionName() == SQL_CLIPBOARD_CONN)
+		return;
+	auto dbDst = clipboardDatabase(true);
+	auto q = queryCards(codes, dbSrc);
+	QString const cardsToCut = printCardsForConfirm(q);
+	if(QMessageBox::question(this, tr("Confirm cutting"),
+	                         tr("Are you sure about cutting these cards?") +
+	                             cardsToCut) != QMessageBox::Yes)
+		return;
+	copyCards(codes, dbSrc, dbDst);
+	// Update Clipboard card list if opened in tab
+	if(!dbDst.password().isEmpty()) // TODO: Properly update card list
+		emit widgetFromConnection(SQL_CLIPBOARD_CONN).refreshCardList();
+	deleteCards(codes, dbSrc);
+	emit currentTab().refreshCardList(); // TODO: Properly update card list
 }
 
 void MainWindow::copySelectedCards()
 {
-	auto& tab = currentTab();
-	auto const codes = tab.selectedCards();
+	auto const codes = currentTab().selectedCards();
 	if(codes.size() == 0)
 		return;
-	auto dbSrc = tab.database();
-	auto dbDst = clipboardDatabase();
-	dbDst.exec("DELETE FROM datas;");
-	dbDst.exec("DELETE FROM texts;");
+	auto dbSrc = currentTab().database();
+	auto dbDst = clipboardDatabase(true);
 	copyCards(codes, dbSrc, dbDst);
 	// Update Clipboard card list if opened in tab
 	if(!dbDst.password().isEmpty()) // TODO: Properly update card list
@@ -337,25 +362,8 @@ void MainWindow::pasteClipboardCards()
 	}();
 	if(codes.size() == 0)
 		return;
-	// Check cards to be overwritten, and confirm if necessary.
-	auto const stmt = [&]() -> QString
-	{
-		QString ret(SQL_QUERY_CODE_AND_NAME_LIST);
-		for(auto const code : codes)
-			ret.append(QString::number(code)).append(',');
-		ret.append("0);");
-		return ret;
-	}();
-	auto q = buildQuery(dbDst, stmt);
-	execQuery(q);
-	QString cardsToOverwrite;
-	while(q.next())
-	{
-		cardsToOverwrite.append("\n[")
-			.append(q.value(0).toString())
-			.append("] ");
-		cardsToOverwrite.append(q.value(1).toString());
-	}
+	auto q = queryCards(codes, dbDst);
+	QString const cardsToOverwrite = printCardsForConfirm(q);
 	if(!cardsToOverwrite.isEmpty() &&
 	   QMessageBox::question(
 		   this, tr("Confirm Overwrite"),
@@ -365,6 +373,22 @@ void MainWindow::pasteClipboardCards()
 		return;
 	copyCards(codes, dbSrc, dbDst);
 	// TODO: Highlight pasted cards in db
+	emit currentTab().refreshCardList(); // TODO: Properly update card list
+}
+
+void MainWindow::deleteSelectedCards()
+{
+	auto const codes = currentTab().selectedCards();
+	if(codes.size() == 0)
+		return;
+	auto dbSrc = currentTab().database();
+	auto q = queryCards(codes, dbSrc);
+	QString const cardsToDelete = printCardsForConfirm(q);
+	if(QMessageBox::question(this, tr("Confirm deletion"),
+	                         tr("Are you sure about deleting these cards?") +
+	                             cardsToDelete) != QMessageBox::Yes)
+		return;
+	deleteCards(codes, dbSrc);
 	emit currentTab().refreshCardList(); // TODO: Properly update card list
 }
 
@@ -486,17 +510,29 @@ void MainWindow::createLanguageMenu()
 		QApplication::applicationDirPath().append("/languages"));
 }
 
+QString MainWindow::stmtFromCodes(QVector<quint32> const& codes,
+                                  QString const& baseStmt)
+{
+	QString ret(baseStmt);
+	for(auto const code : codes)
+		ret.append(QString::number(code)).append(',');
+	ret.append("0);");
+	return ret;
+}
+
+QSqlQuery MainWindow::queryCards(QVector<quint32> const& codes,
+                                 QSqlDatabase& dbSrc)
+{
+	auto const stmt = stmtFromCodes(codes, SQL_QUERY_CODE_AND_NAME_LIST);
+	auto q = buildQuery(dbSrc, stmt);
+	execQuery(q);
+	return q;
+}
+
 void MainWindow::copyCards(QVector<quint32> const& codes, QSqlDatabase& dbSrc,
                            QSqlDatabase& dbDst)
 {
-	auto const stmt = [&]() -> QString
-	{
-		QString ret(SQL_QUERY_DATA_AND_TEXT_LIST);
-		for(auto const code : codes)
-			ret.append(QString::number(code)).append(',');
-		ret.append("0);");
-		return ret;
-	}();
+	auto const stmt = stmtFromCodes(codes, SQL_QUERY_DATA_AND_TEXT_LIST);
 	auto q1 = buildQuery(dbSrc, stmt);
 	execQuery(q1);
 	auto const recordCount = q1.record().count();
@@ -513,6 +549,27 @@ void MainWindow::copyCards(QVector<quint32> const& codes, QSqlDatabase& dbSrc,
 		execQuery(q2);
 		execQuery(q3);
 	}
+}
+
+void MainWindow::deleteCards(QVector<quint32> const& codes, QSqlDatabase& dbSrc)
+{
+	auto const stmt1 = stmtFromCodes(codes, SQL_DELETE_DATAS_FROM_CODE_LIST);
+	auto q1 = buildQuery(dbSrc, stmt1);
+	execQuery(q1);
+	auto const stmt2 = stmtFromCodes(codes, SQL_DELETE_TEXTS_FROM_CODE_LIST);
+	auto q2 = buildQuery(dbSrc, stmt2);
+	execQuery(q2);
+}
+
+QString MainWindow::printCardsForConfirm(QSqlQuery& q) const
+{
+	QString cardsToConfirm;
+	while(q.next())
+	{
+		cardsToConfirm.append("\n[").append(q.value(0).toString()).append("] ");
+		cardsToConfirm.append(q.value(1).toString());
+	}
+	return cardsToConfirm;
 }
 
 DatabaseEditorWidget& MainWindow::currentTab() const
@@ -535,10 +592,15 @@ DatabaseEditorWidget& MainWindow::widgetFromConnection(
 	return *ptr;
 }
 
-QSqlDatabase MainWindow::clipboardDatabase() const
+QSqlDatabase MainWindow::clipboardDatabase(bool clear) const
 {
 	auto db = QSqlDatabase::database(SQL_CLIPBOARD_CONN, false);
 	Q_ASSERT(db.isValid());
+	if(clear)
+	{
+		db.exec("DELETE FROM datas;");
+		db.exec("DELETE FROM texts;");
+	}
 	return db;
 }
 
@@ -586,6 +648,8 @@ void MainWindow::enableEditing(bool editing)
 	ui->actionSaveData->setEnabled(editing);
 	ui->actionNewCard->setEnabled(editing);
 	ui->actionDeleteData->setEnabled(editing);
+	ui->actionCutSelectedCards->setEnabled(editing);
 	ui->actionCopySelectedCards->setEnabled(editing);
 	ui->actionPasteClipboardCards->setEnabled(editing);
+	ui->actionDeleteSelectedCards->setEnabled(editing);
 }

@@ -35,7 +35,6 @@ public:
 public slots:
 	void newCard();
 	void saveData();
-	void deleteData();
 
 	void refreshCardList();
 

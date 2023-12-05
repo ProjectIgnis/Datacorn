@@ -520,21 +520,6 @@ void DatabaseEditorWidget::saveData()
 	setSaved();
 }
 
-void DatabaseEditorWidget::deleteData()
-{
-	Q_ASSERT(previousCode != 0);
-	QString body = tr("Are you sure about deleting this card?\n");
-	body.append(tr("[%1] %2")
-	                .arg(QString::number(previousCode))
-	                .arg(ui->nameLineEdit->text()));
-	if(QMessageBox::question(this, tr("Confirm deletion"), body) !=
-	   QMessageBox::Yes)
-		return;
-	auto db = database();
-	removeCard(db, previousCode);
-	emit refreshCardList(); // TODO: Properly show new code chosen by default
-}
-
 void DatabaseEditorWidget::refreshCardList()
 {
 	cardListFilter->getModel()->select();
