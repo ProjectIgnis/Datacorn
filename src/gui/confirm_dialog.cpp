@@ -16,7 +16,8 @@ QDialog::DialogCode ConfirmDialog::display(QString const& title,
 {
 	ConfirmDialog cd;
 	cd.setWindowTitle(title);
-	cd.ui->label->setText(question);
+	auto const cardCount = QString(" (%1)").arg(cards.count('\n') + 1);
+	cd.ui->label->setText(question + cardCount);
 	cd.ui->plainTextEdit->setPlainText(cards);
 	return static_cast<DialogCode>(cd.exec());
 }
