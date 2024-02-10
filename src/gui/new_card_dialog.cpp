@@ -20,7 +20,7 @@ NewCardDialog::Result NewCardDialog::display(QSqlDatabase& db, bool canCopy)
 	ncd.ui->passLineEdit->setText("0");
 	ncd.ui->copyDataCheckBox->setChecked(false);
 	ncd.ui->copyDataCheckBox->setEnabled(canCopy);
-	int const dr = ncd.exec();
+	auto const dr = static_cast<QDialog::DialogCode>(ncd.exec());
 	return {dr, ncd.ui->passLineEdit->text().toUInt(),
 	        ncd.ui->copyDataCheckBox->isChecked()};
 }

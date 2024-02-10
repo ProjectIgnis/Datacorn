@@ -18,6 +18,7 @@
 #include <cstring> // std::memcpy
 #include <ui_main_window.h>
 
+#include "confirm_dialog.hpp"
 #include "database_editor_widget.hpp"
 #include "sql_util.hpp"
 
@@ -319,10 +320,9 @@ void MainWindow::cutSelectedCards()
 		return;
 	auto dbDst = clipboardDatabase(true);
 	auto q = queryCards(codes, dbSrc);
-	QString const cardsToCut = printCardsForConfirm(q);
-	if(QMessageBox::question(this, tr("Confirm cutting"),
-	                         tr("Are you sure about cutting these cards?") +
-	                             cardsToCut) != QMessageBox::Yes)
+	if(ConfirmDialog::display(tr("Confirm Cutting"),
+	                          tr("Are you sure about cutting these cards?"),
+	                          printCardsForConfirm(q)) != QDialog::Accepted)
 		return;
 	copyCards(codes, dbSrc, dbDst);
 	// Update Clipboard card list if opened in tab
@@ -365,11 +365,11 @@ void MainWindow::pasteClipboardCards()
 	auto q = queryCards(codes, dbDst);
 	QString const cardsToOverwrite = printCardsForConfirm(q);
 	if(!cardsToOverwrite.isEmpty() &&
-	   QMessageBox::question(
-		   this, tr("Confirm Overwrite"),
+	   ConfirmDialog::display(
+		   tr("Confirm Overwrite"),
 		   tr("The following cards already exist in this database, are you "
-	          "sure you want to replace them?") +
-			   cardsToOverwrite) != QMessageBox::Yes)
+	          "sure you want to replace them?"),
+		   cardsToOverwrite) != QDialog::Accepted)
 		return;
 	copyCards(codes, dbSrc, dbDst);
 	// TODO: Highlight pasted cards in db
@@ -383,10 +383,9 @@ void MainWindow::deleteSelectedCards()
 		return;
 	auto dbSrc = currentTab().database();
 	auto q = queryCards(codes, dbSrc);
-	QString const cardsToDelete = printCardsForConfirm(q);
-	if(QMessageBox::question(this, tr("Confirm deletion"),
-	                         tr("Are you sure about deleting these cards?") +
-	                             cardsToDelete) != QMessageBox::Yes)
+	if(ConfirmDialog::display(tr("Confirm Deletion"),
+	                          tr("Are you sure about deleting these cards?"),
+	                          printCardsForConfirm(q)) != QDialog::Accepted)
 		return;
 	deleteCards(codes, dbSrc);
 	emit currentTab().refreshCardList(); // TODO: Properly update card list
@@ -566,10 +565,10 @@ QString MainWindow::printCardsForConfirm(QSqlQuery& q) const
 	QString cardsToConfirm;
 	while(q.next())
 	{
-		cardsToConfirm.append("\n[").append(q.value(0).toString()).append("] ");
-		cardsToConfirm.append(q.value(1).toString());
+		cardsToConfirm.append("[").append(q.value(0).toString()).append("] ");
+		cardsToConfirm.append(q.value(1).toString()).append("\n");
 	}
-	return cardsToConfirm;
+	return cardsToConfirm.trimmed();
 }
 
 DatabaseEditorWidget& MainWindow::currentTab() const

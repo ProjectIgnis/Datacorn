@@ -17,7 +17,7 @@ class NewCardDialog : public QDialog
 public:
 	struct Result
 	{
-		int dialogResult;
+		QDialog::DialogCode dialogResult;
 		quint32 newCode;
 		bool copy;
 	};
