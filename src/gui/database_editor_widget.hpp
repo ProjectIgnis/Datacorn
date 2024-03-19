@@ -47,7 +47,7 @@ private slots:
 	void onArcheComboIndexActivated(int index);
 	void onArcheComboEditTextChanged(QString const& text);
 
-	void onCardsListItemActivated(QModelIndex const& index);
+	void onCardsListItemClicked(QModelIndex const& index);
 
 	void onListCheckboxClicked(QListWidgetItem* item);
 

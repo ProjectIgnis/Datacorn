@@ -327,8 +327,8 @@ DatabaseEditorWidget::DatabaseEditorWidget(QTabWidget& parent,
 	        &DatabaseEditorWidget::removeArchetypeFromList);
 	connect(ui->archeList, &QListWidget::currentItemChanged, this,
 	        &DatabaseEditorWidget::onArcheListItemChanged);
-	connect(ui->cardCodeNameList, &QAbstractItemView::activated, this,
-	        &DatabaseEditorWidget::onCardsListItemActivated);
+	connect(ui->cardCodeNameList, &QAbstractItemView::clicked, this,
+	        &DatabaseEditorWidget::onCardsListItemClicked);
 	connect(ui->archeComboBox,
 	        static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
 	        &DatabaseEditorWidget::onArcheComboIndexActivated);
@@ -592,7 +592,7 @@ void DatabaseEditorWidget::onArcheComboEditTextChanged(QString const& text)
 	ui->addArcheButton->setEnabled(!text.isEmpty());
 }
 
-void DatabaseEditorWidget::onCardsListItemActivated(QModelIndex const& index)
+void DatabaseEditorWidget::onCardsListItemClicked(QModelIndex const& index)
 {
 	updateUiWithCode(index.sibling(index.row(), 0).data().toUInt());
 }
