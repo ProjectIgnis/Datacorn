@@ -30,7 +30,7 @@ jobs:
         path: Datacorn/
     - name: Release
       if: ${{ github.ref == 'refs/heads/master' }}
-      uses: svenstaro/upload-release-action@v2
+      uses: svenstaro/upload-release-action@2.7.0
       with:
         overwrite: true
         asset_name: datacorn
