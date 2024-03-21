@@ -7,10 +7,6 @@ jobs:
     - uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: Install pre-requisites
-      shell: bash
-      run: |
-        pip install meson
     - name: Download prebuilt qt 5.6
       shell: bash
       run: |
@@ -19,13 +15,6 @@ jobs:
         curl --retry 5 --connect-timeout 30 --location --remote-header-name --output qt.7z https://github.com/xavery/qt563xp/releases/download/1.2/Qt-5.6.3-Static-XP.7z
         7z x qt.7z
         rm qt.7z
-    - name: Fixup qt 5.6 library names
-      shell: cmd
-      run: |
-        copy C:\Qt\5.6.3-Static-XP\plugins\platforms\qwindows.lib C:\Qt\5.6.3-Static-XP\lib\qt5windows.lib
-        copy C:\Qt\5.6.3-Static-XP\plugins\imageformats\qico.lib C:\Qt\5.6.3-Static-XP\lib\qt5ico.lib
-        copy C:\Qt\5.6.3-Static-XP\lib\qtfreetype.lib C:\Qt\5.6.3-Static-XP\lib\qt5freetype.lib
-        copy C:\Qt\5.6.3-Static-XP\lib\qtpcre.lib C:\Qt\5.6.3-Static-XP\lib\qt5pcre.lib
     - name: Set x86 windows build tools as default
       uses: ilammy/msvc-dev-cmd@v1
       with:
@@ -37,22 +26,20 @@ jobs:
         cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v150\Platforms\Win32\PlatformToolsets"
         rm -r v141 || true
         mv v141_xp v141
-    - name: Meson build
+    - name: Qmake build
       shell: cmd
-      # Manually build 6eeb55f@@qt5-compile-es.ts@cus.vcxproj and 6eeb55f@@qt5-compile-it.ts@cus.vcxproj as well
-      # as meson doesn't correctly make the qrc generator depend on it
       run: |
         set PATH=C:\Qt\5.6.3-Static-XP\bin;%PATH%
-        meson setup build -Dbackend=vs2017 -Dbuildtype=release -Dstrip=true -Db_lto=true -Db_ndebug=true -Db_vscrt=mt
-        msbuild "build/res/6eeb55f@@qt5-compile-es.ts@cus.vcxproj" -p:Platform=Win32 -p:Configuration=release
-        msbuild "build/res/6eeb55f@@qt5-compile-it.ts@cus.vcxproj" -p:Platform=Win32 -p:Configuration=release
-        meson compile -C build -j2
+        mkdir build && cd build
+        qmake -o Makefile ../Datacorn.pro
+        set CL=/MP
+        nmake release
     - name: Setup directory with artifacts
       shell: bash
       run: |
         export RDIR=Datacorn
         mkdir $RDIR
-        cp build/datacorn.exe $RDIR/
+        cp build/binary/Datacorn.exe $RDIR/
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -68,4 +55,45 @@ jobs:
         tag: |
           latest
         file: |
-          Datacorn/datacorn.exe
+          Datacorn/Datacorn.exe
+
+  x86-windows-msys2-mingw32:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Setup msys2 with static qt
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: mingw32
+        install: mingw-w64-i686-qt5-static mingw-w64-i686-toolchain make upx
+    - name: Qmake build
+      shell: msys2 {0}
+      run: |
+        export PATH=/mingw32/qt5-static/bin/:$PATH
+        mkdir build && cd build
+        qmake -o Makefile ../Datacorn.pro
+        make release -j2
+    - name: Setup directory with artifacts
+      shell: msys2 {0}
+      run: |
+        export RDIR=Datacorn
+        mkdir $RDIR
+        upx -9 -o $RDIR/Datacorn.exe build/binary/Datacorn.exe
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Datacorn-mingw
+        path: Datacorn/
+    - name: Release
+      if: ${{ github.ref == 'refs/heads/master' }}
+      uses: svenstaro/upload-release-action@v2
+      with:
+        overwrite: true
+        asset_name: Datacorn-mingw.exe
+        prerelease: true
+        tag: |
+          latest
+        file: |
+          Datacorn/Datacorn.exe

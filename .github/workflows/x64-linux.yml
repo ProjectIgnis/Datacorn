@@ -11,18 +11,18 @@ jobs:
     - name: Install dependencies
       run: |
         apt-get update
-        apt-get --no-install-recommends --yes install build-essential g++ ninja-build python3-pip qt5-default qttools5-dev-tools
-        pip3 install meson
-    - name: Meson build
+        apt-get --no-install-recommends --yes install build-essential g++ qt5-default qttools5-dev-tools
+    - name: Qmake build
       run: |
-        meson setup build -Dbuildtype=release -Dstrip=true -Db_lto=true -Db_ndebug=true
-        meson compile -C build -j2
+        mkdir build && cd build
+        qmake -o Makefile ../Datacorn.pro
+        make release -j2
     - name: Setup directory with artifacts
       shell: bash
       run: |
         export RDIR=Datacorn
         mkdir $RDIR
-        cp build/datacorn $RDIR/
+        cp build/binary/Datacorn $RDIR/
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -38,7 +38,7 @@ jobs:
         tag: |
           latest
         file: |
-          Datacorn/datacorn
+          Datacorn/Datacorn
 
   x64-linux-qt6:
     runs-on: ubuntu-22.04
@@ -49,18 +49,18 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get --no-install-recommends --yes install build-essential g++ ninja-build python3-pip qt6-base-dev qt6-base-dev-tools qt6-l10n-tools
-        pip3 install meson
-    - name: Meson build
+        sudo apt-get --no-install-recommends --yes install build-essential g++ qt6-base-dev qt6-base-dev-tools qt6-l10n-tools
+    - name: Qmake build
       run: |
-        meson setup build -Dbuildtype=release -Dstrip=true -Db_lto=true -Db_ndebug=true
-        meson compile -C build -j2
+        mkdir build && cd build
+        qmake6 -o Makefile ../Datacorn.pro
+        make release -j2
     - name: Setup directory with artifacts
       shell: bash
       run: |
         export RDIR=Datacorn
         mkdir $RDIR
-        cp build/datacorn $RDIR/
+        cp build/binary/Datacorn $RDIR/
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -76,4 +76,4 @@ jobs:
         tag: |
           latest
         file: |
-          Datacorn/datacorn
+          Datacorn/Datacorn

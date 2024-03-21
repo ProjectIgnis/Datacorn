@@ -11,6 +11,7 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QString>
+#include <QStyle>
 #include <QTabBar>
 #include <QTranslator>
 #include <QUrl>
