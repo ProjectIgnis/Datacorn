@@ -53,7 +53,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="passLineEdit">
+        <widget class="TrimOnPasteLineEdit" name="passLineEdit">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -83,7 +83,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="aliasLineEdit">
+        <widget class="TrimOnPasteLineEdit" name="aliasLineEdit">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -103,7 +103,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QLineEdit" name="nameLineEdit">
+      <widget class="TrimOnPasteLineEdit" name="nameLineEdit">
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -680,6 +680,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TrimOnPasteLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>trim_on_paste_line_edit.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

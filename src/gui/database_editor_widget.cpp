@@ -17,6 +17,7 @@
 #include "../archetypes.hpp"
 #include "new_card_dialog.hpp"
 #include "sql_util.hpp"
+#include "trim_on_paste_line_edit.hpp"
 
 namespace
 {
@@ -239,13 +240,13 @@ public:
 		setSectionsClickable(false);
 		for(int i = 0; i < 2; i++)
 		{
-			auto* w = new QLineEdit(this);
+			auto* w = new TrimOnPasteLineEdit(this);
 			w->setClearButtonEnabled(true);
 			w->setPlaceholderText(tr("Filter"));
 			w->setVisible(true);
 			filters.push_back(w);
 			connect(w, &QLineEdit::textEdited, this,
-			        &FilteringHeader::updateTableFilters);
+					&FilteringHeader::updateTableFilters);
 		}
 		setRegexValidator(*filters[0], "[1-9][0-9]*");
 		connect(this, &FilteringHeader::sectionResized, this,

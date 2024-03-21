@@ -32,6 +32,7 @@ moc_files = qt_mod.compile_moc(headers : files([
 	'src/gui/database_editor_widget.hpp',
 	'src/gui/main_window.hpp',
 	'src/gui/new_card_dialog.hpp',
+	'src/gui/trim_on_paste_line_edit.hpp',
 ]),
 sources : files([
 	'src/gui/database_editor_widget.cpp',
@@ -44,11 +45,14 @@ ui_files = qt_mod.compile_ui(sources : files([
 	'src/gui/new_card_dialog.ui',
 ]))
 
+inc_dirs = include_directories('src/gui')
+
 subdir('res') # Provides ts_files and res_files
 
 executable(
 	'datacorn',
 	[src_files, moc_files, ui_files, ts_files, res_files, win_rc_file],
+	include_directories : inc_dirs,
 	dependencies : [qt_dep],
 	gui_app : true,
 	link_args : is_windows ? ['-static', '-static-libgcc', '-static-libstdc++'] : []

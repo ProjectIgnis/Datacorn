@@ -36,7 +36,8 @@ HEADERS += \
 	src/gui/database_editor_widget.hpp \
 	src/gui/main_window.hpp \
 	src/gui/new_card_dialog.hpp \
-	src/gui/sql_util.hpp
+	src/gui/sql_util.hpp \
+	src/gui/trim_on_paste_line_edit.hpp
 
 FORMS += \
 	src/gui/confirm_dialog.ui \
