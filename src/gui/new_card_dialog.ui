@@ -27,7 +27,7 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="passLineEdit">
+    <widget class="TrimOnPasteLineEdit" name="passLineEdit">
      <property name="font">
       <font>
        <pointsize>12</pointsize>
@@ -66,6 +66,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TrimOnPasteLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>trim_on_paste_line_edit.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
