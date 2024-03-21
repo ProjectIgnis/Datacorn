@@ -5,23 +5,17 @@ project('datacorn', 'cpp',
 is_windows = host_machine.system() == 'windows'
 
 qt_used_mods = ['Core', 'Gui', 'Widgets', 'Sql']
-qt_used_mods += is_windows ? ['PlatformSupport', 'windows', 'ico', 'pcre', 'freetype'] : []
 
 qt_dep = dependency('qt5', 'qt6', modules : qt_used_mods, main : true)
 qt_mod = import('qt@0@'.format(qt_dep.version().split('.')[0]))
 
 win_rc_file = []
-win_deps = []
 if is_windows
 	win = import('windows')
 	win_rc_file = win.compile_resources(
 		'res/res.rc',
 		depend_files : 'res/icon.ico',
 	)
-	compiler = meson.get_compiler('cpp')
-	win_deps += compiler.find_library('ws2_32', required : true)
-	win_deps += compiler.find_library('Winmm', required : true)
-	win_deps += compiler.find_library('Imm32', required : true)
 endif
 
 src_files = files([
@@ -52,7 +46,7 @@ subdir('res') # Provides ts_files and res_files
 executable(
 	'datacorn',
 	[src_files, moc_files, ui_files, ts_files, res_files, win_rc_file],
-	dependencies : [qt_dep, win_deps],
+	dependencies : [qt_dep],
 	gui_app : true,
 	link_args : is_windows ? ['-static', '-static-libgcc', '-static-libstdc++'] : []
 )

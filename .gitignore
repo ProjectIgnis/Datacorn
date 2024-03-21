@@ -3,3 +3,9 @@ build*
 res/*.qm
 .cache
 *.user
+.vs/*
+obj/*
+debug/*
+release/*
+*.tmp
+.DS_Store
