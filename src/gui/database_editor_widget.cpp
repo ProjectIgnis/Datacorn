@@ -205,6 +205,7 @@ inline void setRegexValidator(QLineEdit& parent, QString const& regex)
 
 class CardCodeNameSqlModel final : public QSqlTableModel
 {
+	Q_OBJECT
 public:
 	explicit CardCodeNameSqlModel(QWidget* parent, QSqlDatabase const& db)
 		: QSqlTableModel(parent, db)
@@ -229,6 +230,7 @@ private:
 
 class FilteringHeader final : public QHeaderView
 {
+	Q_OBJECT
 public:
 	explicit FilteringHeader(QTableView& parent)
 		: QHeaderView(Qt::Horizontal, &parent), model(nullptr)
@@ -292,8 +294,9 @@ private slots:
 		}
 	}
 
-	void updateTableFilters([[maybe_unused]] QString const& text = "")
+	void updateTableFilters(QString const& text = "")
 	{
+		Q_UNUSED(text);
 		if(model == nullptr)
 			return;
 		model->setFilter(QString(R"("id" LIKE "%%1%" AND "name" LIKE "%%2%")")
@@ -894,3 +897,5 @@ void DatabaseEditorWidget::removeCard(QSqlDatabase& db, quint32 code)
 	q2.bindValue(0, code);
 	execQuery(q2);
 }
+
+#include "database_editor_widget.moc"

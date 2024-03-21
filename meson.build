@@ -32,6 +32,9 @@ moc_files = qt_mod.compile_moc(headers : files([
 	'src/gui/database_editor_widget.hpp',
 	'src/gui/main_window.hpp',
 	'src/gui/new_card_dialog.hpp',
+]),
+sources : files([
+	'src/gui/database_editor_widget.cpp',
 ]))
 
 ui_files = qt_mod.compile_ui(sources : files([
