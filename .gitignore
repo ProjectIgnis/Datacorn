@@ -8,3 +8,4 @@ obj/*
 debug/*
 release/*
 *.tmp
+.DS_Store

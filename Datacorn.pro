@@ -97,3 +97,5 @@ greaterThan(QT_MINOR_VERSION, 11)|greaterThan(QT_MAJOR_VERSION, 5) {
 CONFIG += debug_and_release
 
 RC_ICONS = res/icon.ico
+
+ICON = res/icon.icns
