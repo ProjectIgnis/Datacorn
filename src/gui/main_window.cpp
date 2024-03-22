@@ -303,12 +303,12 @@ void MainWindow::showClipboardDatabase()
 
 void MainWindow::newCard()
 {
-	emit currentTab().newCard();
+	currentTab().newCard();
 }
 
 void MainWindow::saveData()
 {
-	emit currentTab().saveData();
+	currentTab().saveData();
 }
 
 void MainWindow::cutSelectedCards()
@@ -328,9 +328,9 @@ void MainWindow::cutSelectedCards()
 	copyCards(codes, dbSrc, dbDst);
 	// Update Clipboard card list if opened in tab
 	if(!dbDst.password().isEmpty()) // TODO: Properly update card list
-		emit widgetFromConnection(SQL_CLIPBOARD_CONN).refreshCardList();
+		widgetFromConnection(SQL_CLIPBOARD_CONN).refreshCardList();
 	deleteCards(codes, dbSrc);
-	emit currentTab().refreshCardList(); // TODO: Properly update card list
+	currentTab().refreshCardList(); // TODO: Properly update card list
 }
 
 void MainWindow::copySelectedCards()
@@ -343,7 +343,7 @@ void MainWindow::copySelectedCards()
 	copyCards(codes, dbSrc, dbDst);
 	// Update Clipboard card list if opened in tab
 	if(!dbDst.password().isEmpty()) // TODO: Properly update card list
-		emit widgetFromConnection(SQL_CLIPBOARD_CONN).refreshCardList();
+		widgetFromConnection(SQL_CLIPBOARD_CONN).refreshCardList();
 }
 
 void MainWindow::pasteClipboardCards()
@@ -374,7 +374,7 @@ void MainWindow::pasteClipboardCards()
 		return;
 	copyCards(codes, dbSrc, dbDst);
 	// TODO: Highlight pasted cards in db
-	emit currentTab().refreshCardList(); // TODO: Properly update card list
+	currentTab().refreshCardList(); // TODO: Properly update card list
 }
 
 void MainWindow::deleteSelectedCards()
@@ -389,7 +389,7 @@ void MainWindow::deleteSelectedCards()
 	                          printCardsForConfirm(q)) != QDialog::Accepted)
 		return;
 	deleteCards(codes, dbSrc);
-	emit currentTab().refreshCardList(); // TODO: Properly update card list
+	currentTab().refreshCardList(); // TODO: Properly update card list
 }
 
 void MainWindow::openHomepage()
@@ -487,11 +487,10 @@ void MainWindow::createLanguageMenu()
 	{
 		auto translationFiles = QDir(path).entryList(QStringList("*.qm"));
 
-		for(auto filename : translationFiles)
+		for(auto const& filename : translationFiles)
 		{
-			auto locale = filename;
 			// get locale extracted by filename
-			locale.truncate(locale.lastIndexOf('.')); // "es"
+			auto locale = filename.left(filename.lastIndexOf('.')); // "es"
 
 			if(translations.contains(locale))
 				continue;

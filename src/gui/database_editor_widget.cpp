@@ -286,7 +286,7 @@ private slots:
 	void adjustFilters()
 	{
 		int section = 0;
-		for(auto* f : filters)
+		for(auto* f : std::as_const(filters))
 		{
 			int const y = sectionSizeFromContents(section).height();
 			f->move(sectionPosition(section) - offset(), y);
@@ -485,7 +485,8 @@ QVector<quint32> DatabaseEditorWidget::selectedCards() const
 {
 	QVector<quint32> ret;
 	auto const* selectionModel = ui->cardCodeNameList->selectionModel();
-	for(auto const& index : selectionModel->selectedRows())
+	auto const rows = selectionModel->selectedRows();
+	for(auto const& index : rows)
 		ret.append(index.data().toUInt());
 	return ret;
 }
@@ -632,7 +633,7 @@ void DatabaseEditorWidget::addArchetype(quint16 code, bool ignoreUnsavedState)
 	auto& item = *ui->archeList->item(ui->archeList->count() - 1);
 	item.setData(ARCHETYPE_ROLE, code);
 	if(!ignoreUnsavedState)
-		emit setUnsaved();
+		setUnsaved();
 }
 
 void DatabaseEditorWidget::retranslateArchetypes()
@@ -870,7 +871,7 @@ void DatabaseEditorWidget::updateCardWithUi()
 	}
 	execQuery(q2);
 	previousCode = newCode;
-	emit refreshCardList(); // TODO: Properly list and track new code
+	refreshCardList(); // TODO: Properly list and track new code
 }
 
 void DatabaseEditorWidget::setSaved()

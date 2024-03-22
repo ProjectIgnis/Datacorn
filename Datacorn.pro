@@ -58,7 +58,7 @@ greaterThan(QT_MINOR_VERSION, 11)|greaterThan(QT_MAJOR_VERSION, 5) {
 		LANGREL_OPTIONS = -compress -nounfinished -removeidentical
 	} else {
 		TRANSLATION_TARGET_DIR = $${OUT_PWD}/debug/translations
-		LANGREL_OPTIONS = -markuntranslated "MISS_TR "
+		LANGREL_OPTIONS =
 	}
 
 	isEmpty(QMAKE_LRELEASE) {
