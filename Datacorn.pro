@@ -9,6 +9,7 @@ greaterThan(QT_MINOR_VERSION, 11)|greaterThan(QT_MAJOR_VERSION, 5) {
 		QMAKE_CXXFLAGS += -std=c++17
 	}
 }
+CONFIG += rtti_off exceptions_off
 QT += core gui widgets sql
 
 TARGET = Datacorn
