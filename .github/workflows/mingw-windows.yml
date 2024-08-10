@@ -1,0 +1,110 @@
+name: mingw-windows
+on: push
+jobs:
+  x86-windows-msys2-mingw32:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Setup msys2 with static qt
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: mingw32
+        install: mingw-w64-i686-toolchain make upx wget
+    - name: Install known working qt5-static library
+      shell: msys2 {0}
+      run: |
+        cd /tmp
+        wget https://repo.msys2.org/mingw/mingw32/mingw-w64-i686-qt5-static-5.15.13-1-any.pkg.tar.zst
+        pacman --noconfirm -U mingw-w64-i686-qt5-static-5.15.13-1-any.pkg.tar.zst
+    - name: Qmake build
+      shell: msys2 {0}
+      run: |
+        export PATH=/mingw32/qt5-static/bin/:$PATH
+        mkdir build && cd build
+        qmake -o Makefile ../Datacorn.pro
+        make release -j2
+    - name: Setup directory with artifacts
+      shell: msys2 {0}
+      run: |
+        export RDIR=Datacorn
+        mkdir $RDIR
+        upx -9 -o $RDIR/Datacorn.exe build/binary/Datacorn.exe
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Datacorn-mingw
+        path: Datacorn/
+    - name: Release
+      if: ${{ github.ref == 'refs/heads/master' }}
+      uses: svenstaro/upload-release-action@v2
+      with:
+        overwrite: true
+        asset_name: Datacorn-mingw.exe
+        prerelease: true
+        tag: |
+          latest
+        file: |
+          Datacorn/Datacorn.exe
+
+  x64-windows-msys2-mingw64-qt6:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Setup msys2 with static qt
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: mingw64
+        install: >-
+                 mingw-w64-x86_64-qt6-static
+                 mingw-w64-x86_64-toolchain
+                 mingw-w64-x86_64-pcre2
+                 mingw-w64-x86_64-libmng
+                 mingw-w64-x86_64-lcms2
+                 mingw-w64-x86_64-libtiff
+                 mingw-w64-x86_64-lerc
+                 mingw-w64-x86_64-jbigkit
+                 mingw-w64-x86_64-libjpeg-turbo
+                 mingw-w64-x86_64-libdeflate
+                 mingw-w64-x86_64-libwebp
+                 mingw-w64-x86_64-libpng
+                 mingw-w64-x86_64-glib2
+                 mingw-w64-x86_64-graphite2
+                 mingw-w64-x86_64-harfbuzz
+                 mingw-w64-x86_64-freetype
+                 mingw-w64-x86_64-brotli
+                 mingw-w64-x86_64-libb2
+                 make
+                 upx
+    - name: Qmake build
+      shell: msys2 {0}
+      run: |
+        export PATH=/mingw64/qt6-static/bin/:$PATH
+        mkdir build && cd build
+        qmake QMAKE_LIBS+="-lgraphite2 -lbz2 -lusp10 -lRpcrt4" -o Makefile ../Datacorn.pro
+        make release -j2
+    - name: Setup directory with artifacts
+      shell: msys2 {0}
+      run: |
+        export RDIR=Datacorn
+        mkdir $RDIR
+        upx -9 -o $RDIR/Datacorn.exe build/binary/Datacorn.exe
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Datacorn-mingw-qt6
+        path: Datacorn/
+    - name: Release
+      if: ${{ github.ref == 'refs/heads/master' }}
+      uses: svenstaro/upload-release-action@v2
+      with:
+        overwrite: true
+        asset_name: Datacorn-mingw-qt6.exe
+        prerelease: true
+        tag: |
+          latest
+        file: |
+          Datacorn/Datacorn.exe
