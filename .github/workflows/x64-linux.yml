@@ -4,6 +4,9 @@ jobs:
   x64-linux:
     runs-on: ubuntu-latest
     container: ubuntu:18.04
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+      ACTIONS_RUNNER_FORCE_ACTIONS_NODE_VERSION: node16
     steps:
     - uses: actions/checkout@v1
       with:
