@@ -410,15 +410,16 @@ DatabaseEditorWidget::DatabaseEditorWidget(QTabWidget& parent,
 	scopeCbs = populate_cbs(ui->scopesWidget, SCOPE_FIELDS);
 	categoryCbs = populate_cbs(ui->categoriesWidget, CATEGORY_FIELDS);
 	ui->archeComboBox->blockSignals(true);
+	ui->archeComboBox->lineEdit()->setPlaceholderText(
+		tr("Select or type an archetype to add"));
 	auto const end = ARCHETYPES_MAP.constEnd();
-	ui->archeComboBox->addItem(tr("Select or type an archetype to add"));
 	for(auto it = ARCHETYPES_MAP.constBegin(); it != end; ++it)
 	{
 		ui->archeComboBox->addItem(formatArchetype(it.key(), it.value()));
 		ui->archeComboBox->setItemData(ui->archeComboBox->count() - 1, it.key(),
 		                               ARCHETYPE_ROLE);
 	}
-	ui->archeComboBox->setCurrentIndex(0);
+	ui->archeComboBox->setCurrentIndex(-1);
 	ui->archeComboBox->blockSignals(false);
 	// DB setup
 	auto db = QSqlDatabase::database(dbConnection, false);
@@ -547,6 +548,8 @@ void DatabaseEditorWidget::addArchetypeToList([[maybe_unused]] bool clicked)
 		// ComboBox's data.
 		addArchetype(static_cast<quint16>(
 			ui->archeComboBox->currentData(ARCHETYPE_ROLE).toUInt()));
+		ui->archeComboBox->clearEditText();
+		ui->archeComboBox->setCurrentIndex(-1);
 		return;
 	}
 	// Here we do a best effort to parse the ComboBox's current text and get
@@ -559,6 +562,8 @@ void DatabaseEditorWidget::addArchetypeToList([[maybe_unused]] bool clicked)
 		if(ok && setcode != 0)
 		{
 			addArchetype(setcode);
+			ui->archeComboBox->clearEditText();
+			ui->archeComboBox->setCurrentIndex(-1);
 			return;
 		}
 	}
@@ -588,7 +593,7 @@ void DatabaseEditorWidget::onArcheComboIndexActivated(
 	[[maybe_unused]] int index)
 {
 	customArchetype = false;
-	ui->addArcheButton->setEnabled(index != 0);
+	ui->addArcheButton->setEnabled(index >= 0);
 }
 
 void DatabaseEditorWidget::onArcheComboEditTextChanged(QString const& text)
@@ -686,7 +691,8 @@ void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 	ui->passLineEdit->setText("0");
 	ui->aliasLineEdit->setText("0");
 	ui->nameLineEdit->setText("");
-	ui->archeComboBox->setCurrentIndex(0);
+	ui->archeComboBox->clearEditText();
+	ui->archeComboBox->setCurrentIndex(-1);
 	ui->addArcheButton->setEnabled(false);
 	ui->archeList->clear();
 	ui->descPlainTextEdit->setPlainText("");
