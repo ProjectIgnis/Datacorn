@@ -246,7 +246,7 @@ public:
 			w->setVisible(true);
 			filters.push_back(w);
 			connect(w, &QLineEdit::textEdited, this,
-					&FilteringHeader::updateTableFilters);
+			        &FilteringHeader::updateTableFilters);
 		}
 		setRegexValidator(*filters[0], "[1-9][0-9]*");
 		connect(this, &FilteringHeader::sectionResized, this,
@@ -433,7 +433,7 @@ DatabaseEditorWidget::DatabaseEditorWidget(QTabWidget& parent,
 		db.setPassword(QString("%1").arg(pass, 0, 16));
 	}
 	fillCardList(db);
-	QSqlQuery q(SQL_QUERY_FIRST_ROW_CODE, db);
+	auto q = buildQuery(db, SQL_QUERY_FIRST_ROW_CODE);
 	execQuery(q);
 	if(q.first())
 		updateUiWithCode(q.value(0).toUInt());

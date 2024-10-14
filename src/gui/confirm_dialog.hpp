@@ -19,7 +19,7 @@ public:
 	~ConfirmDialog() override;
 
 	static DialogCode display(QString const& title, QString const& question,
-							  QString const& cards);
+	                          QString const& cards);
 
 private:
 	std::unique_ptr<Ui::ConfirmDialog> ui;

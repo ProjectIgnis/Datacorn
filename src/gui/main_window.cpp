@@ -219,8 +219,6 @@ void MainWindow::newDatabase()
 	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER, file);
 	db.setDatabaseName(file);
 	setupCleanDatabase(db);
-	bool const isDbOpen = db.open();
-	Q_ASSERT(isDbOpen);
 	addTab(file);
 }
 
@@ -240,7 +238,8 @@ void MainWindow::openDatabase()
 	{
 		auto verify_table = [&](const auto& query_and_result)
 		{
-			auto q = db.exec(query_and_result[0]);
+			auto q = buildQuery(db, query_and_result[0]);
+			execQuery(q);
 			auto record = q.record();
 			auto name_index = record.indexOf("name");
 			auto pk_index = record.indexOf("pk");
@@ -597,8 +596,10 @@ QSqlDatabase MainWindow::clipboardDatabase(bool clear) const
 	Q_ASSERT(db.isValid());
 	if(clear)
 	{
-		db.exec("DELETE FROM datas;");
-		db.exec("DELETE FROM texts;");
+		auto q1 = buildQuery(db, "DELETE FROM datas;");
+		execQuery(q1);
+		auto q2 = buildQuery(db, "DELETE FROM texts;");
+		execQuery(q2);
 	}
 	return db;
 }
@@ -607,8 +608,12 @@ void MainWindow::setupCleanDatabase(QSqlDatabase& db) const
 {
 	bool const isDbOpen = db.open();
 	Q_ASSERT(isDbOpen);
-	db.exec(SQL_QUERY_CREATE_DATAS_TABLE);
-	db.exec(SQL_QUERY_CREATE_TEXTS_TABLE);
+	auto q1 = buildQuery(db, "PRAGMA page_size = 4096;");
+	execQuery(q1);
+	auto q2 = buildQuery(db, SQL_QUERY_CREATE_DATAS_TABLE);
+	execQuery(q2);
+	auto q3 = buildQuery(db, SQL_QUERY_CREATE_TEXTS_TABLE);
+	execQuery(q3);
 }
 
 void MainWindow::closeDatabaseImpl(int index, bool askForUnsavedData)
