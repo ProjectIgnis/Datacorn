@@ -23,6 +23,8 @@ public:
 	explicit MainWindow(QWidget* parent = nullptr);
 	~MainWindow() override;
 
+	void openDatabaseWithFile(QString const& file);
+
 protected:
 	void changeEvent(QEvent* event) override;
 	void closeEvent(QCloseEvent* event) override;

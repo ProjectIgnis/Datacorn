@@ -155,6 +155,58 @@ MainWindow::~MainWindow()
 		QApplication::removeTranslator(currentTranslator.get());
 }
 
+void MainWindow::openDatabaseWithFile(QString const& file)
+{
+	auto does_db_have_correct_format = [&](QSqlDatabase& db)
+	{
+		auto verify_table = [&](const auto& query_and_result)
+		{
+			auto q = buildQuery(db, query_and_result[0]);
+			execQuery(q);
+			auto record = q.record();
+			auto name_index = record.indexOf("name");
+			auto pk_index = record.indexOf("pk");
+			if(name_index == -1 || pk_index == -1)
+				return false;
+			QStringList columns;
+			while(q.next())
+				columns << q.value(name_index).toString() +
+							   q.value(pk_index).toString();
+			columns.sort(Qt::CaseInsensitive);
+			return columns.join(',').compare(query_and_result[1],
+			                                 Qt::CaseInsensitive) == 0;
+		};
+		return verify_table(SQL_DATAS_TABLE_FIELDS) &&
+		       verify_table(SQL_TEXTS_TABLE_FIELDS);
+	};
+	if(file.isEmpty())
+		return;
+	if(QSqlDatabase::contains(file))
+	{
+		ui->dbEditorTabsWidget->setCurrentWidget(&widgetFromConnection(file));
+		return;
+	}
+	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER, file);
+	db.setDatabaseName(file);
+	if(!db.open())
+	{
+		QMessageBox::critical(this, tr("Error Opening Database"),
+		                      db.lastError().text());
+		QSqlDatabase::removeDatabase(file);
+		return;
+	}
+	if(!does_db_have_correct_format(db))
+	{
+		QMessageBox::critical(
+			this, tr("Error Opening Database"),
+			tr("Selected file is not a proper YGOPRO database."));
+		db.close();
+		QSqlDatabase::removeDatabase(file);
+		return;
+	}
+	addTab(file);
+}
+
 void MainWindow::changeEvent(QEvent* event)
 {
 	switch(event->type())
@@ -234,57 +286,9 @@ void MainWindow::closeTabDatabase(int index)
 
 void MainWindow::openDatabase()
 {
-	auto does_db_have_correct_format = [&](QSqlDatabase& db)
-	{
-		auto verify_table = [&](const auto& query_and_result)
-		{
-			auto q = buildQuery(db, query_and_result[0]);
-			execQuery(q);
-			auto record = q.record();
-			auto name_index = record.indexOf("name");
-			auto pk_index = record.indexOf("pk");
-			if(name_index == -1 || pk_index == -1)
-				return false;
-			QStringList columns;
-			while(q.next())
-				columns << q.value(name_index).toString() +
-							   q.value(pk_index).toString();
-			columns.sort(Qt::CaseInsensitive);
-			return columns.join(',').compare(query_and_result[1],
-			                                 Qt::CaseInsensitive) == 0;
-		};
-		return verify_table(SQL_DATAS_TABLE_FIELDS) &&
-		       verify_table(SQL_TEXTS_TABLE_FIELDS);
-	};
-	QString const file = QFileDialog::getOpenFileName(
+	openDatabaseWithFile(QFileDialog::getOpenFileName(
 		this, tr("Select Database"), ".",
-		tr("YGOPro Database (*.cdb *.db *.sqlite)"));
-	if(file.isEmpty())
-		return;
-	if(QSqlDatabase::contains(file))
-	{
-		ui->dbEditorTabsWidget->setCurrentWidget(&widgetFromConnection(file));
-		return;
-	}
-	auto db = QSqlDatabase::addDatabase(SQL_DB_DRIVER, file);
-	db.setDatabaseName(file);
-	if(!db.open())
-	{
-		QMessageBox::critical(this, tr("Error Opening Database"),
-		                      db.lastError().text());
-		QSqlDatabase::removeDatabase(file);
-		return;
-	}
-	if(!does_db_have_correct_format(db))
-	{
-		QMessageBox::critical(
-			this, tr("Error Opening Database"),
-			tr("Selected file is not a proper YGOPRO database."));
-		db.close();
-		QSqlDatabase::removeDatabase(file);
-		return;
-	}
-	addTab(file);
+		tr("YGOPro Database (*.cdb *.db *.sqlite)")));
 }
 
 void MainWindow::showClipboardDatabase()

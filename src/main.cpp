@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QCommandLineParser>
 #include <QCoreApplication>
 #include <QTranslator>
 
@@ -11,11 +12,23 @@ int main(int argc, char* argv[])
 	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 #endif
-	QApplication a(argc, argv);
+	QApplication app(argc, argv);
+	QCoreApplication::setApplicationName("datacorn");
+	QCoreApplication::setApplicationVersion("0.9");
+
+	QCommandLineParser parser;
+	// NOTE: We recognize the CLA on all platforms, but only do something
+	//       on Windows. Later we can see if this is useful in other OSs.
+	QCommandLineOption systemThemeOption(
+		QStringList() << "st" << "system-theme",
+		QCoreApplication::translate("main", "Use system's theme"));
+	parser.addOption(systemThemeOption);
+
+	parser.process(app);
 #ifdef Q_OS_WIN
-	if(!a.arguments().contains("--system-theme"))
+	if(!parser.isSet(systemThemeOption))
 	{
-		a.setStyle("fusion");
+		app.setStyle("fusion");
 		QPalette p;
 		p.setColor(QPalette::Window, QColor(52, 52, 52));
 		p.setColor(QPalette::WindowText, Qt::white);
@@ -30,10 +43,12 @@ int main(int argc, char* argv[])
 		p.setColor(QPalette::Link, QColor(220, 206, 128));
 		p.setColor(QPalette::Highlight, QColor(220, 206, 128));
 		p.setColor(QPalette::HighlightedText, Qt::black);
-		a.setPalette(p);
+		app.setPalette(p);
 	}
 #endif // Q_OS_WIN
 	MainWindow w;
+	for(auto const& arg : parser.positionalArguments())
+		w.openDatabaseWithFile(arg);
 	w.show();
 	return QApplication::exec();
 }
