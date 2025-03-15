@@ -40,8 +40,8 @@ int main(int argc, char* argv[])
 		p.setColor(QPalette::Button, QColor(52, 52, 52));
 		p.setColor(QPalette::ButtonText, Qt::white);
 		p.setColor(QPalette::BrightText, Qt::red);
-		p.setColor(QPalette::Link, QColor(220, 206, 128));
-		p.setColor(QPalette::Highlight, QColor(220, 206, 128));
+		p.setColor(QPalette::Link, QColor(0, 0, 0));
+		p.setColor(QPalette::Highlight, QColor(0, 0, 0));
 		p.setColor(QPalette::HighlightedText, Qt::black);
 		app.setPalette(p);
 	}

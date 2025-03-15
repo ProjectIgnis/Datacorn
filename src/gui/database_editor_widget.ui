@@ -6,12 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1028</width>
-    <height>732</height>
+    <width>1050</width>
+    <height>878</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">color: rgb(255, 255, 255);
+font: 14pt &quot;Sans Serif&quot;
+</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_7">
    <item>
@@ -22,14 +27,24 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+     </property>
      <property name="autoScroll">
       <bool>false</bool>
      </property>
      <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
+      <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
      </property>
      <property name="selectionBehavior">
-      <enum>QAbstractItemView::SelectRows</enum>
+      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
      </property>
      <attribute name="verticalHeaderVisible">
       <bool>false</bool>
@@ -41,11 +56,37 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
+        <widget class="TrimOnPasteLineEdit" name="nameLineEdit">
+         <property name="font">
+          <font>
+           <family>Sans Serif</family>
+           <pointsize>12</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+         </property>
+         <property name="placeholderText">
+          <string>Name</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="passLabel">
          <property name="font">
           <font>
+           <family>Sans Serif</family>
            <pointsize>12</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
          </property>
          <property name="text">
           <string>passcode</string>
@@ -56,8 +97,15 @@
         <widget class="TrimOnPasteLineEdit" name="passLineEdit">
          <property name="font">
           <font>
+           <family>Sans Serif</family>
            <pointsize>12</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
          </property>
          <property name="inputMask">
           <string/>
@@ -74,8 +122,15 @@
         <widget class="QLabel" name="aliasLabel">
          <property name="font">
           <font>
+           <family>Sans Serif</family>
            <pointsize>12</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
          </property>
          <property name="text">
           <string>alias</string>
@@ -86,8 +141,15 @@
         <widget class="TrimOnPasteLineEdit" name="aliasLineEdit">
          <property name="font">
           <font>
+           <family>Sans Serif</family>
            <pointsize>12</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
          </property>
          <property name="inputMask">
           <string/>
@@ -103,23 +165,24 @@
       </layout>
      </item>
      <item>
-      <widget class="TrimOnPasteLineEdit" name="nameLineEdit">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="placeholderText">
-        <string>Name</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPlainTextEdit" name="descPlainTextEdit">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>400</height>
+        </size>
+       </property>
        <property name="font">
         <font>
+         <family>Sans Serif</family>
          <pointsize>12</pointsize>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
        </property>
        <property name="placeholderText">
         <string>Card Text</string>
@@ -130,48 +193,108 @@
       <layout class="QHBoxLayout" name="horizontalLayout_8">
        <item>
         <widget class="QGroupBox" name="scopesGroup">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
+         </property>
          <property name="title">
           <string>Scope</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QListWidget" name="scopesWidget"/>
+           <widget class="QListWidget" name="scopesWidget">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="typesGroup">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
+         </property>
          <property name="title">
           <string>Card Type</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QListWidget" name="typesWidget"/>
+           <widget class="QListWidget" name="typesWidget">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="racesGroup">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
+         </property>
          <property name="title">
           <string>Monster Type</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="QListWidget" name="racesWidget"/>
+           <widget class="QListWidget" name="racesWidget">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="attributesGroup">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
+         </property>
          <property name="title">
           <string>Attribute</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QListWidget" name="attributesWidget"/>
+           <widget class="QListWidget" name="attributesWidget">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -181,89 +304,26 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_9">
        <item>
-        <widget class="QGroupBox" name="archeGroup">
-         <property name="title">
-          <string>Archetype / Setcode</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="2">
-           <widget class="QPushButton" name="addArcheButton">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>40</width>
-              <height>40</height>
-             </size>
-            </property>
-            <property name="text">
-             <string notr="true">+</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QComboBox" name="archeComboBox">
-            <property name="editable">
-             <bool>true</bool>
-            </property>
-            <property name="insertPolicy">
-             <enum>QComboBox::NoInsert</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QListWidget" name="archeList"/>
-          </item>
-          <item row="1" column="2">
-           <layout class="QVBoxLayout" name="verticalLayout_13">
-            <item>
-             <widget class="QPushButton" name="removeArcheButton">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>40</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="text">
-               <string notr="true">-</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <property name="spacing">
           <number>0</number>
          </property>
          <item>
           <widget class="QFrame" name="frame1">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
+           </property>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <property name="spacing">
              <number>0</number>
             </property>
             <item>
              <widget class="QLabel" name="levelLabel">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
+              </property>
               <property name="text">
                <string>Level/Rank</string>
               </property>
@@ -271,6 +331,10 @@
             </item>
             <item>
              <widget class="QSpinBox" name="levelSpinBox">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+              </property>
               <property name="maximum">
                <number>12</number>
               </property>
@@ -281,12 +345,20 @@
          </item>
          <item>
           <widget class="QFrame" name="frame2">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
+           </property>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <property name="spacing">
              <number>0</number>
             </property>
             <item>
              <widget class="QSpinBox" name="atkSpinBox">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+              </property>
               <property name="specialValueText">
                <string>ATK/?</string>
               </property>
@@ -319,25 +391,42 @@
          </property>
          <item>
           <widget class="QFrame" name="frame3">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
+           </property>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <property name="spacing">
              <number>2</number>
             </property>
             <item>
              <widget class="QLabel" name="lScaleLabel">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
+              </property>
               <property name="text">
                <string>L</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="lScaleSpinBox"/>
+             <widget class="QSpinBox" name="lScaleSpinBox">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QSpinBox" name="rScaleSpinBox">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+              </property>
               <property name="suffix">
                <string/>
               </property>
@@ -345,6 +434,10 @@
             </item>
             <item>
              <widget class="QLabel" name="rScaleLabel">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
+              </property>
               <property name="text">
                <string>R</string>
               </property>
@@ -355,12 +448,20 @@
          </item>
          <item>
           <widget class="QFrame" name="frame4">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
+           </property>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <property name="spacing">
              <number>0</number>
             </property>
             <item>
              <widget class="QSpinBox" name="defSpinBox">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+              </property>
               <property name="specialValueText">
                <string>DEF/?</string>
               </property>
@@ -388,6 +489,10 @@
        </item>
        <item>
         <widget class="QFrame" name="frame">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
+         </property>
          <layout class="QGridLayout" name="gridLayout_5">
           <property name="spacing">
            <number>0</number>
@@ -399,6 +504,10 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
             </property>
             <property name="text">
              <string notr="true">↖</string>
@@ -419,6 +528,10 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+            </property>
             <property name="text">
              <string notr="true">↑</string>
             </property>
@@ -437,6 +550,10 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
             </property>
             <property name="text">
              <string notr="true">↗</string>
@@ -457,6 +574,10 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+            </property>
             <property name="text">
              <string notr="true">←</string>
             </property>
@@ -475,6 +596,10 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
             </property>
             <property name="text">
              <string notr="true">→</string>
@@ -495,6 +620,10 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+            </property>
             <property name="text">
              <string notr="true">↙</string>
             </property>
@@ -514,6 +643,10 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+            </property>
             <property name="text">
              <string notr="true">↓</string>
             </property>
@@ -532,6 +665,10 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
             </property>
             <property name="text">
              <string notr="true">↘</string>
@@ -553,6 +690,16 @@
       <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
         <widget class="QTableWidget" name="stringsTableWidget">
+         <property name="minimumSize">
+          <size>
+           <width>400</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+         </property>
          <property name="rowCount">
           <number>16</number>
          </property>
@@ -668,12 +815,118 @@
         </widget>
        </item>
        <item>
+        <widget class="QGroupBox" name="archeGroup">
+         <property name="maximumSize">
+          <size>
+           <width>300</width>
+           <height>300</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(81, 81, 83);
+font: 12pt &quot;Sans Serif&quot;;</string>
+         </property>
+         <property name="title">
+          <string>Archetype / Setcode</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="2">
+           <widget class="QPushButton" name="addArcheButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+            </property>
+            <property name="text">
+             <string notr="true">+</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QComboBox" name="archeComboBox">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+            <property name="insertPolicy">
+             <enum>QComboBox::InsertPolicy::NoInsert</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <layout class="QVBoxLayout" name="verticalLayout_13">
+            <item>
+             <widget class="QPushButton" name="removeArcheButton">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+              </property>
+              <property name="text">
+               <string notr="true">-</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Orientation::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <widget class="QListWidget" name="archeList">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <widget class="QListWidget" name="categoriesWidget">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(61, 61, 61);
+font: 12pt &quot;Sans Serif&quot;;</string>
+         </property>
          <property name="resizeMode">
-          <enum>QListView::Adjust</enum>
+          <enum>QListView::ResizeMode::Adjust</enum>
          </property>
          <property name="viewMode">
-          <enum>QListView::IconMode</enum>
+          <enum>QListView::ViewMode::IconMode</enum>
          </property>
         </widget>
        </item>

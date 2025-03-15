@@ -1,0 +1,968 @@
+Build started at 2025-03-14T21:33:03.010443
+Main binary: /usr/bin/python
+Build Options: 
+Python system: Linux
+The Meson build system
+Version: 1.7.0
+Source dir: /home/moonburst/Datacorn
+Build dir: /home/moonburst/Datacorn/build
+Build type: native build
+Project name: datacorn
+Project version: undefined
+-----------
+Detecting compiler via: `c++ --version` -> 0
+stdout:
+c++ (GCC) 14.2.1 20250207
+Copyright (C) 2024 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-----------
+Running command: -cpp -x c++ -E -dM -
+-----
+-----------
+Detecting linker via: `c++ -Wl,--version` -> 0
+stdout:
+GNU ld (GNU Binutils) 2.44
+Copyright (C) 2025 Free Software Foundation, Inc.
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License version 3 or (at your option) a later version.
+This program has absolutely no warranty.
+-----------
+stderr:
+collect2 version 14.2.1 20250207
+/sbin/ld -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/lto-wrapper -plugin-opt=-fresolution=/tmp/ccgOEK03.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../.. --version -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../lib/crtn.o
+-----------
+Sanity testing C++ compiler: c++
+Is cross compiler: False.
+Sanity check compiler command line: c++ sanitycheckcpp.cc -o sanitycheckcpp.exe -D_FILE_OFFSET_BITS=64
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command:  /home/moonburst/Datacorn/build/meson-private/sanitycheckcpp.exe
+C++ compiler for the host machine: c++ (gcc 14.2.1 "c++ (GCC) 14.2.1 20250207")
+C++ linker for the host machine: c++ ld.bfd 2.44
+-----------
+Detecting archiver via: `gcc-ar --version` -> 0
+stdout:
+GNU ar (GNU Binutils) 2.44
+Copyright (C) 2025 Free Software Foundation, Inc.
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License version 3 or (at your option) any later version.
+This program has absolutely no warranty.
+-----------
+-----------
+Detecting compiler via: `c++ --version` -> 0
+stdout:
+c++ (GCC) 14.2.1 20250207
+Copyright (C) 2024 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-----------
+Running command: -cpp -x c++ -E -dM -
+-----
+-----------
+Detecting linker via: `c++ -Wl,--version` -> 0
+stdout:
+GNU ld (GNU Binutils) 2.44
+Copyright (C) 2025 Free Software Foundation, Inc.
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License version 3 or (at your option) a later version.
+This program has absolutely no warranty.
+-----------
+stderr:
+collect2 version 14.2.1 20250207
+/sbin/ld -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/lto-wrapper -plugin-opt=-fresolution=/tmp/ccdfalIL.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../.. --version -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../lib/crtn.o
+-----------
+Sanity testing C++ compiler: c++
+Is cross compiler: False.
+Sanity check compiler command line: c++ sanitycheckcpp.cc -o sanitycheckcpp.exe -D_FILE_OFFSET_BITS=64
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command:  /home/moonburst/Datacorn/build/meson-private/sanitycheckcpp.exe
+C++ compiler for the build machine: c++ (gcc 14.2.1 "c++ (GCC) 14.2.1 20250207")
+C++ linker for the build machine: c++ ld.bfd 2.44
+-----------
+Detecting archiver via: `gcc-ar --version` -> 0
+stdout:
+GNU ar (GNU Binutils) 2.44
+Copyright (C) 2025 Free Software Foundation, Inc.
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License version 3 or (at your option) any later version.
+This program has absolutely no warranty.
+-----------
+Build machine cpu family: x86_64
+Build machine cpu: x86_64
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Target machine cpu family: x86_64
+Target machine cpu: x86_64
+Pkg-config binary missing from cross or native file, or env var undefined.
+Trying a default Pkg-config fallback at pkg-config
+Found pkg-config: YES (/sbin/pkg-config) 2.3.0
+Determining dependency 'Qt5Core' with pkg-config executable '/sbin/pkg-config'
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --modversion Qt5Core` -> 0
+stdout:
+5.15.16
+-----------
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --cflags Qt5Core` -> 0
+stdout:
+-DQT_CORE_LIB -I/usr/include/qt/QtCore -I/usr/include/qt
+-----------
+env[PKG_CONFIG_ALLOW_SYSTEM_LIBS]: 1
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --libs Qt5Core` -> 0
+stdout:
+-lQt5Core
+-----------
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --libs Qt5Core` -> 0
+stdout:
+-lQt5Core
+-----------
+Running compile:
+Working directory:  /home/moonburst/Datacorn/build/meson-private/tmpndq7x0k6
+Code:
+int main(void) { return 0; }
+
+-----------
+Command line: `c++ /home/moonburst/Datacorn/build/meson-private/tmpndq7x0k6/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpndq7x0k6/output.exe -D_FILE_OFFSET_BITS=64 -O0 -fpermissive -lQt5Core -Wl,--allow-shlib-undefined` -> 0
+Determining dependency 'Qt5Gui' with pkg-config executable '/sbin/pkg-config'
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --modversion Qt5Gui` -> 0
+stdout:
+5.15.16
+-----------
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --cflags Qt5Gui` -> 0
+stdout:
+-DQT_GUI_LIB -I/usr/include/qt/QtGui -I/usr/include/qt -DQT_CORE_LIB -I/usr/include/qt/QtCore
+-----------
+env[PKG_CONFIG_ALLOW_SYSTEM_LIBS]: 1
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --libs Qt5Gui` -> 0
+stdout:
+-lQt5Gui -lQt5Core
+-----------
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --libs Qt5Gui` -> 0
+stdout:
+-lQt5Gui -lQt5Core
+-----------
+Running compile:
+Working directory:  /home/moonburst/Datacorn/build/meson-private/tmpjwfywavt
+Code:
+int main(void) { return 0; }
+
+-----------
+Command line: `c++ /home/moonburst/Datacorn/build/meson-private/tmpjwfywavt/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpjwfywavt/output.exe -D_FILE_OFFSET_BITS=64 -O0 -fpermissive -lQt5Gui -Wl,--allow-shlib-undefined` -> 0
+Determining dependency 'Qt5Widgets' with pkg-config executable '/sbin/pkg-config'
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --modversion Qt5Widgets` -> 0
+stdout:
+5.15.16
+-----------
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --cflags Qt5Widgets` -> 0
+stdout:
+-DQT_WIDGETS_LIB -I/usr/include/qt/QtWidgets -I/usr/include/qt -DQT_GUI_LIB -I/usr/include/qt/QtGui -DQT_CORE_LIB -I/usr/include/qt/QtCore
+-----------
+env[PKG_CONFIG_ALLOW_SYSTEM_LIBS]: 1
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --libs Qt5Widgets` -> 0
+stdout:
+-lQt5Widgets -lQt5Gui -lQt5Core
+-----------
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --libs Qt5Widgets` -> 0
+stdout:
+-lQt5Widgets -lQt5Gui -lQt5Core
+-----------
+Running compile:
+Working directory:  /home/moonburst/Datacorn/build/meson-private/tmpwlwc26rh
+Code:
+int main(void) { return 0; }
+
+-----------
+Command line: `c++ /home/moonburst/Datacorn/build/meson-private/tmpwlwc26rh/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpwlwc26rh/output.exe -D_FILE_OFFSET_BITS=64 -O0 -fpermissive -lQt5Widgets -Wl,--allow-shlib-undefined` -> 0
+Determining dependency 'Qt5Sql' with pkg-config executable '/sbin/pkg-config'
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --modversion Qt5Sql` -> 0
+stdout:
+5.15.16
+-----------
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --cflags Qt5Sql` -> 0
+stdout:
+-DQT_SQL_LIB -I/usr/include/qt/QtSql -I/usr/include/qt -DQT_CORE_LIB -I/usr/include/qt/QtCore
+-----------
+env[PKG_CONFIG_ALLOW_SYSTEM_LIBS]: 1
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --libs Qt5Sql` -> 0
+stdout:
+-lQt5Sql -lQt5Core
+-----------
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --libs Qt5Sql` -> 0
+stdout:
+-lQt5Sql -lQt5Core
+-----------
+Running compile:
+Working directory:  /home/moonburst/Datacorn/build/meson-private/tmpcofza1i7
+Code:
+int main(void) { return 0; }
+
+-----------
+Command line: `c++ /home/moonburst/Datacorn/build/meson-private/tmpcofza1i7/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpcofza1i7/output.exe -D_FILE_OFFSET_BITS=64 -O0 -fpermissive -lQt5Sql -Wl,--allow-shlib-undefined` -> 0
+env[PKG_CONFIG_PATH]: 
+env[PKG_CONFIG]: /sbin/pkg-config
+-----------
+Called: `/sbin/pkg-config --variable=host_bins Qt5Core` -> 0
+stdout:
+/usr/bin
+-----------
+Got pkg-config variable host_bins : /usr/bin
+Run-time dependency qt5 (modules: Core, Gui, Sql, Widgets) found: YES 5.15.16 (pkg-config)
+Detecting Qt5 tools
+Run-time dependency qt5 (modules: Core) found: YES 5.15.16 (pkg-config)
+Program /usr/bin/qmltyperegistrar found: YES 5.15.16 5.15.16 (/usr/bin/qmltyperegistrar)
+Program /usr/bin/moc found: YES 5.15.16 5.15.16 (/usr/bin/moc)
+Program /usr/bin/rcc found: YES 5.15.16 5.15.16 (/usr/bin/rcc)
+Program /usr/bin/qmlcachegen found: YES 5.15.16 5.15.16 (/usr/bin/qmlcachegen)
+Program /usr/bin/uic found: YES 5.15.16 5.15.16 (/usr/bin/uic)
+Program /usr/bin/lrelease found: YES 5.15.16 5.15.16 (/usr/bin/lrelease)
+meson.build:52: WARNING: Project does not target a minimum version but uses feature deprecated since '0.56.0': gui_app arg in executable. Use 'win_subsystem' instead
+Build targets in project: 5
+WARNING: Deprecated features used:
+ * 0.56.0: {'gui_app arg in executable'}
+
+Found ninja-1.12.1 at /sbin/ninja
+Running compile:
+Working directory:  /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss
+Code:
+
+        #ifdef __has_include
+         #if !__has_include("version")
+          #error "Header 'version' could not be found"
+         #endif
+        #else
+         #include <version>
+        #endif
+-----------
+Command line: `c++ /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss/testfile.cpp -E -P -D_FILE_OFFSET_BITS=64 -P -O0 -fpermissive` -> 0
+Running compile:
+Working directory:  /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep
+Code:
+
+        #include <version>
+        int main(void) {
+            /* If it's not defined as a macro, try to use as a symbol */
+            #ifndef _LIBCPP_VERSION
+                _LIBCPP_VERSION;
+            #endif
+            return 0;
+        }
+-----------
+Command line: `c++ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive` -> 1
+stderr:
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp: In function 'int main()':
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp:6:17: error: '_LIBCPP_VERSION' was not declared in this scope
+    6 |                 _LIBCPP_VERSION;
+      |                 ^~~~~~~~~~~~~~~
+-----------
+Running compile:
+Working directory:  /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44
+Code:
+
+        #include <version>
+        using _LIBCPP_VERSION;
+        int main(void) { return 0; }
+-----------
+Command line: `c++ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive` -> 1
+stderr:
+/home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp:3:15: error: expected nested-name-specifier before '_LIBCPP_VERSION'
+    3 |         using _LIBCPP_VERSION;
+      |               ^~~~~~~~~~~~~~~
+-----------
+Running compile:
+Working directory:  /tmp/tmpj1fkytp_
+Code:
+int i = static_cast<int>(0);
+-----------
+Command line: `c++ /tmp/tmpj1fkytp_/testfile.cpp -o /tmp/tmpj1fkytp_/output.obj -D_FILE_OFFSET_BITS=64 -c -std=c++17` -> 0
+Compiler accepts -std=c++17: YES
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss/testfile.cpp -E -P -D_FILE_OFFSET_BITS=64 -P -O0 -fpermissive 
+
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("version")
+          #error "Header 'version' could not be found"
+         #endif
+        #else
+         #include <version>
+        #endif
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ 
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        int main(void) {
+            /* If it's not defined as a macro, try to use as a symbol */
+            #ifndef _LIBCPP_VERSION
+                _LIBCPP_VERSION;
+            #endif
+            return 0;
+        }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp: In function 'int main()':
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp:6:17: error: '_LIBCPP_VERSION' was not declared in this scope
+    6 |                 _LIBCPP_VERSION;
+      |                 ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        using _LIBCPP_VERSION;
+        int main(void) { return 0; }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp:3:15: error: expected nested-name-specifier before '_LIBCPP_VERSION'
+    3 |         using _LIBCPP_VERSION;
+      |               ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss/testfile.cpp -E -P -D_FILE_OFFSET_BITS=64 -P -O0 -fpermissive 
+
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("version")
+          #error "Header 'version' could not be found"
+         #endif
+        #else
+         #include <version>
+        #endif
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ 
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        int main(void) {
+            /* If it's not defined as a macro, try to use as a symbol */
+            #ifndef _LIBCPP_VERSION
+                _LIBCPP_VERSION;
+            #endif
+            return 0;
+        }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp: In function 'int main()':
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp:6:17: error: '_LIBCPP_VERSION' was not declared in this scope
+    6 |                 _LIBCPP_VERSION;
+      |                 ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        using _LIBCPP_VERSION;
+        int main(void) { return 0; }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp:3:15: error: expected nested-name-specifier before '_LIBCPP_VERSION'
+    3 |         using _LIBCPP_VERSION;
+      |               ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss/testfile.cpp -E -P -D_FILE_OFFSET_BITS=64 -P -O0 -fpermissive 
+
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("version")
+          #error "Header 'version' could not be found"
+         #endif
+        #else
+         #include <version>
+        #endif
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ 
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        int main(void) {
+            /* If it's not defined as a macro, try to use as a symbol */
+            #ifndef _LIBCPP_VERSION
+                _LIBCPP_VERSION;
+            #endif
+            return 0;
+        }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp: In function 'int main()':
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp:6:17: error: '_LIBCPP_VERSION' was not declared in this scope
+    6 |                 _LIBCPP_VERSION;
+      |                 ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        using _LIBCPP_VERSION;
+        int main(void) { return 0; }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp:3:15: error: expected nested-name-specifier before '_LIBCPP_VERSION'
+    3 |         using _LIBCPP_VERSION;
+      |               ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss/testfile.cpp -E -P -D_FILE_OFFSET_BITS=64 -P -O0 -fpermissive 
+
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("version")
+          #error "Header 'version' could not be found"
+         #endif
+        #else
+         #include <version>
+        #endif
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ 
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        int main(void) {
+            /* If it's not defined as a macro, try to use as a symbol */
+            #ifndef _LIBCPP_VERSION
+                _LIBCPP_VERSION;
+            #endif
+            return 0;
+        }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp: In function 'int main()':
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp:6:17: error: '_LIBCPP_VERSION' was not declared in this scope
+    6 |                 _LIBCPP_VERSION;
+      |                 ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        using _LIBCPP_VERSION;
+        int main(void) { return 0; }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp:3:15: error: expected nested-name-specifier before '_LIBCPP_VERSION'
+    3 |         using _LIBCPP_VERSION;
+      |               ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss/testfile.cpp -E -P -D_FILE_OFFSET_BITS=64 -P -O0 -fpermissive 
+
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("version")
+          #error "Header 'version' could not be found"
+         #endif
+        #else
+         #include <version>
+        #endif
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ 
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        int main(void) {
+            /* If it's not defined as a macro, try to use as a symbol */
+            #ifndef _LIBCPP_VERSION
+                _LIBCPP_VERSION;
+            #endif
+            return 0;
+        }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp: In function 'int main()':
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp:6:17: error: '_LIBCPP_VERSION' was not declared in this scope
+    6 |                 _LIBCPP_VERSION;
+      |                 ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        using _LIBCPP_VERSION;
+        int main(void) { return 0; }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp:3:15: error: expected nested-name-specifier before '_LIBCPP_VERSION'
+    3 |         using _LIBCPP_VERSION;
+      |               ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss/testfile.cpp -E -P -D_FILE_OFFSET_BITS=64 -P -O0 -fpermissive 
+
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("version")
+          #error "Header 'version' could not be found"
+         #endif
+        #else
+         #include <version>
+        #endif
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ 
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        int main(void) {
+            /* If it's not defined as a macro, try to use as a symbol */
+            #ifndef _LIBCPP_VERSION
+                _LIBCPP_VERSION;
+            #endif
+            return 0;
+        }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp: In function 'int main()':
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp:6:17: error: '_LIBCPP_VERSION' was not declared in this scope
+    6 |                 _LIBCPP_VERSION;
+      |                 ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        using _LIBCPP_VERSION;
+        int main(void) { return 0; }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp:3:15: error: expected nested-name-specifier before '_LIBCPP_VERSION'
+    3 |         using _LIBCPP_VERSION;
+      |               ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss/testfile.cpp -E -P -D_FILE_OFFSET_BITS=64 -P -O0 -fpermissive 
+
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("version")
+          #error "Header 'version' could not be found"
+         #endif
+        #else
+         #include <version>
+        #endif
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ 
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        int main(void) {
+            /* If it's not defined as a macro, try to use as a symbol */
+            #ifndef _LIBCPP_VERSION
+                _LIBCPP_VERSION;
+            #endif
+            return 0;
+        }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp: In function 'int main()':
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp:6:17: error: '_LIBCPP_VERSION' was not declared in this scope
+    6 |                 _LIBCPP_VERSION;
+      |                 ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        using _LIBCPP_VERSION;
+        int main(void) { return 0; }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp:3:15: error: expected nested-name-specifier before '_LIBCPP_VERSION'
+    3 |         using _LIBCPP_VERSION;
+      |               ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss/testfile.cpp -E -P -D_FILE_OFFSET_BITS=64 -P -O0 -fpermissive 
+
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("version")
+          #error "Header 'version' could not be found"
+         #endif
+        #else
+         #include <version>
+        #endif
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ 
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        int main(void) {
+            /* If it's not defined as a macro, try to use as a symbol */
+            #ifndef _LIBCPP_VERSION
+                _LIBCPP_VERSION;
+            #endif
+            return 0;
+        }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp: In function 'int main()':
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp:6:17: error: '_LIBCPP_VERSION' was not declared in this scope
+    6 |                 _LIBCPP_VERSION;
+      |                 ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        using _LIBCPP_VERSION;
+        int main(void) { return 0; }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp:3:15: error: expected nested-name-specifier before '_LIBCPP_VERSION'
+    3 |         using _LIBCPP_VERSION;
+      |               ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss/testfile.cpp -E -P -D_FILE_OFFSET_BITS=64 -P -O0 -fpermissive 
+
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("version")
+          #error "Header 'version' could not be found"
+         #endif
+        #else
+         #include <version>
+        #endif
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ 
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        int main(void) {
+            /* If it's not defined as a macro, try to use as a symbol */
+            #ifndef _LIBCPP_VERSION
+                _LIBCPP_VERSION;
+            #endif
+            return 0;
+        }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp: In function 'int main()':
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp:6:17: error: '_LIBCPP_VERSION' was not declared in this scope
+    6 |                 _LIBCPP_VERSION;
+      |                 ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        using _LIBCPP_VERSION;
+        int main(void) { return 0; }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp:3:15: error: expected nested-name-specifier before '_LIBCPP_VERSION'
+    3 |         using _LIBCPP_VERSION;
+      |               ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss/testfile.cpp -E -P -D_FILE_OFFSET_BITS=64 -P -O0 -fpermissive 
+
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("version")
+          #error "Header 'version' could not be found"
+         #endif
+        #else
+         #include <version>
+        #endif
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ 
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        int main(void) {
+            /* If it's not defined as a macro, try to use as a symbol */
+            #ifndef _LIBCPP_VERSION
+                _LIBCPP_VERSION;
+            #endif
+            return 0;
+        }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp: In function 'int main()':
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp:6:17: error: '_LIBCPP_VERSION' was not declared in this scope
+    6 |                 _LIBCPP_VERSION;
+      |                 ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        using _LIBCPP_VERSION;
+        int main(void) { return 0; }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp:3:15: error: expected nested-name-specifier before '_LIBCPP_VERSION'
+    3 |         using _LIBCPP_VERSION;
+      |               ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss/testfile.cpp -E -P -D_FILE_OFFSET_BITS=64 -P -O0 -fpermissive 
+
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("version")
+          #error "Header 'version' could not be found"
+         #endif
+        #else
+         #include <version>
+        #endif
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ 
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        int main(void) {
+            /* If it's not defined as a macro, try to use as a symbol */
+            #ifndef _LIBCPP_VERSION
+                _LIBCPP_VERSION;
+            #endif
+            return 0;
+        }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp: In function 'int main()':
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp:6:17: error: '_LIBCPP_VERSION' was not declared in this scope
+    6 |                 _LIBCPP_VERSION;
+      |                 ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        using _LIBCPP_VERSION;
+        int main(void) { return 0; }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp:3:15: error: expected nested-name-specifier before '_LIBCPP_VERSION'
+    3 |         using _LIBCPP_VERSION;
+      |               ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpk21uqlss/testfile.cpp -E -P -D_FILE_OFFSET_BITS=64 -P -O0 -fpermissive 
+
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("version")
+          #error "Header 'version' could not be found"
+         #endif
+        #else
+         #include <version>
+        #endif
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ 
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        int main(void) {
+            /* If it's not defined as a macro, try to use as a symbol */
+            #ifndef _LIBCPP_VERSION
+                _LIBCPP_VERSION;
+            #endif
+            return 0;
+        }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp: In function 'int main()':
+/home/moonburst/Datacorn/build/meson-private/tmp_typ97ep/testfile.cpp:6:17: error: '_LIBCPP_VERSION' was not declared in this scope
+    6 |                 _LIBCPP_VERSION;
+      |                 ^~~~~~~~~~~~~~~
+
+Using cached compile:
+Cached command line:  c++ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive 
+
+Code:
+ 
+        #include <version>
+        using _LIBCPP_VERSION;
+        int main(void) { return 0; }
+Cached compiler stdout:
+ 
+Cached compiler stderr:
+ /home/moonburst/Datacorn/build/meson-private/tmpe3g7di44/testfile.cpp:3:15: error: expected nested-name-specifier before '_LIBCPP_VERSION'
+    3 |         using _LIBCPP_VERSION;
+      |               ^~~~~~~~~~~~~~~
+
+Running compile:
+Working directory:  /home/moonburst/Datacorn/build/meson-private/tmpky23c_zc
+Code:
+
+-----------
+Command line: `c++ /home/moonburst/Datacorn/build/meson-private/tmpky23c_zc/testfile.cpp -o /home/moonburst/Datacorn/build/meson-private/tmpky23c_zc/output.obj -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive --print-search-dirs` -> 0
+stdout:
+install: /usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/
+programs: =/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../x86_64-pc-linux-gnu/bin/x86_64-pc-linux-gnu/14.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../x86_64-pc-linux-gnu/bin/
+libraries: =/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../x86_64-pc-linux-gnu/lib/x86_64-pc-linux-gnu/14.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../x86_64-pc-linux-gnu/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../x86_64-pc-linux-gnu/14.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../lib/:/lib/x86_64-pc-linux-gnu/14.2.1/:/lib/../lib/:/usr/lib/x86_64-pc-linux-gnu/14.2.1/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../../x86_64-pc-linux-gnu/lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/14.2.1/../../../:/lib/:/usr/lib/
+-----------

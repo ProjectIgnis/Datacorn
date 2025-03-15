@@ -8,6 +8,9 @@ using Archetype = std::pair<quint16, char const*>;
 
 // clang-format off
 static QMap<quint16, char const*> const ARCHETYPES_MAP{
+        Archetype{0x666, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "Moon Burst")},
+	Archetype{0x777, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "Solar Sonata")},
+	Archetype{0x888, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "Vow Of Eclipse")},
 	Archetype{0x1, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "Ally of Justice")},
 	Archetype{0x10, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "Gusto")},
 	Archetype{0x100, QT_TRANSLATE_NOOP("DatabaseEditorWidget", "Bonding -")},

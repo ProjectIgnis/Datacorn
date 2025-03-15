@@ -42,6 +42,9 @@
       <property name="acceptDrops">
        <bool>true</bool>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(81, 81, 83);</string>
+      </property>
       <property name="tabsClosable">
        <bool>true</bool>
       </property>
@@ -53,6 +56,14 @@
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>798</width>
+     <height>22</height>
+    </rect>
+   </property>
    <widget class="QMenu" name="menuDatabase">
     <property name="enabled">
      <bool>true</bool>
@@ -126,7 +137,7 @@
     <string>About</string>
    </property>
    <property name="menuRole">
-    <enum>QAction::AboutRole</enum>
+    <enum>QAction::MenuRole::AboutRole</enum>
    </property>
   </action>
   <action name="actionCloseDatabase">

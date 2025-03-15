@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Qt5Core",
+    "type": "pkgconfig",
+    "version": "5.15.16",
+    "compile_args": [
+      "-DQT_CORE_LIB",
+      "-I/usr/include/qt/QtCore",
+      "-I/usr/include/qt"
+    ],
+    "link_args": [
+      "-lQt5Core"
+    ],
+    "include_directories": [],
+    "sources": [],
+    "extra_files": [],
+    "dependencies": [
+      "Qt5Core",
+      "Qt5Gui",
+      "Qt5Widgets",
+      "Qt5Sql"
+    ],
+    "depends": [],
+    "meson_variables": [
+      "qt_dep"
+    ]
+  }
+]

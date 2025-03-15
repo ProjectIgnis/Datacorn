@@ -1,0 +1,232 @@
+[
+  {
+    "name": "qt5-lang_qrc",
+    "id": "6eeb55f@@qt5-lang_qrc@cus",
+    "type": "custom",
+    "defined_in": "/home/moonburst/Datacorn/res/meson.build",
+    "filename": [
+      "/home/moonburst/Datacorn/build/res/qt5-lang_qrc.cpp"
+    ],
+    "build_by_default": false,
+    "target_sources": [
+      {
+        "language": "unknown",
+        "compiler": [
+          "/usr/bin/rcc",
+          "-name",
+          "@BASENAME@",
+          "-o",
+          "@OUTPUT@",
+          "@INPUT@",
+          "--depfile",
+          "@DEPFILE@"
+        ],
+        "parameters": [],
+        "sources": [
+          "/home/moonburst/Datacorn/build/res/lang.qrc"
+        ],
+        "generated_sources": []
+      }
+    ],
+    "extra_files": [],
+    "subproject": null,
+    "dependencies": [],
+    "depends": [],
+    "installed": false
+  },
+  {
+    "name": "qt5-compile-es.ts",
+    "id": "6eeb55f@@qt5-compile-es.ts@cus",
+    "type": "custom",
+    "defined_in": "/home/moonburst/Datacorn/res/meson.build",
+    "filename": [
+      "/home/moonburst/Datacorn/build/res/es.qm"
+    ],
+    "build_by_default": false,
+    "target_sources": [
+      {
+        "language": "unknown",
+        "compiler": [
+          "/usr/bin/lrelease",
+          "@INPUT@",
+          "-qm",
+          "@OUTPUT@"
+        ],
+        "parameters": [],
+        "sources": [
+          "/home/moonburst/Datacorn/es.ts"
+        ],
+        "generated_sources": []
+      }
+    ],
+    "extra_files": [],
+    "subproject": null,
+    "dependencies": [],
+    "depends": [],
+    "installed": false
+  },
+  {
+    "name": "qt5-compile-it.ts",
+    "id": "6eeb55f@@qt5-compile-it.ts@cus",
+    "type": "custom",
+    "defined_in": "/home/moonburst/Datacorn/res/meson.build",
+    "filename": [
+      "/home/moonburst/Datacorn/build/res/it.qm"
+    ],
+    "build_by_default": false,
+    "target_sources": [
+      {
+        "language": "unknown",
+        "compiler": [
+          "/usr/bin/lrelease",
+          "@INPUT@",
+          "-qm",
+          "@OUTPUT@"
+        ],
+        "parameters": [],
+        "sources": [
+          "/home/moonburst/Datacorn/it.ts"
+        ],
+        "generated_sources": []
+      }
+    ],
+    "extra_files": [],
+    "subproject": null,
+    "dependencies": [],
+    "depends": [],
+    "installed": false
+  },
+  {
+    "name": "qt5-res_qrc",
+    "id": "6eeb55f@@qt5-res_qrc@cus",
+    "type": "custom",
+    "defined_in": "/home/moonburst/Datacorn/res/meson.build",
+    "filename": [
+      "/home/moonburst/Datacorn/build/res/qt5-res_qrc.cpp"
+    ],
+    "build_by_default": false,
+    "target_sources": [
+      {
+        "language": "unknown",
+        "compiler": [
+          "/usr/bin/rcc",
+          "-name",
+          "@BASENAME@",
+          "-o",
+          "@OUTPUT@",
+          "@INPUT@",
+          "--depfile",
+          "@DEPFILE@"
+        ],
+        "parameters": [],
+        "sources": [
+          "/home/moonburst/Datacorn/res.qrc"
+        ],
+        "generated_sources": []
+      }
+    ],
+    "extra_files": [],
+    "subproject": null,
+    "dependencies": [],
+    "depends": [],
+    "installed": false
+  },
+  {
+    "name": "datacorn",
+    "id": "datacorn@exe",
+    "type": "executable",
+    "defined_in": "/home/moonburst/Datacorn/meson.build",
+    "filename": [
+      "/home/moonburst/Datacorn/build/datacorn"
+    ],
+    "build_by_default": true,
+    "target_sources": [
+      {
+        "language": "cpp",
+        "machine": "host",
+        "compiler": [
+          "c++"
+        ],
+        "parameters": [
+          "-I/home/moonburst/Datacorn/build/datacorn.p",
+          "-I/home/moonburst/Datacorn/build",
+          "-I/home/moonburst/Datacorn",
+          "-I/home/moonburst/Datacorn/src/gui",
+          "-I/home/moonburst/Datacorn/build/res",
+          "-I/usr/include/qt/QtCore",
+          "-I/usr/include/qt",
+          "-I/usr/include/qt/QtGui",
+          "-I/usr/include/qt/QtWidgets",
+          "-I/usr/include/qt/QtSql",
+          "-fdiagnostics-color=always",
+          "-D_GLIBCXX_ASSERTIONS=1",
+          "-D_FILE_OFFSET_BITS=64",
+          "-Wall",
+          "-Winvalid-pch",
+          "-std=c++17",
+          "-fno-exceptions",
+          "-fno-rtti",
+          "-O0",
+          "-g",
+          "-DQT_SQL_LIB",
+          "-DQT_WIDGETS_LIB",
+          "-DQT_GUI_LIB",
+          "-DQT_CORE_LIB",
+          "-fPIC"
+        ],
+        "sources": [
+          "/home/moonburst/Datacorn/src/gui/confirm_dialog.cpp",
+          "/home/moonburst/Datacorn/src/gui/database_editor_widget.cpp",
+          "/home/moonburst/Datacorn/src/gui/main_window.cpp",
+          "/home/moonburst/Datacorn/src/gui/new_card_dialog.cpp",
+          "/home/moonburst/Datacorn/src/gui/sql_util.cpp",
+          "/home/moonburst/Datacorn/src/main.cpp"
+        ],
+        "generated_sources": [
+          "/home/moonburst/Datacorn/build/datacorn.p/moc_confirm_dialog.cpp",
+          "/home/moonburst/Datacorn/build/datacorn.p/moc_database_editor_widget.cpp",
+          "/home/moonburst/Datacorn/build/datacorn.p/moc_main_window.cpp",
+          "/home/moonburst/Datacorn/build/datacorn.p/moc_new_card_dialog.cpp",
+          "/home/moonburst/Datacorn/build/datacorn.p/moc_trim_on_paste_line_edit.cpp",
+          "/home/moonburst/Datacorn/build/res/qt5-lang_qrc.cpp",
+          "/home/moonburst/Datacorn/build/res/qt5-res_qrc.cpp"
+        ],
+        "unity_sources": []
+      },
+      {
+        "linker": [
+          "c++"
+        ],
+        "parameters": [
+          "-Wl,--as-needed",
+          "-Wl,--no-undefined",
+          "-Wl,--start-group",
+          "-Wl,--start-group",
+          "-lQt5Core",
+          "-lQt5Core",
+          "-lQt5Gui",
+          "-lQt5Core",
+          "-lQt5Widgets",
+          "-lQt5Gui",
+          "-lQt5Core",
+          "-lQt5Sql",
+          "-lQt5Core",
+          "-Wl,--end-group",
+          "-Wl,--end-group"
+        ]
+      }
+    ],
+    "extra_files": [],
+    "subproject": null,
+    "dependencies": [
+      "Qt5Core",
+      "Qt5Core",
+      "Qt5Gui",
+      "Qt5Widgets",
+      "Qt5Sql"
+    ],
+    "depends": [],
+    "win_subsystem": "windows",
+    "installed": false
+  }
+]

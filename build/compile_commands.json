@@ -1,0 +1,80 @@
+[
+  {
+    "directory": "/home/moonburst/Datacorn/build",
+    "command": "c++ -Idatacorn.p -I. -I.. -I../src/gui -Ires -I/usr/include/qt/QtCore -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtSql -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=c++17 -fno-exceptions -fno-rtti -O0 -g -DQT_SQL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -fPIC -MD -MQ datacorn.p/meson-generated_moc_confirm_dialog.cpp.o -MF datacorn.p/meson-generated_moc_confirm_dialog.cpp.o.d -o datacorn.p/meson-generated_moc_confirm_dialog.cpp.o -c datacorn.p/moc_confirm_dialog.cpp",
+    "file": "datacorn.p/moc_confirm_dialog.cpp",
+    "output": "datacorn.p/meson-generated_moc_confirm_dialog.cpp.o"
+  },
+  {
+    "directory": "/home/moonburst/Datacorn/build",
+    "command": "c++ -Idatacorn.p -I. -I.. -I../src/gui -Ires -I/usr/include/qt/QtCore -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtSql -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=c++17 -fno-exceptions -fno-rtti -O0 -g -DQT_SQL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -fPIC -MD -MQ datacorn.p/meson-generated_moc_database_editor_widget.cpp.o -MF datacorn.p/meson-generated_moc_database_editor_widget.cpp.o.d -o datacorn.p/meson-generated_moc_database_editor_widget.cpp.o -c datacorn.p/moc_database_editor_widget.cpp",
+    "file": "datacorn.p/moc_database_editor_widget.cpp",
+    "output": "datacorn.p/meson-generated_moc_database_editor_widget.cpp.o"
+  },
+  {
+    "directory": "/home/moonburst/Datacorn/build",
+    "command": "c++ -Idatacorn.p -I. -I.. -I../src/gui -Ires -I/usr/include/qt/QtCore -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtSql -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=c++17 -fno-exceptions -fno-rtti -O0 -g -DQT_SQL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -fPIC -MD -MQ datacorn.p/meson-generated_moc_main_window.cpp.o -MF datacorn.p/meson-generated_moc_main_window.cpp.o.d -o datacorn.p/meson-generated_moc_main_window.cpp.o -c datacorn.p/moc_main_window.cpp",
+    "file": "datacorn.p/moc_main_window.cpp",
+    "output": "datacorn.p/meson-generated_moc_main_window.cpp.o"
+  },
+  {
+    "directory": "/home/moonburst/Datacorn/build",
+    "command": "c++ -Idatacorn.p -I. -I.. -I../src/gui -Ires -I/usr/include/qt/QtCore -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtSql -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=c++17 -fno-exceptions -fno-rtti -O0 -g -DQT_SQL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -fPIC -MD -MQ datacorn.p/meson-generated_moc_new_card_dialog.cpp.o -MF datacorn.p/meson-generated_moc_new_card_dialog.cpp.o.d -o datacorn.p/meson-generated_moc_new_card_dialog.cpp.o -c datacorn.p/moc_new_card_dialog.cpp",
+    "file": "datacorn.p/moc_new_card_dialog.cpp",
+    "output": "datacorn.p/meson-generated_moc_new_card_dialog.cpp.o"
+  },
+  {
+    "directory": "/home/moonburst/Datacorn/build",
+    "command": "c++ -Idatacorn.p -I. -I.. -I../src/gui -Ires -I/usr/include/qt/QtCore -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtSql -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=c++17 -fno-exceptions -fno-rtti -O0 -g -DQT_SQL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -fPIC -MD -MQ datacorn.p/meson-generated_moc_trim_on_paste_line_edit.cpp.o -MF datacorn.p/meson-generated_moc_trim_on_paste_line_edit.cpp.o.d -o datacorn.p/meson-generated_moc_trim_on_paste_line_edit.cpp.o -c datacorn.p/moc_trim_on_paste_line_edit.cpp",
+    "file": "datacorn.p/moc_trim_on_paste_line_edit.cpp",
+    "output": "datacorn.p/meson-generated_moc_trim_on_paste_line_edit.cpp.o"
+  },
+  {
+    "directory": "/home/moonburst/Datacorn/build",
+    "command": "c++ -Idatacorn.p -I. -I.. -I../src/gui -Ires -I/usr/include/qt/QtCore -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtSql -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=c++17 -fno-exceptions -fno-rtti -O0 -g -DQT_SQL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -fPIC -MD -MQ datacorn.p/meson-generated_.._res_qt5-lang_qrc.cpp.o -MF datacorn.p/meson-generated_.._res_qt5-lang_qrc.cpp.o.d -o datacorn.p/meson-generated_.._res_qt5-lang_qrc.cpp.o -c res/qt5-lang_qrc.cpp",
+    "file": "res/qt5-lang_qrc.cpp",
+    "output": "datacorn.p/meson-generated_.._res_qt5-lang_qrc.cpp.o"
+  },
+  {
+    "directory": "/home/moonburst/Datacorn/build",
+    "command": "c++ -Idatacorn.p -I. -I.. -I../src/gui -Ires -I/usr/include/qt/QtCore -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtSql -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=c++17 -fno-exceptions -fno-rtti -O0 -g -DQT_SQL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -fPIC -MD -MQ datacorn.p/meson-generated_.._res_qt5-res_qrc.cpp.o -MF datacorn.p/meson-generated_.._res_qt5-res_qrc.cpp.o.d -o datacorn.p/meson-generated_.._res_qt5-res_qrc.cpp.o -c res/qt5-res_qrc.cpp",
+    "file": "res/qt5-res_qrc.cpp",
+    "output": "datacorn.p/meson-generated_.._res_qt5-res_qrc.cpp.o"
+  },
+  {
+    "directory": "/home/moonburst/Datacorn/build",
+    "command": "c++ -Idatacorn.p -I. -I.. -I../src/gui -Ires -I/usr/include/qt/QtCore -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtSql -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=c++17 -fno-exceptions -fno-rtti -O0 -g -DQT_SQL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -fPIC -MD -MQ datacorn.p/src_gui_confirm_dialog.cpp.o -MF datacorn.p/src_gui_confirm_dialog.cpp.o.d -o datacorn.p/src_gui_confirm_dialog.cpp.o -c ../src/gui/confirm_dialog.cpp",
+    "file": "../src/gui/confirm_dialog.cpp",
+    "output": "datacorn.p/src_gui_confirm_dialog.cpp.o"
+  },
+  {
+    "directory": "/home/moonburst/Datacorn/build",
+    "command": "c++ -Idatacorn.p -I. -I.. -I../src/gui -Ires -I/usr/include/qt/QtCore -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtSql -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=c++17 -fno-exceptions -fno-rtti -O0 -g -DQT_SQL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -fPIC -MD -MQ datacorn.p/src_gui_database_editor_widget.cpp.o -MF datacorn.p/src_gui_database_editor_widget.cpp.o.d -o datacorn.p/src_gui_database_editor_widget.cpp.o -c ../src/gui/database_editor_widget.cpp",
+    "file": "../src/gui/database_editor_widget.cpp",
+    "output": "datacorn.p/src_gui_database_editor_widget.cpp.o"
+  },
+  {
+    "directory": "/home/moonburst/Datacorn/build",
+    "command": "c++ -Idatacorn.p -I. -I.. -I../src/gui -Ires -I/usr/include/qt/QtCore -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtSql -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=c++17 -fno-exceptions -fno-rtti -O0 -g -DQT_SQL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -fPIC -MD -MQ datacorn.p/src_gui_main_window.cpp.o -MF datacorn.p/src_gui_main_window.cpp.o.d -o datacorn.p/src_gui_main_window.cpp.o -c ../src/gui/main_window.cpp",
+    "file": "../src/gui/main_window.cpp",
+    "output": "datacorn.p/src_gui_main_window.cpp.o"
+  },
+  {
+    "directory": "/home/moonburst/Datacorn/build",
+    "command": "c++ -Idatacorn.p -I. -I.. -I../src/gui -Ires -I/usr/include/qt/QtCore -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtSql -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=c++17 -fno-exceptions -fno-rtti -O0 -g -DQT_SQL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -fPIC -MD -MQ datacorn.p/src_gui_new_card_dialog.cpp.o -MF datacorn.p/src_gui_new_card_dialog.cpp.o.d -o datacorn.p/src_gui_new_card_dialog.cpp.o -c ../src/gui/new_card_dialog.cpp",
+    "file": "../src/gui/new_card_dialog.cpp",
+    "output": "datacorn.p/src_gui_new_card_dialog.cpp.o"
+  },
+  {
+    "directory": "/home/moonburst/Datacorn/build",
+    "command": "c++ -Idatacorn.p -I. -I.. -I../src/gui -Ires -I/usr/include/qt/QtCore -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtSql -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=c++17 -fno-exceptions -fno-rtti -O0 -g -DQT_SQL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -fPIC -MD -MQ datacorn.p/src_gui_sql_util.cpp.o -MF datacorn.p/src_gui_sql_util.cpp.o.d -o datacorn.p/src_gui_sql_util.cpp.o -c ../src/gui/sql_util.cpp",
+    "file": "../src/gui/sql_util.cpp",
+    "output": "datacorn.p/src_gui_sql_util.cpp.o"
+  },
+  {
+    "directory": "/home/moonburst/Datacorn/build",
+    "command": "c++ -Idatacorn.p -I. -I.. -I../src/gui -Ires -I/usr/include/qt/QtCore -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtSql -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=c++17 -fno-exceptions -fno-rtti -O0 -g -DQT_SQL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -fPIC -MD -MQ datacorn.p/src_main.cpp.o -MF datacorn.p/src_main.cpp.o.d -o datacorn.p/src_main.cpp.o -c ../src/main.cpp",
+    "file": "../src/main.cpp",
+    "output": "datacorn.p/src_main.cpp.o"
+  }
+]
