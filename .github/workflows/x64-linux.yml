@@ -3,23 +3,25 @@ on: push
 jobs:
   x64-linux:
     runs-on: ubuntu-latest
-    container: ubuntu:18.04
-    env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-      ACTIONS_RUNNER_FORCE_ACTIONS_NODE_VERSION: node16
     steps:
     - uses: actions/checkout@v1
       with:
         fetch-depth: 1
+    - name: Start ubuntu docker image
+      shell: bash
+      run: |
+        sudo docker run --user $UID:$GID -dt --rm --name ubuntu -v $PWD:/workdir -w="/workdir" ubuntu:18.04
     - name: Install dependencies
       run: |
-        apt-get update
-        apt-get --no-install-recommends --yes install build-essential g++ qt5-default qttools5-dev-tools
+        sudo docker exec --user 0:0 -t ubuntu apt update
+        sudo docker exec --user 0:0 -t ubuntu apt --no-install-recommends --yes install build-essential g++ qt5-default qttools5-dev-tools
     - name: Qmake build
       run: |
-        mkdir build && cd build
-        qmake -o Makefile ../Datacorn.pro
-        make release -j2
+        mkdir build
+        sudo docker exec --user $UID:$GID -t ubuntu \
+         sh -c "cd build \
+         && qmake -o Makefile ../Datacorn.pro \
+         && make release -j$(nproc)"
     - name: Setup directory with artifacts
       shell: bash
       run: |
@@ -33,7 +35,7 @@ jobs:
         path: Datacorn/
     - name: Release
       if: ${{ github.ref == 'refs/heads/master' }}
-      uses: svenstaro/upload-release-action@2.7.0
+      uses: svenstaro/upload-release-action@v2
       with:
         overwrite: true
         asset_name: datacorn
