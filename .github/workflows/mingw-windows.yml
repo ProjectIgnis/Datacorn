@@ -12,7 +12,13 @@ jobs:
       with:
         update: true
         msystem: mingw32
-        install: mingw-w64-i686-qt5-static mingw-w64-i686-toolchain make upx
+        install: mingw-w64-i686-toolchain make upx wget
+    - name: Install known working qt5-static library
+      shell: msys2 {0}
+      run: |
+        cd /tmp
+        wget https://repo.msys2.org/mingw/mingw32/mingw-w64-i686-qt5-static-5.15.15-2-any.pkg.tar.zst
+        pacman --noconfirm -U mingw-w64-i686-qt5-static-5.15.15-2-any.pkg.tar.zst
     - name: Qmake build
       shell: msys2 {0}
       run: |
