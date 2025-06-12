@@ -41,7 +41,7 @@ jobs:
         mkdir $RDIR
         cp build/binary/Datacorn.exe $RDIR/
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Datacorn
         path: Datacorn/

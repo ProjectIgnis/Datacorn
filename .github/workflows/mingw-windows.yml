@@ -27,7 +27,7 @@ jobs:
         mkdir $RDIR
         upx -9 -o $RDIR/Datacorn.exe build/binary/Datacorn.exe
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Datacorn-mingw
         path: Datacorn/
@@ -88,7 +88,7 @@ jobs:
         mkdir $RDIR
         upx -9 -o $RDIR/Datacorn.exe build/binary/Datacorn.exe
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Datacorn-mingw-qt6
         path: Datacorn/
