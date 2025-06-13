@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QCoreApplication>
+#include <QSettings>
 #include <QTranslator>
 
 #include "gui/main_window.hpp"
@@ -16,9 +17,9 @@ int main(int argc, char* argv[])
 	QCoreApplication::setApplicationName("datacorn");
 	QCoreApplication::setApplicationVersion("0.9");
 
+	QSettings settings("Datacorn.ini", QSettings::IniFormat);
+
 	QCommandLineParser parser;
-	// NOTE: We recognize the CLA on all platforms, but only do something
-	//       on Windows. Later we can see if this is useful in other OSs.
 	QCommandLineOption systemThemeOption(
 		QStringList() << "st" << "system-theme",
 		QCoreApplication::translate("main", "Use system's theme"));
@@ -26,7 +27,14 @@ int main(int argc, char* argv[])
 
 	parser.process(app);
 #ifdef Q_OS_WIN
-	if(!parser.isSet(systemThemeOption))
+	auto use_system_theme =
+		settings.value("system-theme", false).toString().toLower() == "true";
+	if(parser.isSet(systemThemeOption) && !use_system_theme) {
+		use_system_theme = true;
+		settings.setValue("system-theme", use_system_theme);
+		settings.sync();
+	}
+	if(!use_system_theme)
 	{
 		app.setStyle("fusion");
 		QPalette p;
