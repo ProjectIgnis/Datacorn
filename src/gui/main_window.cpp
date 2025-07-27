@@ -398,7 +398,7 @@ void MainWindow::deleteSelectedCards()
 void MainWindow::openHomepage()
 {
 	QDesktopServices::openUrl(
-		QUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
+		QUrl("https://projectignis.github.io/"));
 }
 
 // protected
@@ -461,9 +461,6 @@ void MainWindow::createLanguageMenu()
 {
 	auto* langGroup = new QActionGroup(ui->menuLanguage);
 	langGroup->setExclusive(true);
-
-	connect(ui->actionHomepage, &QAction::triggered, this,
-	        &MainWindow::openHomepage);
 
 	connect(langGroup, &QActionGroup::triggered, this,
 	        &MainWindow::languageChanged);
