@@ -631,7 +631,7 @@ QString DatabaseEditorWidget::formatArchetype(quint16 code,
                                               char const* name) const
 {
 	QString const ret(R"(0x%1 | %2)");
-	auto const code_str = QString::number(code, 16);
+	auto const code_str = QString::number(code, 16).toUpper();
 	return ret.arg(code_str, name == nullptr ? "???" : tr(name));
 }
 
