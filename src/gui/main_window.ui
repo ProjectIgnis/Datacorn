@@ -97,8 +97,8 @@
    <addaction name="menuDatabase"/>
    <addaction name="menuCard"/>
    <addaction name="menuAction"/>
-   <addaction name="menuHelp"/>
    <addaction name="menuLanguage"/>
+   <addaction name="menuHelp"/>
   </widget>
   <action name="actionNewDatabase">
    <property name="text">
