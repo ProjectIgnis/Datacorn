@@ -1,5 +1,6 @@
 #include "database_editor_widget.hpp"
 
+#include <QCompleter>
 #include <QDateTime>
 #include <QMessageBox>
 #include <QRegularExpressionValidator>
@@ -420,6 +421,10 @@ DatabaseEditorWidget::DatabaseEditorWidget(QTabWidget& parent,
 		                               ARCHETYPE_ROLE);
 	}
 	ui->archeComboBox->setCurrentIndex(-1);
+	ui->archeComboBox->completer()->setCaseSensitivity(Qt::CaseInsensitive);
+	ui->archeComboBox->completer()->setCompletionMode(
+		QCompleter::PopupCompletion);
+	ui->archeComboBox->completer()->setFilterMode(Qt::MatchContains);
 	ui->archeComboBox->blockSignals(false);
 	// DB setup
 	auto db = QSqlDatabase::database(dbConnection, false);
