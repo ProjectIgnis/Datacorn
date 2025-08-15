@@ -109,3 +109,20 @@ jobs:
           latest
         file: |
           Datacorn/Datacorn.exe
+  Notify-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    needs: [ x64-windows-msys2-mingw64-qt6, x86-windows-msys2-mingw32 ]
+    steps:
+    - name: Log Success
+      uses: sarisia/actions-status-discord@v1
+      with:
+        nodetail: true
+        description: |
+            [[${{ github.event.repository.name }}] Build Datacorn mingw success on ${{ github.ref }}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
+        title: |
+
+        color: 0x0f9826
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        avatar_url: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+        username: Github
