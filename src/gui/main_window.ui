@@ -72,6 +72,7 @@
      <string>&amp;Help</string>
     </property>
     <addaction name="actionHomepage"/>
+    <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuCard">
     <property name="title">

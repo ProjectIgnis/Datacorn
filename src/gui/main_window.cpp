@@ -138,6 +138,7 @@ MainWindow::MainWindow(QWidget* parent)
 	        &MainWindow::pasteClipboardCards);
 	connect(ui->actionDeleteSelectedCards, &QAction::triggered, this,
 	        &MainWindow::deleteSelectedCards);
+	connect(ui->actionAbout, &QAction::triggered, this, &QApplication::aboutQt);
 	connect(ui->actionHomepage, &QAction::triggered, this,
 	        &MainWindow::openHomepage);
 	// Setup "Clipboard" database
