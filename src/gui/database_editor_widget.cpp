@@ -343,6 +343,14 @@ DatabaseEditorWidget::DatabaseEditorWidget(QTabWidget& parent,
 	        &DatabaseEditorWidget::onArcheComboIndexActivated);
 	connect(ui->archeComboBox, &QComboBox::editTextChanged, this,
 	        &DatabaseEditorWidget::onArcheComboEditTextChanged);
+	connect(ui->archeComboBox->lineEdit(), &QLineEdit::returnPressed, this,
+	        &DatabaseEditorWidget::onArcheLineEditReturnPressed,
+	        Qt::QueuedConnection);
+	connect(ui->archeComboBox->completer(),
+	        static_cast<void (QCompleter::*)(const QModelIndex&)>(
+				&QCompleter::activated),
+	        this, &DatabaseEditorWidget::addArchetypeCompleterActivated,
+	        Qt::QueuedConnection);
 	setRegexValidator(*ui->passLineEdit, "[0-9]+");
 	setRegexValidator(*ui->aliasLineEdit, "[0-9]+");
 	connect(ui->passLineEdit, &QLineEdit::textEdited, this,
@@ -425,10 +433,10 @@ DatabaseEditorWidget::DatabaseEditorWidget(QTabWidget& parent,
 		                               ARCHETYPE_ROLE);
 	}
 	ui->archeComboBox->setCurrentIndex(-1);
-	ui->archeComboBox->completer()->setCaseSensitivity(Qt::CaseInsensitive);
-	ui->archeComboBox->completer()->setCompletionMode(
-		QCompleter::PopupCompletion);
-	ui->archeComboBox->completer()->setFilterMode(Qt::MatchContains);
+	auto* completer = ui->archeComboBox->completer();
+	completer->setCaseSensitivity(Qt::CaseInsensitive);
+	completer->setCompletionMode(QCompleter::PopupCompletion);
+	completer->setFilterMode(Qt::MatchContains);
 	ui->archeComboBox->blockSignals(false);
 	// DB setup
 	auto db = QSqlDatabase::database(dbConnection, false);
@@ -594,20 +602,33 @@ void DatabaseEditorWidget::removeArchetypeFromList()
 void DatabaseEditorWidget::onArcheListItemChanged(
 	QListWidgetItem* current, [[maybe_unused]] QListWidgetItem* previous)
 {
-	ui->removeArcheButton->setEnabled(current != nullptr);
+	emit ui->removeArcheButton->setEnabled(current != nullptr);
 }
 
 void DatabaseEditorWidget::onArcheComboIndexActivated(
 	[[maybe_unused]] int index)
 {
 	customArchetype = false;
-	ui->addArcheButton->setEnabled(index >= 0);
+	emit ui->archeComboBox->lineEdit()->returnPressed();
 }
 
 void DatabaseEditorWidget::onArcheComboEditTextChanged(QString const& text)
 {
 	customArchetype = true;
-	ui->addArcheButton->setEnabled(!text.isEmpty());
+	emit ui->addArcheButton->setEnabled(!text.isEmpty());
+}
+
+void DatabaseEditorWidget::onArcheLineEditReturnPressed()
+{
+	if(ui->archeComboBox->currentText().isEmpty())
+		return;
+	emit ui->addArcheButton->clicked(true);
+}
+
+void DatabaseEditorWidget::addArchetypeCompleterActivated(
+	const QModelIndex& index)
+{
+	customArchetype = false;
 }
 
 void DatabaseEditorWidget::onCardsListItemClicked(QModelIndex const& index)
