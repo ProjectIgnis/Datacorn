@@ -3,15 +3,15 @@ greaterThan(QT_MINOR_VERSION, 11)|greaterThan(QT_MAJOR_VERSION, 5) {
 	#on older versions the specific compiler flag has to be used
 	CONFIG += c++17
 } else {
+	CONFIG += c++1z
 	win32-msvc* {
 		QMAKE_CXXFLAGS += -std:c++17
 	} else {
-		QMAKE_CXXFLAGS += -std=c++17
+		QMAKE_CXXFLAGS += -std=c++1z
 	}
 }
 CONFIG += rtti_off exceptions_off
 QT += core gui widgets sql
-
 TARGET = Datacorn
 TEMPLATE = app
 
