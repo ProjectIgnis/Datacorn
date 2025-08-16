@@ -552,13 +552,21 @@ void DatabaseEditorWidget::refreshCardList()
 
 void DatabaseEditorWidget::addArchetypeToList([[maybe_unused]] bool clicked)
 {
-	if(ui->archeList->count() >= 4 &&
-	   QMessageBox::question(
-		   this, tr("Add Archetype?"),
-		   tr("The database schema can only save up to 4 archetypes, even if "
-	          "you add this one it won't be saved. Proceed anyways?")) !=
-	       QMessageBox::Yes)
+	if(ui->archeComboBox->currentText().isEmpty())
 		return;
+	if(ui->archeList->count() >= 4)
+	{
+		ui->archeComboBox->blockSignals(true);
+		auto dontAdd =
+			QMessageBox::question(this, tr("Add Archetype?"),
+		                          tr("The database schema can only save up to "
+		                             "4 archetypes, even if you add this one "
+		                             "it won't be saved. Proceed anyways?")) !=
+			QMessageBox::Yes;
+		ui->archeComboBox->blockSignals(false);
+		if(dontAdd)
+			return;
+	}
 	if(!customArchetype)
 	{
 		// Easy case: Just append the currently selected archetype from the
