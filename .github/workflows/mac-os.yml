@@ -1,0 +1,101 @@
+name: mac-os
+on: push
+jobs:
+  mac-os:
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ['5.15.2', '6.5.3']
+        include:
+          - version: '5.15.2'
+            qmake-archs: 'x86_64'
+            short-qt: '5'
+          - version: '6.5.3'
+            qmake-archs: 'x86_64 arm64'
+            short-qt: '6'
+    runs-on: macos-15
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: ${{ matrix.version }}
+        arch: 'clang_64'
+        cache: true
+    - name: Qmake build
+      env:
+        QMAKE_FLAGS: ${{ matrix.qmake-archs }}
+      run: |
+        export PATH=$QT_ROOT_DIR/bin/:$PATH
+        mkdir build && cd build
+        qmake QMAKE_APPLE_DEVICE_ARCHS="${QMAKE_FLAGS}" CONFIG+=sdk_no_version_check -o Makefile ../Datacorn.pro
+        make release -j$(nproc)
+    - name: Setup directory with artifacts
+      run: |
+        export PATH=$QT_ROOT_DIR/bin/:$PATH
+        export RDIR=Datacorn
+        mkdir $RDIR
+        macdeployqt build/binary/Datacorn.app
+        cp -r build/binary/Datacorn.app Datacorn
+        # github actions is bugged https://github.com/actions/runner-images/issues/7522
+        max_tries=10
+        i=0
+        until macdeployqt build/binary/Datacorn.app -dmg
+        do
+            if [ $i -eq $max_tries ]
+            then
+                echo 'Error: macdeployqt did not succeed even after 10 tries.'
+                exit 1
+            fi
+            i=$((i+1))
+        done
+        cp build/binary/Datacorn.dmg Datacorn
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Datacorn-macos-qt${{ matrix.short-qt }}
+        path: Datacorn/*.app
+    - name: Release
+      if: ${{ github.ref == 'refs/heads/master' }}
+      uses: svenstaro/upload-release-action@v2
+      with:
+        overwrite: true
+        asset_name: Datacorn-macos-qt${{ matrix.short-qt }}.dmg
+        prerelease: true
+        tag: |
+          latest
+        file: |
+          Datacorn/Datacorn.dmg
+    - name: Log Failure
+      uses: sarisia/actions-status-discord@v1
+      if: failure()
+      with:
+        nodetail: true
+        description: |
+            [[${{ github.event.repository.name }}] ${{ github.job }} failed on ${{ github.ref }}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
+        title: |
+
+        color: 0xff0000
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        avatar_url: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+        username: Github
+
+  Notify-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    needs: [ mac-os ]
+    steps:
+    - name: Log Success
+      uses: sarisia/actions-status-discord@v1
+      with:
+        nodetail: true
+        description: |
+            [[${{ github.event.repository.name }}] Build Datacorn Mac OS success on ${{ github.ref }}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
+        title: |
+
+        color: 0x0f9826
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        avatar_url: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+        username: Github
