@@ -6,6 +6,7 @@
 #include <QRegularExpressionValidator>
 #include <QScreen>
 #include <QScrollBar>
+#include <QShortcut>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlTableModel>
@@ -329,9 +330,12 @@ DatabaseEditorWidget::DatabaseEditorWidget(QTabWidget& parent,
 	connect(ui->addArcheButton, &QPushButton::clicked, this,
 	        &DatabaseEditorWidget::addArchetypeToList);
 	connect(ui->removeArcheButton, &QPushButton::clicked, this,
-	        &DatabaseEditorWidget::removeArchetypeFromList);
+	        [&](auto...) { removeArchetypeFromList(); });
 	connect(ui->archeList, &QListWidget::currentItemChanged, this,
 	        &DatabaseEditorWidget::onArcheListItemChanged);
+	auto* shortcut = new QShortcut(QKeySequence(Qt::Key_Delete), ui->archeList);
+	connect(shortcut, &QShortcut::activated, this,
+	        &DatabaseEditorWidget::removeArchetypeFromList);
 	connect(ui->cardCodeNameList, &QAbstractItemView::clicked, this,
 	        &DatabaseEditorWidget::onCardsListItemClicked);
 	connect(ui->archeComboBox,
@@ -579,8 +583,7 @@ void DatabaseEditorWidget::addArchetypeToList([[maybe_unused]] bool clicked)
 	       "preset archetypes from the list."));
 }
 
-void DatabaseEditorWidget::removeArchetypeFromList(
-	[[maybe_unused]] bool clicked)
+void DatabaseEditorWidget::removeArchetypeFromList()
 {
 	Q_ASSERT(ui->archeList->currentItem() != nullptr);
 	delete ui->archeList->takeItem(

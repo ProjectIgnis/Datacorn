@@ -40,7 +40,7 @@ public slots:
 
 private slots:
 	void addArchetypeToList(bool clicked);
-	void removeArchetypeFromList(bool clicked);
+	void removeArchetypeFromList();
 
 	void onArcheListItemChanged(QListWidgetItem* current,
 	                            QListWidgetItem* previous);
