@@ -734,9 +734,9 @@ void DatabaseEditorWidget::updateUiWithCode(quint32 code)
 	ui->archeList->clear();
 	ui->descPlainTextEdit->setPlainText("");
 	ui->atkSpinBox->setEnabled(true);
-	ui->atkSpinBox->setValue(ui->atkSpinBox->minimum());
+	ui->atkSpinBox->setValue(0);
 	ui->defSpinBox->setEnabled(true);
-	ui->defSpinBox->setValue(ui->defSpinBox->minimum());
+	ui->defSpinBox->setValue(0);
 	ui->levelSpinBox->setValue(0);
 	ui->lScaleSpinBox->setValue(0);
 	ui->rScaleSpinBox->setValue(0);
